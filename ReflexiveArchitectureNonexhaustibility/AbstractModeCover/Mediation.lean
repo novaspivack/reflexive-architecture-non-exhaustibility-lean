@@ -8,8 +8,9 @@ Operational readings of “success is **mediated** representationally, by closur
 certification” coincide with the profile predicates at `anchor` **given** the current architecture
 success predicates (**SPEC_002_AM1**).
 
-**Summit targets** below are **`Prop`-valued names** for the obligations—**not** theorems until
-proved without `sorry` or new `axiom`s.
+**Summit targets** below remain as **`Prop`-valued names**; the **classical** implications are
+discharged in **Classification.lean** (`abstract_mediation_decomposition_target_classical`).
+Constructive universal from **`Genuine` alone** is still open (**MANIFEST** Outcome B).
 
 ## What is already proved
 
@@ -18,11 +19,11 @@ proved without `sorry` or new `axiom`s.
 - **vs `AbstractOpaqueModeCoverTarget`:** coverage-implication lemmas are in **Classification.lean**
   (same file as the cover `def`, to avoid import cycles).
 - **Reverse** (cover from mediation): **classical** case split — see **Classification.lean**.
+- **Classical summit:** `abstract_mediation_decomposition_target_classical` once **`AbstractOpaqueModeCoverTarget`** is proved classically.
 
-This does **not** discharge the summit: it links the two target `Prop`s once **profiles** are
-available. Deriving those profiles from **`GenuineInternalTotalizationAttempt` alone** remains open
-(**Outcome B** notes in **MANIFEST** / **SPEC_015_KM2**). Implications between summit `Prop`s live
-in **Classification.lean** (imports both `Mediation` and `AbstractOpaqueModeCoverTarget`).
+Deriving **profiles** from **`GenuineInternalTotalizationAttempt` alone** without **LEM** or
+**enrichment** remains the **constructive** gap (**GenuinenessCandidates.lean**). Implications
+between summit `Prop`s live in **Classification.lean**.
 -/
 
 namespace StructuredNonexhaustibility
