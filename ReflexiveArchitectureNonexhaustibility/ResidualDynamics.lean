@@ -60,6 +60,30 @@ Instantiations from **IC** / kernel formalism: **SPEC_013_IC1**; lemmas below us
 -/
 abbrev StandingResidualBurden (P : Prop) : Prop := P
 
+/--
+**Definitional unfolding:** dynamics-layer naming is **synonymous** with the underlying **`Prop`**.
+-/
+theorem standingResidualBurden_iff (P : Prop) : StandingResidualBurden P ↔ P :=
+  Iff.rfl
+
+/--
+**D3 transport (generic):** any implication **`P → Q`** sends **`StandingResidualBurden P`** to **`StandingResidualBurden Q`**.
+
+Use after **`d3_adequacy_aftermath_standing_burden`** to **weaken** or **repackage** the aftermath conjunction
+(along lemmas such as **`And.left`** / **`And.right`**, or future morphism lemmas) **without** claiming burden
+vanishes—it is only **relocated** in propositional content.
+-/
+theorem standingResidualBurden_of_imp {P Q : Prop} (h : P → Q) (hp : StandingResidualBurden P) :
+    StandingResidualBurden Q :=
+  h hp
+
+/--
+Conjunction of two standing burdens (**independent** episodes composed).
+-/
+theorem standingResidualBurden_and {P Q : Prop} (hp : StandingResidualBurden P) (hq : StandingResidualBurden Q) :
+    StandingResidualBurden (P ∧ Q) :=
+  And.intro hp hq
+
 /-! ## Regime snapshots and response tagging -/
 
 /--

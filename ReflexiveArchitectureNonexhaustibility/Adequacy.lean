@@ -111,4 +111,22 @@ theorem d3_adequacy_aftermath_standing_burden
           ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
   honest_aftermath_carries_admissible_r4 a d1 d2 d3
 
+/--
+**D3 transport (example):** the same triple-barrier aftermath **specializes** to **`StandingResidualBurden`** of “there is
+admissible **R₄** witness data” **without** erasing the stronger full package—**propositional weakening** via
+**`standingResidualBurden_of_imp`**.
+-/
+theorem d3_aftermath_standing_r4_admissible_core
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (d1 : DiagonalRepresentationalInterface a.arch)
+    (d2 : ClosureObstructionInterface a.arch)
+    (d3 : SemanticCertificationInterface a.arch) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness, IsR4PositiveSurvivor w ∧ AdmissibleResidual w) :=
+  standingResidualBurden_of_imp
+    (by
+      rintro ⟨w, hwR, hwA, _, _, _⟩
+      exact ⟨w, hwR, hwA⟩)
+    (d3_adequacy_aftermath_standing_burden a d1 d2 d3)
+
 end StructuredNonexhaustibility
