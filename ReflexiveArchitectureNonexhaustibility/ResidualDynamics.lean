@@ -19,6 +19,8 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 **Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **`Interfaces`** (**`u123BarrierData_cast`**, **U123**-aware **`hP`**/**`hB`**). **D3** field-**`↔`** transport remains detailed in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
+**Crown (**`SPEC_024_FS1`**):** **`reflexive_development_law_standing_trilemma`**, **`reflexive_development_law_fold_obstruction_*`** — bounded **`sorry`-free** packaging of **D1** + **D2** (see module tail).
+
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
 with this data.
 
@@ -1192,5 +1194,58 @@ theorem closure_obstruction_of_opaqueAttemptIterateBacking_and_universal_outside
     (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl B.closureSeed B.closureTarget) :
     ClosureObstructionInterface B.attempt.arch :=
   closure_obstruction_of_iterate_adequacy_and_universal_outside (closureIterateAdequacy_opaqueAttemptClosureIterate B) hout
+
+/-! ## Crown — **Reflexive Development Law** (**SPEC_024_FS1** / **SPEC_023_RG1** §Crown)
+
+**Phase 1 (bounded, `sorry`-free):** canonical names for the **D1** classical response trilemma and the **D2** fold / iterate-geometry
+obstruction column. Callers supply **`hK`** / **`hP`** / **`hB`** (or use **`standingResidualBurden_of_classical_trilemma_forgetfulKernel_*`**
+unchanged); compose with **D0** / **D3** via **`standingResidualBurden_of_imp`** and **`d3_*`** as in the spec.
+
+**Non-claim:** no universal quantifier over all **`ReflexiveArchitecture`** instances—**`exists_ReflexiveArchitecture_forall_closureSuccess_not_closureIterateAdequacy`**
+shows naive iterate identification is **not** free.
+-/
+
+/--
+**Reflexive Development Law** — **standing dynamics trilemma** (**D1**): refinement-side, proper regime shift, or bookkeeping
+reconfiguration, packaged as **`StandingResidualBurden (K ∨ P ∨ B)`** from explicit case morphisms **`hK`**, **`hP`**, **`hB`**.
+
+Same proof as **`standingResidualBurden_of_classical_trilemma`**; this is the **field** name for paper and **MANIFEST** indexing.
+-/
+theorem reflexive_development_law_standing_trilemma {α World Obs Repr Claim : Type}
+    {step : ResidualResponseStep α World Obs Repr Claim} {K P B : Prop}
+    (hK : (∃ coarse fine h, step = ResidualResponseStep.refinement coarse fine h) → K)
+    (hP :
+      (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) → P)
+    (hB : (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) → B) :
+    StandingResidualBurden (K ∨ P ∨ B) :=
+  standingResidualBurden_of_classical_trilemma hK hP hB
+
+/--
+**Reflexive Development Law** — **fold obstruction** from **iterate adequacy** + **universal outside-iterate** (**D2** / RFO column):
+success **would** internalize reachability to **`B`**, but **no** **`Cl`** can land **`S₀`** on **`B`** by iteration—hence **`ClosureObstructionInterface`**.
+-/
+theorem reflexive_development_law_fold_obstruction_iterate_geometry
+    {World Obs Repr Claim : Type} {A : ReflexiveArchitecture World Obs Repr Claim} {S₀ B : Set World}
+    (had : ClosureIterateAdequacy A S₀ B)
+    (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl S₀ B) : ClosureObstructionInterface A :=
+  closure_obstruction_of_iterate_adequacy_and_universal_outside had hout
+
+/--
+Same **fold** conclusion for an **`IterateBackedReflexiveArchitecture`** commitment.
+-/
+theorem reflexive_development_law_fold_obstruction_iterateBacked
+     {World Obs Repr Claim : Type} (Ib : IterateBackedReflexiveArchitecture World Obs Repr Claim)
+    (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl Ib.closureSeed Ib.closureTarget) :
+    ClosureObstructionInterface Ib.arch :=
+  closure_obstruction_of_iterateBacked_and_universal_outside Ib hout
+
+/--
+Same **fold** conclusion for an **`OpaqueAttemptClosureIterateBacking`**.
+-/
+theorem reflexive_development_law_fold_obstruction_opaqueAttempt
+    {World Obs Repr Claim : Type} (B : OpaqueAttemptClosureIterateBacking World Obs Repr Claim)
+    (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl B.closureSeed B.closureTarget) :
+    ClosureObstructionInterface B.attempt.arch :=
+  closure_obstruction_of_opaqueAttemptIterateBacking_and_universal_outside B hout
 
 end StructuredNonexhaustibility
