@@ -758,7 +758,22 @@ Reflexive systems are governed not by the fantasy of completed self-transparency
 
 \section{Formal artifact note}
 
-The formal realization for the present paper is machine-checked in \Lean{} with \Mathlib{}, across the reflexive-architecture-nonexhaustibility stack and the supporting \texttt{nems-lean} stack. The machine-checked artifact does not replace the scientific argument of this paper; it serves to make the theorem boundaries, witness constructions, integration seams, and dynamical layer explicit and auditable. The dynamical layer (\leanref{ResidualDynamics.lean}) includes the crown theorems \leanref{reflexive\_development\_law\_standing\_trilemma} and \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry} with 0~\texttt{sorry} and 0~\texttt{axiom} in the project-owned modules.
+The formal realization for the present paper is machine-checked in \Lean{} with \Mathlib{}, across the reflexive-architecture-nonexhaustibility stack and the supporting \texttt{nems-lean} stack. The machine-checked artifact does not replace the scientific argument of this paper; it serves to make the theorem boundaries, witness constructions, integration seams, and dynamical layer explicit and auditable. The dynamical layer (\texttt{ResidualDynamics.lean}) includes the crown theorems \leanref{reflexive\_development\_law\_standing\_trilemma} and \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry} with 0~\texttt{sorry} and 0~\texttt{axiom} in the project-owned modules.
+
+\noindent Key theorem-to-artifact correspondences:
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
+\item \textbf{T1} (anchored impossibility): \leanref{barriered\_architecture\_admits\_no\_true\_honest\_anchored\_internal\_completion} in \texttt{PaperDAnchoredChain.lean}
+\item \textbf{T2} (structured aftermath): \leanref{positive\_residual\_profile\_of\_triple\_barriers\_at\_anchor} in \texttt{PostFailureResidual.lean}; \leanref{honest\_aftermath\_carries\_admissible\_r4} in \texttt{Adequacy.lean}
+\item \textbf{T3} (barrier-linked witnesses): \leanref{d002\_barrier\_linked\_r4\_witness\_holds} in \texttt{D002ResidualWitnessTarget.lean}
+\item \textbf{T4} (mixed enrichment): \leanref{mixedTriplePayloadPromotionBridge} in \texttt{FromMixedTriple.lean}
+\item \textbf{T5} (predicated summit): \texttt{KleenePredicatedResidualSummit.lean}
+\item \textbf{T6} (proof-theoretic summit): \texttt{GodelProvBic.lean} in \texttt{nems-lean}
+\item \textbf{T7} (summit comparison): \texttt{SummitComparison.lean} in \texttt{nems-lean}
+\item \textbf{T8} (O7 integration): \texttt{ProvBicU123EnrichedR4Alignment.lean} (T1--T3 seams)
+\item \textbf{T9} (response trilemma): \leanref{reflexive\_development\_law\_standing\_trilemma} in \texttt{ResidualDynamics.lean}
+\item \textbf{T10} (fold obstruction): \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry} in \texttt{ResidualDynamics.lean}
+\item \textbf{T11} (burden relocation): \leanref{d3\_adequacy\_aftermath\_standing\_burden} in \texttt{Adequacy.lean}
+\end{itemize}
 
 \section{Layer distinctions}
 
