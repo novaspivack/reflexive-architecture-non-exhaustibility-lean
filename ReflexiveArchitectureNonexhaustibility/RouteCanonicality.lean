@@ -113,4 +113,62 @@ def TaxonomySound (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
     (∀ Cl, successful (T.closureTag Cl) → A.closure_success Cl → Mode2Success A) ∧
       (∀ τ, successful (T.certTag τ) → A.cert_success τ → Mode3Success A)
 
+/--
+**Completeness (coverage, not uniqueness):** each **canonical** mode success forces some **successful** gadget label on the
+matching axis — **dual** to **`TaxonomySound`** for **iff** packaging with **`CanonicalModeSuccessSpectrum`**.
+-/
+def TaxonomyComplete (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (A : ReflexiveArchitecture World Obs Repr Claim) (successful : L → Prop) : Prop :=
+  (Mode1Success A → ∃ ρ, A.repr_success ρ ∧ successful (T.reprTag ρ)) ∧
+    (Mode2Success A → ∃ Cl, A.closure_success Cl ∧ successful (T.closureTag Cl)) ∧
+      (Mode3Success A → ∃ τ, A.cert_success τ ∧ successful (T.certTag τ))
+
+theorem canonical_spectrum_iff_labeled_successes
+    (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (A : ReflexiveArchitecture World Obs Repr Claim) (successful : L → Prop)
+    (hS : TaxonomySound L T A successful) (hC : TaxonomyComplete L T A successful) :
+    CanonicalModeSuccessSpectrum A ↔
+      (∃ ρ, A.repr_success ρ ∧ successful (T.reprTag ρ)) ∨
+        (∃ Cl, A.closure_success Cl ∧ successful (T.closureTag Cl)) ∨
+          (∃ τ, A.cert_success τ ∧ successful (T.certTag τ)) := by
+  rcases hS with ⟨s1, s2, s3⟩
+  rcases hC with ⟨c1, c2, c3⟩
+  constructor
+  · intro h
+    rcases h with h1 | h2 | h3
+    · exact Or.inl (c1 h1)
+    · exact Or.inr (Or.inl (c2 h2))
+    · exact Or.inr (Or.inr (c3 h3))
+  · intro h
+    rcases h with hρ | hCl | hτ
+    · rcases hρ with ⟨ρ, hρ, hs⟩
+      exact Or.inl (s1 ρ hs hρ)
+    · rcases hCl with ⟨Cl, hCl, hs⟩
+      exact Or.inr (Or.inl (s2 Cl hs hCl))
+    · rcases hτ with ⟨τ, hτ, hs⟩
+      exact Or.inr (Or.inr (s3 τ hs hτ))
+
+/--
+**F2-1 hook:** **`canonical_spectrum_mono`** **functorially** transports **`CanonicalModeSuccessSpectrum`** along easier
+success on **`A'`**; combine with **`canonical_spectrum_iff_labeled_successes`** to compare **labeled** success **sets**
+under sound + complete taxonomies (**no uniqueness**).
+-/
+theorem canonical_spectrum_mono_labeled {L : Type} (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (successful : L → Prop) {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (hρ : ∀ ρ, A'.repr_success ρ → A.repr_success ρ)
+    (hCl : ∀ Cl, A'.closure_success Cl → A.closure_success Cl)
+    (hτ : ∀ τ, A'.cert_success τ → A.cert_success τ)
+    (hS : TaxonomySound L T A successful) (hS' : TaxonomySound L T A' successful)
+    (hC : TaxonomyComplete L T A successful) (hC' : TaxonomyComplete L T A' successful) :
+    ((∃ ρ, A'.repr_success ρ ∧ successful (T.reprTag ρ)) ∨
+        (∃ Cl, A'.closure_success Cl ∧ successful (T.closureTag Cl)) ∨
+          (∃ τ, A'.cert_success τ ∧ successful (T.certTag τ))) →
+      ((∃ ρ, A.repr_success ρ ∧ successful (T.reprTag ρ)) ∨
+          (∃ Cl, A.closure_success Cl ∧ successful (T.closureTag Cl)) ∨
+            (∃ τ, A.cert_success τ ∧ successful (T.certTag τ))) := by
+  intro hlab
+  have hsA' : CanonicalModeSuccessSpectrum A' := (canonical_spectrum_iff_labeled_successes L T A' successful hS' hC').2 hlab
+  have hsA : CanonicalModeSuccessSpectrum A := canonical_spectrum_mono hρ hCl hτ hsA'
+  exact (canonical_spectrum_iff_labeled_successes L T A successful hS hC).1 hsA
+
 end StructuredNonexhaustibility.RouteCanonicality

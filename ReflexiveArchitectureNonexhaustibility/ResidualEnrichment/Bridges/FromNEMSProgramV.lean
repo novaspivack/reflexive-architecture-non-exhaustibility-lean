@@ -61,6 +61,53 @@ def nemsCertificate_of_sync {φ : EngineReflexiveMorphism E World Obs Repr Claim
     NemsProgramVBarrierCertificate :=
   ⟨S.toNems e, S.sync e b⟩
 
+/-!
+### Constructible **`EngineNemsBarrierSync`** values (**D-001**)
+
+**Constant barrier proof:** if **`rs.BarrierHyp`** is already a **theorem**, then **`sync`** may ignore the abstract
+**`U123BarrierData`** — this is **not** smuggling (the hypothesis was proved **before**) but is **weak** unless **`rs`**
+comes from a **real** NemS / paper bridge.
+
+**Trivial NemS shell:** **`nemsTrivialBarrierReflexiveSystem`** is a **genuine** `StructuralNonExhaustibility.ReflexiveSystem`
+with `BarrierHyp := True` — useful for **CI / scaffolding** and for **`EngineNemsBarrierSync.trivialBarrier`**. Replace
+with **semantic self-description** / **no-final-self-theory** elaborations when those bridges are fully wired
+(**`nems-lean`** **Bridges**).
+-/
+
+/-- **Scaffolding** NemS shell: **`BarrierHyp`** is **True** (real **`ReflexiveSystem`**, illustrative content only). -/
+def nemsTrivialBarrierReflexiveSystem : StructuralNonExhaustibility.ReflexiveSystem where
+  System := Unit
+  Claim := Unit
+  SelfInvolving := fun _ => True
+  TotalExhaustiveInternal := True
+  BarrierHyp := True
+
+theorem nemsTrivialBarrierReflexiveSystem_barrier : nemsTrivialBarrierReflexiveSystem.BarrierHyp := trivial
+
+/--
+**Any** morphism carries a **constant** NemS point with **fixed** barrier theorem (**paper / engine supplied**).
+-/
+def EngineNemsBarrierSync.ofConstantBarrier {E : Type}
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (rs : StructuralNonExhaustibility.ReflexiveSystem) (HBarrier : rs.BarrierHyp) :
+    EngineNemsBarrierSync φ where
+  toNems := fun _ => rs
+  sync := fun _ _ => PLift.up HBarrier
+
+/--
+**First runnable instance:** trivial Program V shell at every **`e`** (**`PLift`** of **`trivial`**).
+-/
+def EngineNemsBarrierSync.trivialBarrier (φ : EngineReflexiveMorphism E World Obs Repr Claim) :
+    EngineNemsBarrierSync φ :=
+  ofConstantBarrier φ nemsTrivialBarrierReflexiveSystem nemsTrivialBarrierReflexiveSystem_barrier
+
+/--
+**Recover** **`NemsProgramVBarrierCertificate`** from the trivial sync at **`e₀`** (dependent only on **`φ`**, **`e₀`**).
+-/
+def nemsTrivialCertificate {E : Type} (φ : EngineReflexiveMorphism E World Obs Repr Claim) (e₀ : E)
+    (b : U123BarrierData (φ.toReflexive e₀)) : NemsProgramVBarrierCertificate :=
+  nemsCertificate_of_sync (EngineNemsBarrierSync.trivialBarrier φ) e₀ b
+
 /--
 **Residual family:** repr slot = Π–`PLift` **×** **`NemsProgramVBarrierCertificate`**; other columns **`Empty`**.
 The **second** component’s **value** is chosen by **`certFn`** in **`augmentedReprNemsProgramVPromotionBridge`**.

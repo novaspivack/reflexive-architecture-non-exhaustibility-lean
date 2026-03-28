@@ -11,10 +11,10 @@ Each witness carries a **declared class** `rc : ResidualClass` (taxonomy tag). P
 This is appropriate for the **residual calculus** spec (classification of witness roles).
 It does **not** import the mode-cover conclusion into predicates by fiat.
 
-**Admissibility** (**SPEC_012_AA1** / **EPIC_008**): **R₄** survivors used in the **honest** aftermath story must carry
-**`U123BarrierData`-shaped** carriers (**D-002**); other residual **classes** are admissible without that linkage. The
-abstract **mode-cover** **`PositiveResidualProfile`** (**`Profiles.lean`**) does **not** restate this predicate — see module
-doc there.
+**Admissibility** (**SPEC_012_AA1** / **EPIC_008**): **R₄** witnesses are admissible **only** when they are **literally** an
+**abstract barrier pack** (`**`U123BarrierData A`**` with witness point **`⟨d₁,d₂,d₃⟩`**), i.e. **defeq** with
+**`barrierLinkedR4ResidualWitness`** (**`D002ResidualWitnessTarget.lean`**). Other classes need no extra linkage. The
+mode-cover **`PositiveResidualProfile`** stays **schematic** (**`Profiles.lean`**).
 
 **Cross-repo (EPIC_004 / D-001):** NemS **Program V** (**`nems-lean`**, e.g. **SurvivorCalculus**) is the sibling
 discipline for **positive survivor** content; this file’s **`R4`** tag stays **paper C**-native — link morphisms at
@@ -55,19 +55,40 @@ def IsR4PositiveSurvivor (w : ResidualWitness) : Prop :=
   w.rc = ResidualClass.R4
 
 /--
-**Admissible residual witness (**SPEC_012_AA1** first real slice): either **not** tagged **R₄**, or the witness
-**package** exposes a **barrier-pack** carrier (**`U123BarrierData A`**) for some architecture.
-
-**Anti-smuggling:** this does **not** redefine **`PositiveResidualProfile`**; mode cover keeps a **schematic** R₄ branch
-without importing this discipline (**`Profiles.lean`**).
+**Admissible residual witness (**SPEC_012_AA1**): either **not** **R₄**, or **exactly** the **D-002** barrier-linked
+packaging (**typed equality**, not merely `carrier = U123BarrierData A` up to a witness forgery).
 -/
 def AdmissibleResidual (w : ResidualWitness) : Prop :=
   ¬ IsR4PositiveSurvivor w ∨
     ∃ (World : Type) (Obs : ObsTy) (Repr : ReprTy) (Claim : ClaimTy)
-      (A : ReflexiveArchitecture World Obs Repr Claim), w.carrier = U123BarrierData A
+      (A : ReflexiveArchitecture World Obs Repr Claim)
+      (d1 : DiagonalRepresentationalInterface A)
+      (d2 : ClosureObstructionInterface A)
+      (d3 : SemanticCertificationInterface A),
+      w = ⟨ResidualClass.R4, U123BarrierData A, ⟨d1, d2, d3⟩⟩
 
 theorem admissible_of_not_r4 {w : ResidualWitness} (h : ¬ IsR4PositiveSurvivor w) : AdmissibleResidual w :=
   Or.inl h
+
+/--
+For **R₄** witnesses, **`AdmissibleResidual`** is **exactly** “barrier-linked **D-002** packaging”.
+-/
+theorem admissible_residual_r4_iff_barrier_pack {w : ResidualWitness} (h4 : IsR4PositiveSurvivor w) :
+    AdmissibleResidual w ↔
+      ∃ (World : Type) (Obs : ObsTy) (Repr : ReprTy) (Claim : ClaimTy)
+        (A : ReflexiveArchitecture World Obs Repr Claim)
+        (d1 : DiagonalRepresentationalInterface A)
+        (d2 : ClosureObstructionInterface A)
+        (d3 : SemanticCertificationInterface A),
+        w = ⟨ResidualClass.R4, U123BarrierData A, ⟨d1, d2, d3⟩⟩ := by
+  constructor
+  · intro hadm
+    rcases hadm with hn | hex
+    · exact False.elim (hn h4)
+    · exact hex
+  · rintro hex
+    right
+    exact hex
 
 def IsNegativeResidualClass (w : ResidualWitness) : Prop :=
   IsR1Residual w ∨ IsR2Residual w ∨ IsR3Residual w
