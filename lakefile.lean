@@ -70,4 +70,5 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.Instances.ONE,
     `ReflexiveArchitectureNonexhaustibility.RouteCanonicality,
     `ReflexiveArchitectureNonexhaustibility.U123ReprAugmentedSemanticLink,
-    `ReflexiveArchitectureNonexhaustibility.KleenePredicatedResidualSummit]
+    `ReflexiveArchitectureNonexhaustibility.KleenePredicatedResidualSummit,
+    `ReflexiveArchitectureNonexhaustibility.ProvBicU123EnrichedR4Alignment]

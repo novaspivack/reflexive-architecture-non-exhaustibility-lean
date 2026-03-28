@@ -53,6 +53,8 @@
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
 | `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** spectrum + **`canonical_spectrum_mono`**; **`AltRouteTaxonomy`**, **`TaxonomySound`**, **`TaxonomyComplete`**, **`canonical_spectrum_iff_labeled_successes`**, **`canonical_spectrum_iff_labeled_successes_of_pred_equiv`**, **`canonical_spectrum_mono_labeled`**, **`taxonomy_sound_of_successful_mono`**, **`taxonomy_complete_of_successful_mono`**, **`canonical_spectrum_mono_labeled_pair`** |
 | `U123ReprAugmentedSemanticLink.lean` | **EPIC_012:** non-constant **`U123SemanticBarrierLink`** via **`barrierHypotheses_u123ReprAugment`** (**`b.reprBarrier`**); **`trivialObstruction*`** + **`enrichedR4_*_reprAugmentedU123Sync`** (**`bh`** parameter until a concrete **`EncodedNontrivial`** **×** intermediate-equiv frame lands in **nems-lean**; see **`ToReflection`** / **`UnitypedNatReprObstruction`**) |
+| `KleenePredicatedResidualSummit.lean` | **SPEC_019_PS1:** Kleene **`BarrierHypothesesPred`** + repr augmentation → **`enrichedR4_u123_withAugmentedNemsProgramVRepr_predLinkSync`** |
+| `ProvBicU123EnrichedR4Alignment.lean` | **SPEC_022_RA1** (**O7**, **`A_link_const`**): **`godelProvBicBarrierHypotheses`** → **`U123SemanticBarrierLink.ofConstant`** → **`enrichedR4_u123_withAugmentedNemsProgramVRepr_u123DrivenSync`** |
 
 ## Two theorem layers — anchored completion vs relocated success (**frozen distinction**)
 
