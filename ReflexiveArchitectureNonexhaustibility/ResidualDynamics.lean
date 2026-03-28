@@ -458,6 +458,32 @@ def InClosureIterateImage (Cl : ClosureOperator World) (S₀ B : Set World) : Pr
   ∃ n, closureIterate Cl n S₀ = B
 
 /--
+**Semigroup law** for iteration: **`(n + m)`** steps from **`S`** = **`n`** steps from the **`m`**-fold partial image.
+
+**D2** fodder: “reachable in **`r + s`** steps” factors through an intermediate **`m`**-fold set—without yet identifying **`m`**
+with an honest architectural timeline.
+-/
+theorem closureIterate_add (Cl : ClosureOperator World) (n m : Nat) (S : Set World) :
+    closureIterate Cl (n + m) S = closureIterate Cl n (closureIterate Cl m S) := by
+  induction n with
+  | zero =>
+    rw [Nat.zero_add]
+    rfl
+  | succ k ih =>
+    rw [Nat.succ_add, closureIterate_succ, ih, closureIterate_succ]
+
+/--
+**Transitivity** of **`InClosureIterateImage`** along the **same** closure operator: **`S₀ ↝ B`** and **`B ↝ C`** ⇒ **`S₀ ↝ C`**.
+-/
+theorem inClosureIterateImage_trans {Cl : ClosureOperator World} {S₀ B C : Set World}
+    (h₁ : InClosureIterateImage Cl S₀ B) (h₂ : InClosureIterateImage Cl B C) :
+    InClosureIterateImage Cl S₀ C := by
+  rcases h₁ with ⟨n, hn⟩
+  rcases h₂ with ⟨m, hm⟩
+  refine ⟨m + n, ?_⟩
+  rw [closureIterate_add, hn, hm]
+
+/--
 **No** iterate lands on **`B`** (**non-reach** in the **internal** iterate sense for this **`Cl`** / **`S₀`**).
 -/
 def OutsideClosureIterateImage (Cl : ClosureOperator World) (S₀ B : Set World) : Prop :=
