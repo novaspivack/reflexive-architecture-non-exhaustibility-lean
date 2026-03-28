@@ -11,8 +11,9 @@ import ReflexiveArchitectureNonexhaustibility.Adequacy
 
 **Summit:** `AbstractOpaqueModeCoverTarget` names the opaque four-way obligation.
 
-**Proved now:** reflection from `SyntacticTotalization` — embedding + four-way profiles for
-syntactic instances (sanity check / base case; **not** the abstract theorem).
+**Proved now:** reflection from `SyntacticTotalization`; and **summit packaging**: four-way profiles
+imply the mediation disjunction (**intuitionistic**); mediation and cover are **iff** under
+**documented classical** reasoning (`abstract_mediation_iff_cover_classical`) — see **MANIFEST**.
 -/
 
 namespace StructuredNonexhaustibility
@@ -34,6 +35,34 @@ def AbstractOpaqueModeCoverTarget (World Obs Repr Claim : Type) : Prop :=
 theorem abstract_mode_cover_eq_mediation_stmnt (W O R C : Type) :
     AbstractOpaqueModeCoverTarget W O R C = AbstractFourWayMediationStatement W O R C :=
   rfl
+
+theorem abstract_cover_implies_mediation_decomposition_target (W O R C : Type) :
+    AbstractOpaqueModeCoverTarget W O R C → AbstractMediationDecompositionTarget W O R C := by
+  intro H a hg
+  exact mediation_decomposition_of_four_profiles (H a hg)
+
+/--
+**Classical** (explicit `classical` tactic): mediation-shaped target implies four-way cover.
+Intuitionistically only the forward direction (`abstract_cover_implies_mediation_decomposition_target`)
+holds in general.
+-/
+theorem abstract_mediation_implies_cover_classical (W O R C : Type) :
+    AbstractMediationDecompositionTarget W O R C → AbstractOpaqueModeCoverTarget W O R C := by
+  classical
+  intro H a hg
+  rcases H a hg with hPos | himp
+  · exact Or.inr (Or.inr (Or.inr hPos))
+  · by_cases hpos : PositiveResidualProfile a
+    · exact Or.inr (Or.inr (Or.inr hpos))
+    · rcases himp hpos with hR | hC | hK
+      · exact Or.inl hR
+      · exact Or.inr (Or.inl hC)
+      · exact Or.inr (Or.inr (Or.inl hK))
+
+theorem abstract_mediation_iff_cover_classical (W O R C : Type) :
+    AbstractMediationDecompositionTarget W O R C ↔ AbstractOpaqueModeCoverTarget W O R C :=
+  Iff.intro (abstract_mediation_implies_cover_classical W O R C)
+    (abstract_cover_implies_mediation_decomposition_target W O R C)
 
 /--
 Embed tagged syntax into opaque attempts. Off-axis nominations are **explicit dummy** parameters.

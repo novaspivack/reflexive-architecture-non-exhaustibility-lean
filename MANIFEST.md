@@ -38,6 +38,26 @@
 2. **Abstract — definitions + reflection (in progress):** `AbstractModeCover/*` introduces **non-tag-carrying** `OpaqueTotalizationAttempt`, profile predicates, and **`fromSyntactic`** (embedding). **`syntactic_reflection_four_way_of_axis_success`** is **conditional**: unconditional four-way disjunction of profiles is **false** for arbitrary architectures (see docstring there).
 3. **Abstract — summit (`Prop` targets):** `AbstractOpaqueModeCoverTarget` and `AbstractMediationDecompositionTarget` name what must be **proved** to earn the philosophical classification **without** smuggling. **Not** asserted as axioms.
 
+## Summit targets — logical packaging (**partial**, does not close the gap)
+
+| Lemma | Content |
+|-------|--------|
+| `mediation_decomposition_of_four_profiles` | Four-way **profile** OR \(\Rightarrow\) mediation-shaped OR (**purely intuitionistic**). |
+| `abstract_cover_implies_mediation_decomposition_target` | **`AbstractOpaqueModeCoverTarget` \(\Rightarrow\) `AbstractMediationDecompositionTarget`**. |
+| `abstract_mediation_implies_cover_classical` / `abstract_mediation_iff_cover_classical` | Converse and iff use **`classical`** (case split on `PositiveResidualProfile`). **Documented** — not hidden choice. |
+
+**Still open:** \(\forall a,\, \texttt{Genuine}\,a \Rightarrow\) profile disjunction — no connection from `Nonempty carrier` alone to `repr_success` / `closure_success` / `cert_success` at `anchor`.
+
+## Outcome B — under-determination of the current opaque layer
+
+**Why `GenuineInternalTotalizationAttempt` does not entail profiles:** it is only **`Nonempty a.carrier`**. Profiles require **`arch.repr_success (reprAt anchor)`** (or closure/cert analogues) or **`PositiveResidualProfile`**, which adds **existential residual linkage**. None of this follows from mere nonemptiness of parameters.
+
+**Minimal enrichment directions** (non-exhaustive; must not smuggle the four-way conclusion as data):
+
+1. An explicit **`claimsInternalCompletion : Prop`** (or family) for the attempt + **soundness** lemmas tying claims to the right profile (**SPEC_012_AA1** / adequacy).
+2. **Determinacy** / priority axioms when several success predicates could hold (avoid collapsing to ambiguous “everything at once” without a story).
+3. **EPIC_004 / D-002** support for the **positive** branch: typed `ResidualWitness` **R₄** when hypotheses support survivor structure (**owner:** subordinate to **SPEC_015_KM2**).
+
 ## Smuggling-risk audit (ongoing)
 
 | Topic | Risk | Mitigation in-repo |
