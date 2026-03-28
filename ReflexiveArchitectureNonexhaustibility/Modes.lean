@@ -18,6 +18,7 @@ variable (A : ReflexiveArchitecture World Obs Repr Claim)
 /-- Some internal representation map is proposed (M₁ *attempt* in the loose sense). -/
 def Mode1Proposal : Prop := Nonempty (World → Repr)
 
+
 /-- M₁ **success**: some proposed map satisfies the architecture’s `repr_success`. -/
 def Mode1Success : Prop := ∃ ρ : World → Repr, A.repr_success ρ
 
