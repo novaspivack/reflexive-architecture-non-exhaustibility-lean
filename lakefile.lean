@@ -21,6 +21,9 @@ require mathlib from git
 --   require «nems-lean» from git "https://github.com/ORG/nems-lean.git" @ "deadbeef..."
 --
 -- Governance: **SPEC_018_PN1**, root **README.md**, **docs/002_DEVELOPER_SETUP.md**.
+--
+-- **Sibling checkout tested in development:** `nems-lean` at **9c3f3e814bcf5cdbe05e3c91060c099f5e60bd6e**
+-- (GödelSystem → `SRI_R` ℕ / `DiagClosed` scaffold for `barrier_hypotheses_from_reflection`).
 -- =============================================================================
 require «nems-lean» from ".." / ".." / "nems-lean"
 -- require «nems-lean» from git "https://github.com/REPLACE_ORG/nems-lean.git" @ "REPLACE_REV"
