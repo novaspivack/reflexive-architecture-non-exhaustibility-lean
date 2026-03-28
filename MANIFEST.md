@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + four bridges + **`mixedTriple`**. **EPIC_012** (**D-001**, **SPEC_018_PN1**): engine **`lake` pins** + native traces (**`EngineDependencyPinning.lean`** stub). **EPIC_010** deferred. See parent [`QUEUE.md`](../QUEUE.md).
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + four bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **nems** pin **deferred** (private); **`lakefile`** has commented **`require`** + root **`README`** BIG NOTE. **EPIC_010** deferred. See parent [`QUEUE.md`](../QUEUE.md).
 
 ## `sorry` / `axiom` audit
 
@@ -16,7 +16,7 @@
 
 | File | Role |
 |------|------|
-| `EngineDependencyPinning.lean` | **D-001 PN2:** imports **`NemS.Prelude`** (path **`«nems-lean»`** in **`lakefile.lean`**) — **`SPEC_018_PN1`** |
+| `EngineDependencyPinning.lean` | **D-001:** stub (**nems** private); enable **`NemS.Prelude`** when **`require`** uncommented — **`SPEC_018_PN1`** |
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
 | `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**) |

@@ -1,18 +1,17 @@
-import NemS.Prelude
+import ReflexiveArchitectureNonexhaustibility.Basic
 
 /-!
 # D-001 — engine dependency pinning (**EPIC_012**, **SPEC_018_PN1**)
 
-**PN1:** **`lakefile.lean`** requires sibling **`../../nems-lean`** (package **`«nems-lean»`**, toolchain **v4.29.0-rc6**).
+**Status:** **`nems-lean` pin is DEFERRED** — that library is **private**; this repo’s default **`lake build`**
+must **not** depend on it. See the **BIG NOTE** block in **`lakefile.lean`** and the root **`README.md`**.
 
-**PN2 (this file):** minimal **import** from **nems-lean** so `lake build` proves the dependency **resolves**. Heavier
-**NemS** modules stay out until **PN3–PN4** morphisms land.
+**When the pin is enabled:** replace this import with e.g. **`import NemS.Prelude`** (after uncommenting
+**`require «nems-lean» …`** and running **`lake update`**).
 
-**Policy:** **`PayloadPromotionBridge`** / **`ResidualEnrichment`** unchanged; native traces follow **SPEC_018_PN1**.
+**Policy:** **`PayloadPromotionBridge`** / **`ResidualEnrichment`** stay **interface-native** until **PN3–PN4**.
 -/
 
 namespace StructuredNonexhaustibility
-
--- Import-only: elaboration of `NemS.Prelude` is the **PN2** dependency check.
 
 end StructuredNonexhaustibility

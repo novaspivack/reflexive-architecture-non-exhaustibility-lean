@@ -7,8 +7,30 @@ package «reflexive-architecture-nonexhaustibility-lean» where
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "v4.29.0-rc6"
 
--- **D-001 PN1:** sibling **nems-lean** (`../../nems-lean` from this package). **SPEC_018_PN1**, **docs/002_DEVELOPER_SETUP.md**.
-require «nems-lean» from ".." / ".." / "nems-lean"
+-- =============================================================================
+-- **BIG NOTE — D-001 / EPIC_012 / nems-lean (DEFERRED, REPO IS PRIVATE)**
+--
+-- **nems-lean** must stay **private** for now. This package **does not** `require`
+-- it in the default `lakefile`, so **`lake build` works** for contributors and CI
+-- **without** access to nems.
+--
+-- **When nems is public OR CI has a read secret (deploy key / token):**
+-- 1. Uncomment **one** of the `require` lines below (prefer **git @ fixed rev**
+--    for reproducibility; **path** is fine for local dev).
+-- 2. In `ReflexiveArchitectureNonexhaustibility/EngineDependencyPinning.lean`, switch
+--    the import to `import NemS.Prelude` (or another smoke module).
+-- 3. Run `lake update` and commit `lake-manifest.json`.
+--
+-- Example **git** pin (replace ORG + REV):
+--   require «nems-lean» from git "https://github.com/ORG/nems-lean.git" @ "deadbeef..."
+--
+-- Example **path** pin (sibling of **parent** repo — local layout only):
+--   require «nems-lean» from ".." / ".." / "nems-lean"
+--
+-- Governance: **SPEC_018_PN1**, root **README.md**, **docs/002_DEVELOPER_SETUP.md**.
+-- =============================================================================
+-- require «nems-lean» from git "https://github.com/REPLACE_ORG/nems-lean.git" @ "REPLACE_REV"
+-- require «nems-lean» from ".." / ".." / "nems-lean"
 
 @[default_target]
 lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
