@@ -22,8 +22,14 @@ This is the **first** non-constant **`U123SemanticBarrierLink`** pattern endorse
 
 **Reusable:** `SemanticSelfDescription.Bridge.AugmentBarrierHypotheses` (nems-lean) + this wrapper.
 
-**Closing the loop:** specialize **`F`**, prove **`bh`** via **`SemanticSelfDescription.barrier_hypotheses_from_reflection`**,
-pick the trivial obstruction architecture below for **`b`**, then call **`enrichedR4_trivialArchitecture_reprAugmentedU123Sync`**.
+**Closing the loop (parameter-free `bh`):** needs a **concrete** Paper 51 frame + **`EncodedNontrivial`**
+compatible with a **non-universal**, **non-`Eq`** code equivalence that still supports **full** unityped
+representability (`SRI₀′` / `toSRI_R` side). **nems-lean** now pins the sharp tensions:
+**`SemanticSelfDescription.false_of_encodedNontrivial_*`** (universal/indiscrete `CodeEquiv` vs
+nontrivial encoding) and **`SelfReference.Minimality.not_nonempty_sri0'_nat_equiv_eq`** (`ℕ` + `Equiv = Eq`
+impossible). Until such a witness exists, **`bh`** remains the honest parameter in
+**`enrichedR4_trivialArchitecture_reprAugmentedU123Sync`**; pick the trivial obstruction architecture
+below for **`b`** once **`bh`** is supplied.
 -/
 
 namespace StructuredNonexhaustibility

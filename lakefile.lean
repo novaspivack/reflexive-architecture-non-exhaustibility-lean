@@ -22,8 +22,9 @@ require mathlib from git
 --
 -- Governance: **SPEC_018_PN1**, root **README.md**, **docs/002_DEVELOPER_SETUP.md**.
 --
--- **Sibling checkout tested in development:** `nems-lean` at **9c3f3e814bcf5cdbe05e3c91060c099f5e60bd6e**
--- (GödelSystem → `SRI_R` ℕ / `DiagClosed` scaffold for `barrier_hypotheses_from_reflection`).
+-- **Sibling checkout tested in development:** `nems-lean` at **d25eefd7f4794b13d77c8438bd8fe750b7838137**
+-- (reflection/`bh` closure obstructions: `ToReflection.false_of_encodedNontrivial_aligns_univ`,
+-- `UnitypedNatReprObstruction.not_nonempty_sri0'_nat_equiv_eq`, …).
 -- =============================================================================
 require «nems-lean» from ".." / ".." / "nems-lean"
 -- require «nems-lean» from git "https://github.com/REPLACE_ORG/nems-lean.git" @ "REPLACE_REV"
