@@ -12,10 +12,10 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** + **iterate-backed** bundles
-(**`IterateBackedReflexiveArchitecture`**, **`OpaqueAttemptClosureIterateBacking`**) where adequacy is **packaged**, not proved from thin air;
-**joint** forgetful **R₂** + barrier-linked **R₄** coexistence; imports **`Attempt`**, **`D002ResidualWitnessTarget`** for those bridges.
-**Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **D3** field-**iff** transport lives in **`Interfaces.lean`**.
+**Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** + **iterate-backed** bundles + **vacuous** / **pathological** adequacy
+(**`closureIterateAdequacy_of_global_closure_failure`**, **`pathologicalAllClosureSuccessUnit`**) + **`closureOpId`** calculus; **D1** classical **trilemma** elimination;
+**`JointR2R4ResidualCertificate`** (single **dynamics record**, two witnesses). Imports **`Attempt`**, **`D002ResidualWitnessTarget`**.
+**Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **D3** in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
@@ -228,6 +228,21 @@ theorem d1_response_step_classical_trilemma (step : ResidualResponseStep α Worl
     · exact Or.inr (Or.inr ⟨before, after, rfl, heq⟩)
     · exact Or.inr (Or.inl ⟨before, after, rfl, heq⟩)
 
+/--
+**Strong D1 (classical scaffold):** map each **trilemma** disjunct to a conclusion — e.g. **`P₁`** = persistent **kernel/U123**
+burden on a **refinement** episode, **`P₂`** = **proper** regime change, **`P₃`** = bookkeeping-only **reconfiguration**.
+-/
+theorem d1_classical_trilemma_elim {step : ResidualResponseStep α World Obs Repr Claim} {P₁ P₂ P₃ : Prop}
+    (h₁ : (∃ coarse fine h, step = refinement coarse fine h) → P₁)
+    (h₂ :
+      (∃ before after, step = reconfiguration before after ∧ IsProperRegimeChange before after) → P₂)
+    (h₃ : (∃ before after, step = reconfiguration before after ∧ before.arch = after.arch) → P₃) :
+    P₁ ∨ P₂ ∨ P₃ := by
+  rcases d1_response_step_classical_trilemma step with h₁' | h₂' | h₃'
+  · exact Or.inl (h₁ h₁')
+  · exact Or.inr (Or.inl (h₂ h₂'))
+  · exact Or.inr (Or.inr (h₃ h₃'))
+
 end ResidualResponseStep
 
 /-! ## D0 — kernel witness / non-resolving refinement (**SPEC_023_RG1** **P1** relational seed)
@@ -424,9 +439,45 @@ theorem d0_forgetfulKernel_standing_fine {f : α → β} {x y : α} {fine : Iden
 (**`residualWitness_of_kernelWitness`** chain). **Independently**, **`U123BarrierData`** fixes the **D-002**
 **`barrierLinkedR4ResidualWitness`**. This lemma **coexistence** packages **both** when hypotheses are **simultaneously**
 available — **not** a claim that **`KernelWitness`** *becomes* barrier-linked **R₄** without **extra** typing identification.
+
+**Single dynamics object:** **`JointR2R4ResidualCertificate`** bundles both canonical witnesses + **`Prop`** equalities (**not** one **`ResidualWitness`** of **both** classes).
 -/
 
 variable {World Obs Repr Claim : Type} {A : ReflexiveArchitecture World Obs Repr Claim}
+
+/--
+**One certificate record** for the **joint** forgetful-kernel **R₂** path and **`U123BarrierData`** **R₄** path (**SPEC_023_RG1**).
+
+Universe **`Type 2`** because **`ResidualWitness`** carries a **`Type`**-valued carrier slot (**`Residuals.lean`**).
+-/
+structure JointR2R4ResidualCertificate (α β : Type) (f : α → β) (x y : α) (hf : f x = f y) (hne : x ≠ y)
+    (b : U123BarrierData A) : Type 2 where
+  r2 : ResidualWitness
+  r4 : ResidualWitness
+  r2_eq : r2 = residualWitness_of_kernelWitness (kernelWitness_of_map hf hne)
+  r4_eq : r4 = barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier
+
+/--
+Populate **canonical** **`r2`/`r4`** equalities.
+-/
+def jointR2R4ResidualCertificate {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y) (b : U123BarrierData A) :
+    JointR2R4ResidualCertificate α β f x y hf hne b where
+  r2 := residualWitness_of_kernelWitness (kernelWitness_of_map hf hne)
+  r4 := barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier
+  r2_eq := rfl
+  r4_eq := rfl
+
+theorem jointR2R4ResidualCertificate_r2_props {α β : Type} {f : α → β} {x y : α} {hf : f x = f y} {hne : x ≠ y}
+    {b : U123BarrierData A} (J : JointR2R4ResidualCertificate α β f x y hf hne b) :
+    IsR2Residual J.r2 ∧ AdmissibleResidual J.r2 ∧ J.r2 ≠ trivialR4ResidualWitness := by
+  rw [J.r2_eq]
+  exact forgetfulKernel_residual_r2_admissible_nontrivial_props (kernelWitness_of_map hf hne)
+
+theorem jointR2R4ResidualCertificate_r4_props {α β : Type} {f : α → β} {x y : α} {hf : f x = f y} {hne : x ≠ y}
+    {b : U123BarrierData A} (J : JointR2R4ResidualCertificate α β f x y hf hne b) :
+    IsR4PositiveSurvivor J.r4 ∧ AdmissibleResidual J.r4 := by
+  rw [J.r4_eq]
+  exact And.intro (isR4_barrierLinkedR4ResidualWitness _ _ _) (admissible_barrierLinkedR4ResidualWitness _ _ _)
 
 /--
 **Joint existence:** forgetful **R₂** certificate + the **canonical** barrier-linked **R₄** witness from **`b`**.
@@ -504,6 +555,20 @@ theorem closureIterate_one (Cl : ClosureOperator World) (S : Set World) :
   rfl
 
 /--
+**Identity** closure operator on **`Set World`** — iteration leaves every seed fixed (**`n`-fold** = **identity**).
+-/
+abbrev closureOpId {World : Type} : ClosureOperator World :=
+  id
+
+theorem closureIterate_closureOpId (n : Nat) (World : Type) (S : Set World) :
+    closureIterate (closureOpId : ClosureOperator World) n S = S := by
+  induction n with
+  | zero =>
+    rfl
+  | succ k ih =>
+    simp [closureIterate_succ, closureOpId, id, ih]
+
+/--
 Some iterate of **`Cl`** from **`S₀`** equals **`B`** (**`∃ n`**).
 -/
 def InClosureIterateImage (Cl : ClosureOperator World) (S₀ B : Set World) : Prop :=
@@ -575,6 +640,57 @@ abbrev ClosureIterateSoundness (A : ReflexiveArchitecture World Obs Repr Claim) 
 -/
 abbrev ClosureIterateAdequacy (A : ReflexiveArchitecture World Obs Repr Claim) (S₀ B : Set World) : Prop :=
   ∀ Cl : ClosureOperator World, ClosureIterateSoundness A S₀ B Cl
+
+/--
+**Degenerate adequacy:** if **no** closure operator ever **succeeds**, **`ClosureIterateAdequacy`** holds **vacuously** for **every**
+**`S₀`, `B`** — so “**∃** **`S₀`, `B`** with adequacy” is **never** a **nontrivial** certificate of iterate semantics **alone**.
+-/
+theorem closureIterateAdequacy_of_global_closure_failure {A : ReflexiveArchitecture World Obs Repr Claim} {S₀ B : Set World}
+    (h : ∀ Cl : ClosureOperator World, ¬ A.closure_success Cl) : ClosureIterateAdequacy A S₀ B :=
+  fun Cl hsucc => False.elim (h Cl hsucc)
+
+/--
+If **every** iterate from **`S₀`** stays **`S₀`**, **`closure_success Cl`**, and **`S₀ ≠ B`**, then **iterate soundness** (**success ⇒ reach **`B`**)
+**fails** — a **concrete** obstruction to **free** identification of **`closure_success`** with nontrivial reachability.
+-/
+theorem not_closureIterateSoundness_of_iterate_fixed_seed_ne_target
+    {A : ReflexiveArchitecture World Obs Repr Claim} {S₀ B : Set World} {Cl : ClosureOperator World}
+    (hfixed : ∀ n : Nat, closureIterate Cl n S₀ = S₀) (hsucc : A.closure_success Cl) (hne : S₀ ≠ B) :
+    ¬ ClosureIterateSoundness A S₀ B Cl := by
+  intro hsound
+  have hIn := hsound hsucc
+  rcases hIn with ⟨n, hn⟩
+  rw [hfixed n] at hn
+  exact hne hn
+
+/--
+Pathological **`Unit`** architecture: **every** closure operator is deemed **successful**—yet **identity** iteration cannot move
+a seed **distinct** from a target **set**.
+-/
+def pathologicalAllClosureSuccessUnit : ReflexiveArchitecture Unit Unit Unit Unit where
+  observe := id
+  repr_success := fun _ => False
+  closure_success := fun _ => True
+  cert_success := fun _ => False
+
+theorem unit_empty_ne_univ : (∅ : Set Unit) ≠ Set.univ := by
+  intro e
+  have hu : () ∈ (Set.univ : Set Unit) := trivial
+  rw [e.symm] at hu
+  exact hu
+
+/--
+**Sharp no-go:** **`ClosureIterateAdequacy`** is **not** logically forced by **`ReflexiveArchitecture`** data — here **all** closures
+“succeed” and **`closureOpId`** refutes adequacy for **any** **`S₀ ≠ B`** on **`Unit`**.
+-/
+theorem not_closureIterateAdequacy_pathologicalUnit (S₀ B : Set Unit) (h : S₀ ≠ B) :
+    ¬ ClosureIterateAdequacy pathologicalAllClosureSuccessUnit S₀ B := fun had =>
+  not_closureIterateSoundness_of_iterate_fixed_seed_ne_target (fun n => closureIterate_closureOpId n Unit S₀) trivial h
+    (had closureOpId)
+
+theorem not_closureIterateAdequacy_pathologicalUnit_empty_univ :
+    ¬ ClosureIterateAdequacy pathologicalAllClosureSuccessUnit (∅ : Set Unit) Set.univ :=
+  not_closureIterateAdequacy_pathologicalUnit _ _ unit_empty_ne_univ
 
 /--
 **Fold obstruction (pointwise):** outside **internal** reachability contradicts **`closure_success`** once iterate soundness is assumed.
