@@ -56,7 +56,7 @@
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
 | `AbstractModeCover/PostFailureResidual.lean` | **Aftermath:** **`positive_residual_profile_of_triple_barriers_at_anchor`** (schematic **`PositiveResidualProfile`**); companion **`honest_aftermath_carries_admissible_r4`** in **`Adequacy.lean`** |
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
-| `Adequacy.lean` | **SPEC_012_AA1:** **`CertificateWorldConsistent`**, **`certificateWorldConsistent_holds`**, **`honest_aftermath_carries_admissible_r4`**, joint-failure / flagship lemmas |
+| `Adequacy.lean` | **SPEC_012_AA1** + **SPEC_023_RG1 D3** seed: **`CertificateWorldConsistent`**, **`honest_aftermath_carries_admissible_r4`**, **`d3_adequacy_aftermath_standing_burden`** (**`StandingResidualBurden`**); imports **`ResidualDynamics`** |
 | `InfinityCompression.lean` | **SPEC_013_IC1:** imports **`ResidualDynamics`**; **`ICKernel`** = **`KernelOfMap`**; **`ICRemainderSketch`**, **`sketchToWitness`**, **`ic_sketch_tags_r4`**; sibling IC library import still **out of band** |
 | `ResidualDynamics.lean` | **SPEC_023_RG1**: **D0** **`KernelOfMap`**, **`d0_*`**; **D1** **`d1_*`**, **`IsProperRegimeChange`**, **`d1_response_step_classical_trilemma`** (**classical**); **D2** / **D3** / **ResidualWitness** bridge **open** |
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |

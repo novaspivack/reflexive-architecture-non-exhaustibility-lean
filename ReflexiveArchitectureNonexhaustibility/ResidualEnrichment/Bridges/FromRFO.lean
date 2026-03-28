@@ -4,6 +4,11 @@ import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 /-!
 # Bridge — closure / RFO column (**EPIC_011** **F3b**)
 
+**Dynamics forward (**SPEC_023_RG1** **D2**):** closure obstruction lives in this column; **`RegimeSnapshot`** /
+**`ResidualResponseStep.reconfiguration`** in **`ResidualDynamics.lean`** models changing **`ReflexiveArchitecture`**
+(including **`closure_success`**). A full **fold / non-iterate** theorem relative to internal reach still belongs under
+**EPIC_015** **P3**, not here.
+
 **Pattern (same as **`FromRI.lean`** / **F3a):** **`ClosureObstructionInterface`** is **`∀ Cl, ¬ A.closure_success Cl`** (**`Prop`**).
 Lift to **`Type`** with **`PLift`** per closure candidate **`Cl : Set World → Set World`**.
 

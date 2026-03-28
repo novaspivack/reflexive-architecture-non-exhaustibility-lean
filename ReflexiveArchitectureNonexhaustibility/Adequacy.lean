@@ -1,10 +1,15 @@
-import ReflexiveArchitectureNonexhaustibility.Residuals
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.AnchoredFlagship
-import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.PostFailureResidual
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
+import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.PostFailureResidual
+import ReflexiveArchitectureNonexhaustibility.ResidualDynamics
+import ReflexiveArchitectureNonexhaustibility.Residuals
 
 /-!
 # Adequacy / admissibility (**SPEC_012_AA1**, **EPIC_008**)
+
+**Dynamics (**SPEC_023_RG1** / **EPIC_015**): **`d3_adequacy_aftermath_standing_burden`** repackages
+**`honest_aftermath_carries_admissible_r4`** as **`StandingResidualBurden`** — same mathematical content, dynamics
+vocabulary for “burden does not vanish under triple barriers; it is organized into admissible **R₄**.”
 
 **Cross-walk (baseline → anchored flagship):**
 
@@ -87,5 +92,23 @@ theorem honest_aftermath_carries_admissible_r4
     not_representationalProfile_of_diagonalBarrier a d1,
     not_closureProfile_of_closureBarrier a d2,
     not_certificatoryProfile_of_semanticBarrier a d3⟩
+
+/--
+**D3 seed (**SPEC_023_RG1**):** triple-barrier honest aftermath is literally a **`StandingResidualBurden`** — the same
+conjunction as **`honest_aftermath_carries_admissible_r4`**, phrased in the dynamical-layer alias.
+
+**Not** claiming full “burden relocation along morphisms” yet: that needs explicit **response** / transport operators
+along **`PayloadPromotionBridge`** (**`FromRFO`**, **`FromRI`**, …).
+-/
+theorem d3_adequacy_aftermath_standing_burden
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (d1 : DiagonalRepresentationalInterface a.arch)
+    (d2 : ClosureObstructionInterface a.arch)
+    (d3 : SemanticCertificationInterface a.arch) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness,
+        IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
+          ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
+  honest_aftermath_carries_admissible_r4 a d1 d2 d3
 
 end StructuredNonexhaustibility
