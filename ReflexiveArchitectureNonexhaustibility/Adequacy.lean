@@ -12,7 +12,8 @@ import ReflexiveArchitectureNonexhaustibility.Residuals
 **`honest_aftermath_carries_admissible_r4`** as **`StandingResidualBurden`** — same mathematical content, dynamics
 vocabulary for “burden does not vanish under triple barriers; it is organized into admissible **R₄**.”
 **`U123BarrierData`** / **`RegimeSnapshot`** entry points: **`d3_adequacy_aftermath_standing_burden_of_u123BarrierData`**,
-**`…_of_nonempty_u123_arch`**, **`…_of_regime_arch_eq_u123`** (**`u123BarrierData_cast`**).
+**`…_of_nonempty_u123_arch`**, **`…_of_regime_arch_eq_u123`** (**`u123BarrierData_cast`**); matching **R₄ core**
+**`d3_aftermath_standing_r4_admissible_core_of_*`** (**weakens** to **`∃ w, IsR4 ∧ Admissible`** only).
 
 **Cross-walk (baseline → anchored flagship):**
 
@@ -186,5 +187,42 @@ theorem d3_adequacy_aftermath_standing_burden_of_regime_arch_eq_nonempty_u123
         IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
           ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
   Nonempty.elim hb (d3_adequacy_aftermath_standing_burden_of_regime_arch_eq_u123 a s harch)
+
+/--
+**R₄ admissible core** (**`d3_aftermath_standing_r4_admissible_core`**) from **`U123BarrierData a.arch`**.
+
+Same weakening as the **`d1–d3`** entry path; packaged for **D-002** **`U123BarrierData`** consumers.
+-/
+theorem d3_aftermath_standing_r4_admissible_core_of_u123BarrierData
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (b : U123BarrierData a.arch) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness, IsR4PositiveSurvivor w ∧ AdmissibleResidual w) :=
+  d3_aftermath_standing_r4_admissible_core a b.reprBarrier b.closureBarrier b.certBarrier
+
+theorem d3_aftermath_standing_r4_admissible_core_of_nonempty_u123_arch
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (hb : Nonempty (U123BarrierData a.arch)) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness, IsR4PositiveSurvivor w ∧ AdmissibleResidual w) :=
+  Nonempty.elim hb (d3_aftermath_standing_r4_admissible_core_of_u123BarrierData a)
+
+theorem d3_aftermath_standing_r4_admissible_core_of_regime_arch_eq_u123
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (s : RegimeSnapshot World Obs Repr Claim)
+    (harch : a.arch = s.arch)
+    (b : U123BarrierData s.arch) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness, IsR4PositiveSurvivor w ∧ AdmissibleResidual w) :=
+  d3_aftermath_standing_r4_admissible_core_of_u123BarrierData a (u123BarrierData_cast harch.symm b)
+
+theorem d3_aftermath_standing_r4_admissible_core_of_regime_arch_eq_nonempty_u123
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (s : RegimeSnapshot World Obs Repr Claim)
+    (harch : a.arch = s.arch)
+    (hb : Nonempty (U123BarrierData s.arch)) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness, IsR4PositiveSurvivor w ∧ AdmissibleResidual w) :=
+  Nonempty.elim hb (d3_aftermath_standing_r4_admissible_core_of_regime_arch_eq_u123 a s harch)
 
 end StructuredNonexhaustibility
