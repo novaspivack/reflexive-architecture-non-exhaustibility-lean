@@ -30,7 +30,7 @@
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
 | `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄**; **`AdmissibleResidual`** (**R₄** ⇔ **defeq** with **`barrierLinkedR4ResidualWitness`** data); **`admissible_residual_r4_iff_barrier_pack`** |
-| `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces; **`U123BarrierData`**; **`u123BarrierData_cast`** (**D3** pack transport along **`ReflexiveArchitecture` equality**) |
+| `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces; **`U123BarrierData`**; **`u123BarrierData_cast`**; **D3** **field-**`↔`**:** **`u123BarrierData_transport_of_success_field_iff`**, interface **`↔`** lemmas, **`nonempty_u123BarrierData_iff_of_success_field_iff`** |
 | `Barriers.lean` | **U₁–U₃** (`barrier_mode*`) — intuitionistic |
 | `SyntacticModeCover.lean` | **Proved** four-way split for `SyntacticTotalization` (tagged syntax **only**) — **base / not the summit** |
 | `AbstractModeCover/Attempt.lean` | `OpaqueTotalizationAttempt`; `GenuineInternalTotalizationAttempt` (**SPEC_015_KM2**) |
@@ -58,7 +58,7 @@
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
 | `Adequacy.lean` | **SPEC_012_AA1** + **SPEC_023_RG1 D3**: **`d3_adequacy_aftermath_standing_burden`**, **`d3_aftermath_standing_r4_admissible_core`**; **`CertificateWorldConsistent`**, **`honest_aftermath_carries_admissible_r4`**; imports **`ResidualDynamics`** |
 | `InfinityCompression.lean` | **SPEC_013_IC1:** imports **`ResidualDynamics`**; **`ICKernel`** = **`KernelOfMap`**; **`ICRemainderSketch`**, **`sketchToWitness`**, **`ic_sketch_tags_r4`**; sibling IC library import still **out of band** |
-| `ResidualDynamics.lean` | **SPEC_023_RG1**: **D0**; **D1** tags; **D2** **`closureIterate`** / **`In/OutsideClosureIterateImage`** / **`closureIterate_add`** / **`inClosureIterateImage_trans`**; **`residualWitness_of_kernelWitness`**, forgetful **R₂** packaging; **`standingResidualBurden_*`**; **D2** fold / **R₄** upgrade **open** |
+| `ResidualDynamics.lean` | **SPEC_023_RG1**: **D0**; **D1** tags; **D2** **`closureIterate`**, **`ClosureIterateAdequacy`**, **`not_closure_success_of_outside_iterate`**, **`closure_obstruction_of_iterate_adequacy_and_universal_outside`**, trajectory **algebra**; **`residualWitness_of_kernelWitness`**, forgetful **R₂**; **`standingResidualBurden_*`**; domain **adequacy** + **R₄** upgrade **open** |
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
 | `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** spectrum + **`canonical_spectrum_mono`**; **`AltRouteTaxonomy`**, **`TaxonomySound`**, **`TaxonomyComplete`**, **`canonical_spectrum_iff_labeled_successes`**, **`canonical_spectrum_iff_labeled_successes_of_pred_equiv`**, **`canonical_spectrum_mono_labeled`**, **`taxonomy_sound_of_successful_mono`**, **`taxonomy_complete_of_successful_mono`**, **`canonical_spectrum_mono_labeled_pair`** |
 | `U123ReprAugmentedSemanticLink.lean` | **EPIC_012:** non-constant **`U123SemanticBarrierLink`** via **`barrierHypotheses_u123ReprAugment`** (**`b.reprBarrier`**); **`trivialObstruction*`** + **`enrichedR4_*_reprAugmentedU123Sync`** (**`bh`** parameter until a concrete **`EncodedNontrivial`** **×** intermediate-equiv frame lands in **nems-lean**; see **`ToReflection`** / **`UnitypedNatReprObstruction`**) |
@@ -109,6 +109,8 @@
 | `standingResidualBurden_of_imp` | **`ResidualDynamics.lean`:** **`P → Q`** transports **`StandingResidualBurden P`** (**propositional D3**). |
 | `standingResidualBurden_promotion_bridge_irrelevant` | **`Promotion.lean`:** same **`A`**, **`b`** ⇒ **`StandingResidualBurden (P .base)`** unchanged across bridge/family. |
 | `u123BarrierData_cast` | **`Interfaces.lean`:** **`U123BarrierData A → U123BarrierData A'`** from **`A = A'`** (defeq **id** at **`rfl`**). |
+| `u123BarrierData_transport_of_success_field_iff` | **`Interfaces.lean`:** **U₁–U₃** relabel under pointwise **`↔`** of **`repr_success`**, **`closure_success`**, **`cert_success`** (**no** **`A = A'`**). |
+| `closure_obstruction_of_iterate_adequacy_and_universal_outside` | **`ResidualDynamics.lean`:** **RFO**-column **ClosureObstructionInterface** from universal **outside-iterate** + explicit **`ClosureIterateAdequacy`**. |
 | `standingResidualBurden_promotion_arch_eq`, `standingResidualBurden_promotion_engine_arch_eq` | **`Promotion.lean`:** **`StandingResidualBurden (P .base)`** across **`A = A'`** / engine points when packs match via **`u123BarrierData_cast`**. |
 | `residualWitness_of_kernelWitness`, `admissibleResidual_residualWitness_of_kernelWitness` | **`ResidualDynamics.lean`:** **R₂** **`ResidualWitness`** from **`KernelWitness`** (admissible; **≠** **`trivialR4`**); **R₄** / **`U123BarrierData`** upgrade **open**. |
 | `d0_forgetfulKernel_obtains_admissible_r2_residual` | **`ResidualDynamics.lean`:** **IC** fiber collision ⇒ **`∃` R₂ admissible nontrivial** **`ResidualWitness`** (**`α β : Type`**). |

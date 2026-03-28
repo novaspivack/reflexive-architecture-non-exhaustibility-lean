@@ -4,11 +4,11 @@ import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 /-!
 # Bridge — closure / RFO column (**EPIC_011** **F3b**)
 
-**Dynamics forward (**SPEC_023_RG1** **D2**):** closure obstruction lives in this column; **`ResidualDynamics.lean`** now
-defines **`closureIterate`** / **`InClosureIterateImage`** / **`OutsideClosureIterateImage`** for **RFO**-shaped **`Set World`**
-operators. **`RegimeSnapshot`** / **`ResidualResponseStep.reconfiguration`** models changing **`ReflexiveArchitecture`**
-(including **`closure_success`**). A **fold** theorem linking honesty to **`OutsideClosureIterateImage`** remains **EPIC_015**
-**P3**.
+**Dynamics forward (**SPEC_023_RG1** **D2**):** **`ResidualDynamics.lean`** packages **`closureIterate`**, **`OutsideClosureIterateImage`**,
+and **hypothesis-driven** **`ClosureIterateAdequacy`** links from **`closure_success`** to **`InClosureIterateImage`**;
+**`not_closure_success_of_outside_iterate`**, **`closure_obstruction_of_iterate_adequacy_and_universal_outside`**. **`RegimeSnapshot`**
+/ **`ResidualResponseStep.reconfiguration`** models changing **`closure_success`**. **D3** pack transport without **`A = A'`**:
+**`Interfaces.u123BarrierData_transport_of_success_field_iff`**.
 
 **Pattern (same as **`FromRI.lean`** / **F3a):** **`ClosureObstructionInterface`** is **`∀ Cl, ¬ A.closure_success Cl`** (**`Prop`**).
 Lift to **`Type`** with **`PLift`** per closure candidate **`Cl : Set World → Set World`**.

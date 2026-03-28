@@ -10,8 +10,9 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0** + **D0** + **D1** + **D2** **iterate scaffold** (**`closureIterate`**, trajectory **`Prop`**s) + **D3** transport notes.
-**Strong D1** (barrier **R₄** tie-in), **D2** **fold / non-iterate theorem** (beyond definitions), further **D3** (non-**`Eq`**) **open**.
+**Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** under explicit **iterate-soundness**
+hypotheses (**`ClosureIterateAdequacy`**) linking **`closure_success`** to **`InClosureIterateImage`**.
+**Strong D1** (barrier **R₄** tie-in); **D3** field-**iff** barrier transport lives in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
@@ -417,10 +418,10 @@ theorem d0_forgetfulKernel_standing_fine {f : α → β} {x y : α} {fine : Iden
 /-! ## D2 — internal closure iteration scaffold (**SPEC_023_RG1** **P3**)
 
 Aligns with the **RFO** column (**`Set World → Set World`** candidates in **`ClosureObstructionInterface`** / **`FromRFO.lean`**).
-**Fold** theorems will compare honest regime transitions to **membership** in **`InClosureIterateImage`** — here we only fix **iteration**
-**semantics** (no claim that **`closure_success`** coincides with a particular **`Cl`** or **`n`** without further hypotheses).
+**Iteration** semantics stay **parametric** in **`Cl`**; the **fold** subsection adds **`ClosureIterateSoundness`** /
+**`ClosureIterateAdequacy`** hypotheses (**sound** link from **`closure_success`** to **`InClosureIterateImage`**)—not a definitional identification.
 
-Anti-smuggling: **`closureIterate`** is **parametric** in **`Cl`**; it does **not** read **`ReflexiveArchitecture.closure_success`**.
+Anti-smuggling: **`closureIterate`** does **not** read **`closure_success`** except through those explicit hypotheses.
 -/
 
 variable {World : Type}
@@ -500,5 +501,53 @@ theorem not_in_iterate_of_outside {Cl : ClosureOperator World} {S₀ B : Set Wor
 theorem outsideClosureIterate_iff_not_in_iterate (Cl : ClosureOperator World) (S₀ B : Set World) :
     OutsideClosureIterateImage Cl S₀ B ↔ ¬InClosureIterateImage Cl S₀ B :=
   Iff.intro not_in_iterate_of_outside outsideClosureIterate_of_not_in_iterate
+
+/-! ### D2 — fold / RFO column (**explicit** iterate–success link)
+
+**Anti-smuggling:** we do **not** identify **`closure_success`** with **`InClosureIterateImage`** by definition. The abbreviations
+below are named **hypotheses** a regime may assume or prove under further domain science; from them, **outside-iterate**
+geometry refutes success—and **universal** outside combines with **adequacy** to yield **`ClosureObstructionInterface`**
+(alternate route to the RFO column of **U₁–U₃**).
+-/
+
+variable {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+
+/--
+**Per-closure** soundness: if **`closure_success Cl`** holds, the **internal** iterate semantics reaches **`B`** from **`S₀`**.
+-/
+abbrev ClosureIterateSoundness (A : ReflexiveArchitecture World Obs Repr Claim) (S₀ B : Set World)
+    (Cl : ClosureOperator World) : Prop :=
+  A.closure_success Cl → InClosureIterateImage Cl S₀ B
+
+/--
+**Regime-wide** iterate adequacy: **every** successful closure candidate is **internally** reachable (**`∃ n`**) from **`S₀`** to **`B`**.
+-/
+abbrev ClosureIterateAdequacy (A : ReflexiveArchitecture World Obs Repr Claim) (S₀ B : Set World) : Prop :=
+  ∀ Cl : ClosureOperator World, ClosureIterateSoundness A S₀ B Cl
+
+/--
+**Fold obstruction (pointwise):** outside **internal** reachability contradicts **`closure_success`** once iterate soundness is assumed.
+-/
+theorem not_closure_success_of_outside_iterate {A : ReflexiveArchitecture World Obs Repr Claim} {S₀ B : Set World}
+    {Cl : ClosureOperator World} (hout : OutsideClosureIterateImage Cl S₀ B)
+    (hsound : ClosureIterateSoundness A S₀ B Cl) : ¬ A.closure_success Cl := fun hsucc =>
+  not_in_iterate_of_outside hout (hsound hsucc)
+
+/--
+Variant with a **universal** adequacy hypothesis packaged in **`ClosureIterateAdequacy`**.
+-/
+theorem not_closure_success_of_outside_iterate_of_adequacy {A : ReflexiveArchitecture World Obs Repr Claim}
+    {S₀ B : Set World} {Cl : ClosureOperator World} (hout : OutsideClosureIterateImage Cl S₀ B)
+    (had : ClosureIterateAdequacy A S₀ B) : ¬ A.closure_success Cl :=
+  not_closure_success_of_outside_iterate hout (had Cl)
+
+/--
+**Global RFO barrier** from **iterate geometry:** if **every** closure operator fails **internal** reachability to **`B`**, and
+success **would** imply reachability, then **`ClosureObstructionInterface`** holds.
+-/
+theorem closure_obstruction_of_iterate_adequacy_and_universal_outside
+    {A : ReflexiveArchitecture World Obs Repr Claim} {S₀ B : Set World} (had : ClosureIterateAdequacy A S₀ B)
+    (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl S₀ B) : ClosureObstructionInterface A :=
+  fun Cl hsucc => not_in_iterate_of_outside (hout Cl) (had Cl hsucc)
 
 end StructuredNonexhaustibility

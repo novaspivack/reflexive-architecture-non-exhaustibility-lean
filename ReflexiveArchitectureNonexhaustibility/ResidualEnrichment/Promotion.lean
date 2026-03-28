@@ -16,8 +16,9 @@ This **does not** replace abstract **D-002**; it **extends** it when optional en
 
 **Cross-`A` (equality-shaped):** **`promote_enriched_base_eq_of_arch_eq`**, **`standingResidualBurden_promotion_arch_eq`** — if
 **`A = A'`** and barrier packs agree via **`u123BarrierData_cast`**, promoted **`.base`** **`ResidualWitness`** agrees (**`Engine`**
-corollaries **`*_engine_arch_eq`**). **Not** a general morphism **semantics** map — only **propositional equality** of architectures
-plus **honest** pack transport.
+corollaries **`*_engine_arch_eq`**). Without bundled **`A = A'`**, **`u123BarrierData_transport_of_success_field_iff`**
+(**`Interfaces.lean`**) relabels **U₁–U₃** under pointwise **`↔`** of success predicates; literal **`Eq`** of promoted **`base`**
+across barrier carriers still needs **`A = A'`** or **`HEq`**.
 -/
 
 namespace StructuredNonexhaustibility
