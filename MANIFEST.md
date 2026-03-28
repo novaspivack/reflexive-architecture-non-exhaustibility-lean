@@ -3,6 +3,8 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
+**Program focus (parent repo):** Next work is **EPIC_005**-centered (opaque mediation / decomposition). **EPIC_004** / **D-002** are **support-only** for that stack; **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) “Owner steering.”
+
 ## `sorry` / `axiom` audit
 
 | Item | Count | Notes |
