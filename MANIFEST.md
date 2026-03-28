@@ -33,6 +33,7 @@
 | `ResidualEnrichment/EnrichedWitness.lean` | **SPEC_016_ER1 F1:** **`EnrichedR4ResidualWitness`** — base witness + signature + payload |
 | `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); promotion is **data** (`def`/`abbrev`), not `theorem` |
 | `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
+| `ResidualEnrichment/MixedPayloadDesignNotes.lean` | Pointer + summary: **SPEC_017_MX1** mixed payload shape (**product** of three columns); **no** defs |
 | `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
 | `ResidualEnrichment/Bridges/FromRFO.lean` | **F3b:** **`rfoPayloadPromotionBridge`**; **`ClosureObstructionPayload`** = Π **`Cl`**, **`PLift (¬ closure_success)`**; **D-001** for RFO-native traces |
 | `ResidualEnrichment/Bridges/FromSEM.lean` | **F3b:** **`semPayloadPromotionBridge`**; **`CertObstructionPayload`** = Π **`τ`**, **`PLift (¬ cert_success)`**; **D-001** for SEM traces |
