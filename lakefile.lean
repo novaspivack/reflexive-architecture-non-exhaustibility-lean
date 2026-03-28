@@ -26,8 +26,8 @@ require mathlib from git
 -- (reflection/`bh` closure obstructions: `ToReflection.false_of_encodedNontrivial_aligns_univ`,
 -- `UnitypedNatReprObstruction.not_nonempty_sri0'_nat_equiv_eq`, …).
 -- =============================================================================
-require «nems-lean» from ".." / ".." / "nems-lean"
--- require «nems-lean» from git "https://github.com/REPLACE_ORG/nems-lean.git" @ "REPLACE_REV"
+require «nems-lean» from git
+  "https://github.com/novaspivack/nems-lean.git" @ "d1379b2d6d01b1c652ae65b65e1fab97b9b6b6b3"
 
 -- =============================================================================
 -- **EPIC_009 / SPEC_013_IC1 — sibling infinity-compression (optional path pin)**
@@ -36,7 +36,8 @@ require «nems-lean» from ".." / ".." / "nems-lean"
 -- (same level as `nems-lean`). **CI** without it: clone into that path or switch to a git `require`.
 -- Wire: **`ICInfinityCompressionSibling.lean`** (**`ProperExtensionViaForgetful` → `KernelWitness`**).
 -- =============================================================================
-require «infinity-compression» from ".." / ".." / "infinity-compression" / "infinity-compression-lean"
+require «infinity-compression» from git
+  "https://github.com/novaspivack/infinity-compression-lean.git" @ "3623c6bff15741ef3796d3901b378dabed18194e"
 
 @[default_target]
 lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
