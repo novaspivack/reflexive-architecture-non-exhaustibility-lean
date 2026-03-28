@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + four bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **nems** pin **deferred** (private); **`lakefile`** has commented **`require`** + root **`README`** BIG NOTE. **EPIC_010** deferred. See parent [`QUEUE.md`](../QUEUE.md).
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + four bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **PN1–PN2** **deferred** (private nems); **`PN3–PN4` seam:** **`EngineReflexiveMorphism`**, **`FromNativeTraces`**; **`lakefile`** commented **`require`** + root **`README`** BIG NOTE. **EPIC_010** deferred. See parent [`QUEUE.md`](../QUEUE.md).
 
 ## `sorry` / `axiom` audit
 
@@ -16,7 +16,8 @@
 
 | File | Role |
 |------|------|
-| `EngineDependencyPinning.lean` | **D-001:** stub (**nems** private); enable **`NemS.Prelude`** when **`require`** uncommented — **`SPEC_018_PN1`** |
+| `EngineDependencyPinning.lean` | **D-001:** imports **`EngineReflexiveMorphism`**; **`NemS`** smoke import **deferred** — **`SPEC_018_PN1`** |
+| `EngineReflexiveMorphism.lean` | **PN3:** **`EngineReflexiveMorphism`**, **`ReflexiveBarrierBundle`**, **`EngineU123BarrierData`**, **`oneRouteDiscipline_of_barrier_bundle`** — **`SPEC_003_BT1`** attachment shape (no NemS types) |
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
 | `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**) |
@@ -32,13 +33,14 @@
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
 | `ResidualEnrichment/Payloads.lean` | **SPEC_016_ER1 F1:** **`ObstructionSignature`**, **`ResidualPayloadFamily`**, **`SigmaResidualPayload`** |
 | `ResidualEnrichment/EnrichedWitness.lean` | **SPEC_016_ER1 F1:** **`EnrichedR4ResidualWitness`** — base witness + signature + payload |
-| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); promotion is **data** (`def`/`abbrev`), not `theorem` |
+| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); **`promote_enriched_base_*`** lemmas (**base** independent of bridge / family) |
 | `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
 | `ResidualEnrichment/MixedPayloadDesignNotes.lean` | Pointer + summary: **SPEC_017_MX1** mixed payload shape (**product** of three columns); **no** defs |
 | `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
 | `ResidualEnrichment/Bridges/FromRFO.lean` | **F3b:** **`rfoPayloadPromotionBridge`**; **`ClosureObstructionPayload`** = Π **`Cl`**, **`PLift (¬ closure_success)`**; **D-001** for RFO-native traces |
 | `ResidualEnrichment/Bridges/FromSEM.lean` | **F3b:** **`semPayloadPromotionBridge`**; **`CertObstructionPayload`** = Π **`τ`**, **`PLift (¬ cert_success)`**; **D-001** for SEM traces |
 | `ResidualEnrichment/Bridges/FromMixedTriple.lean` | **`mixedTriple`:** **`MixedTripleObstructionPayload`**, **`mixedTriplePayloadPromotionBridge`**, **`enrichedR4_*_withMixedTriplePayload`** (**SPEC_017_MX1**) |
+| `ResidualEnrichment/Bridges/FromNativeTraces.lean` | **PN4:** **`nativeTripleResidualPayloadFamily`**, **`nativeTriplePayloadPromotionBridge`**, **`NativeObstructionTraceRefinement`**, column coherence **`Prop`**s — parallel native-trace bridge (**SPEC_018_PN1**) |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |

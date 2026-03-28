@@ -37,6 +37,7 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
   roots := #[
     `ReflexiveArchitectureNonexhaustibilityLean,
     `ReflexiveArchitectureNonexhaustibility.EngineDependencyPinning,
+    `ReflexiveArchitectureNonexhaustibility.EngineReflexiveMorphism,
     `ReflexiveArchitectureNonexhaustibility.Basic,
     `ReflexiveArchitectureNonexhaustibility.Modes,
     `ReflexiveArchitectureNonexhaustibility.Residuals,
@@ -62,6 +63,7 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromRFO,
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromSEM,
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromMixedTriple,
+    `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromNativeTraces,
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.MixedPayloadDesignNotes,
     `ReflexiveArchitectureNonexhaustibility.Universal,
     `ReflexiveArchitectureNonexhaustibility.Adequacy,

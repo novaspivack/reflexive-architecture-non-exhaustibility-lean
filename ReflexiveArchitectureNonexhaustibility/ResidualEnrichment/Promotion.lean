@@ -57,4 +57,24 @@ def enriched_r4_from_triple_barriers_and_bridge (A : ReflexiveArchitecture World
     EnrichedR4ResidualWitness A F :=
   promote_barrier_pack_to_enriched_r4 A F br ⟨d1, d2, d3⟩
 
+/--
+**Bridge irrelevance for the underlying R₄ skeleton:** promotion only uses **`br`** for the
+**sigma-shaped** certificate + payload; the **`base`** **`ResidualWitness`** is **`barrierLinkedR4ResidualWitness`**
+of the **same** **`U123BarrierData`**.
+-/
+theorem promote_enriched_base_eq_barrier_linked
+    (A : ReflexiveArchitecture World Obs Repr Claim) (F : ResidualPayloadFamily A)
+    (br : PayloadPromotionBridge A F) (b : U123BarrierData A) :
+    (promote_barrier_pack_to_enriched_r4 A F br b).base =
+      barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier :=
+  rfl
+
+theorem promote_enriched_base_independent_of_family_and_bridge
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (F₁ F₂ : ResidualPayloadFamily A) (br₁ : PayloadPromotionBridge A F₁)
+    (br₂ : PayloadPromotionBridge A F₂) (b : U123BarrierData A) :
+    (promote_barrier_pack_to_enriched_r4 A F₁ br₁ b).base =
+      (promote_barrier_pack_to_enriched_r4 A F₂ br₂ b).base :=
+  rfl
+
 end StructuredNonexhaustibility

@@ -3,6 +3,7 @@ import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromRI
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromRFO
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromSEM
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromMixedTriple
+import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromNativeTraces
 
 /-!
 # Engine-enriched residual summit (narrative hub) (**SPEC_016_ER1**, **EPIC_011**)
@@ -21,6 +22,7 @@ import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromMix
 6. **F3 — simultaneous **`mixedTriple`** (**SPEC_017_MX1**):** **`mixedTriplePayloadPromotionBridge`**, **`MixedTripleObstructionPayload`**
    (named **three-field record**), **`enrichedR4_tripleBarriers_withMixedTriplePayload`** / **`enrichedR4_u123_withMixedTriplePayload`** —
    all **three** Π–**`PLift`** columns **at once**. **Design:** **`MixedPayloadDesignNotes.lean`**. **D-001** upgrades column **types** only.
+7. **D-001 native seam (**EPIC_012** **PN4**):** **`FromNativeTraces.lean`** — **`nativeTripleResidualPayloadFamily`**, **`nativeTriplePayloadPromotionBridge`**, **`enrichedR4_u123_withNativeTriple`**, refinement **`Prop`**s for column coherence vs Π–**`PLift`**. **PN1** supplies concrete **`R`, `C`, `S`** from NemS.
 
 **Future (canonicality / uniqueness of enriched content):** not started — would be a **strictly stronger** summit
 than existence + promotion; see **SPEC_016_ER1**.
