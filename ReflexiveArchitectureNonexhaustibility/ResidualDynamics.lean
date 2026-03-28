@@ -14,7 +14,7 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 
 **Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** + **iterate-backed** bundles + **vacuous** / **pathological** adequacy
 (**`closureIterateAdequacy_of_global_closure_failure`**, **`pathologicalAllClosureSuccessUnit`**) + **`closureOpId`** calculus; **D1** classical **trilemma** elimination;
-**contentful** **`hK`** hooks (**`d1_hK_refinement_forgetfulKernel_*`**, **`ψ/χ`** naming vs section **`coarse`/`fine`**); **`JointR2R4ResidualCertificate`** (single **dynamics record**, two witnesses). Imports **`Attempt`**, **`D002ResidualWitnessTarget`**.
+**contentful** **`hK`** + **`standingResidualBurden_of_classical_trilemma_forgetfulKernel_*`** (**raw** trilemma disjunction); **`ψ/χ`** naming vs section **`coarse`/`fine`**; **`JointR2R4ResidualCertificate`** (single **dynamics record**, two witnesses). Imports **`Attempt`**, **`D002ResidualWitnessTarget`**.
 **Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **D3** in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
@@ -658,6 +658,107 @@ theorem d1_hK_refinement_forgetfulKernel_joint_r2_r4_of_refineStillFine {α β :
     (standingResidualBurden_iff _).mpr
       ⟨ψ, χ, hstep,
         And.intro rfl (And.intro (hfine' ψ χ hstep rfl) (exists_admissible_r2_and_barrier_linked_r4_joint hf hne b))⟩
+
+/-! ### **D1** — **full classical trilemma** + forgetful **`hK`** (**P₂**/**P₃** scaffolding)
+
+**`hP`** / **`hB`** stay **parameters** (barrier / adequacy / regime payloads). **`raw`** variants take **`id`** so **`P`**/**`B`**
+are literally the **proper** vs **bookkeeping** **`reconfiguration`** existentials from **`d1_response_step_classical_trilemma`**.
+-/
+
+/--
+**Full trilemma** under **`StandingResidualBurden`**: refinement branch uses **`d1_hK_refinement_forgetfulKernel_r2_bundle_of_refineStillFine`**;
+**reconfiguration** branches supplied by **`hP`** / **`hB`**.
+-/
+theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_r2
+    {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) {P B : Prop}
+    (hP :
+      (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) → P)
+    (hB :
+      (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) → B) :
+    StandingResidualBurden
+      ((∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              ∃ rw : ResidualWitness,
+                IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness) ∨
+          P ∨
+        B) :=
+  @standingResidualBurden_of_classical_trilemma α World Obs Repr Claim step _ _ _
+    (d1_hK_refinement_forgetfulKernel_r2_bundle_of_refineStillFine hf hne hfine') hP hB
+
+/--
+Like **`standingResidualBurden_of_classical_trilemma_forgetfulKernel_r2`**, but refinement **`hK`** carries the **`U123`** **joint** tail.
+-/
+theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_joint_r2_r4
+    {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) (b : U123BarrierData A) {P B : Prop}
+    (hP :
+      (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) → P)
+    (hB :
+      (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) → B) :
+    StandingResidualBurden
+      ((∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              (∃ r2 r4 : ResidualWitness,
+                IsR2Residual r2 ∧
+                  AdmissibleResidual r2 ∧
+                    r2 ≠ trivialR4ResidualWitness ∧
+                      IsR4PositiveSurvivor r4 ∧
+                        AdmissibleResidual r4 ∧
+                          r4 =
+                            barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier)) ∨
+          P ∨
+        B) :=
+  @standingResidualBurden_of_classical_trilemma α World Obs Repr Claim step _ _ _
+    (d1_hK_refinement_forgetfulKernel_joint_r2_r4_of_refineStillFine hf hne hfine' b) hP hB
+
+/--
+**Raw** disjunction: **`P`**/**`B`** are the **classical** **proper** / **same-`arch`** **`reconfiguration`** witnesses (**no** extra payload).
+-/
+theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_r2_raw
+    {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) :
+    StandingResidualBurden
+      ((∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              ∃ rw : ResidualWitness,
+                IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness) ∨
+          (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) ∨
+        ∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) :=
+  standingResidualBurden_of_classical_trilemma_forgetfulKernel_r2 hf hne hfine' (fun h => h) (fun h => h)
+
+/--
+**Raw** disjunction with **joint** refinement **`hK`** (**`U123`** **R₄** tail).
+-/
+theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_joint_r2_r4_raw
+    {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) (b : U123BarrierData A) :
+    StandingResidualBurden
+      ((∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              (∃ r2 r4 : ResidualWitness,
+                IsR2Residual r2 ∧
+                  AdmissibleResidual r2 ∧
+                    r2 ≠ trivialR4ResidualWitness ∧
+                      IsR4PositiveSurvivor r4 ∧
+                        AdmissibleResidual r4 ∧
+                          r4 =
+                            barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier)) ∨
+          (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) ∨
+        ∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) :=
+  standingResidualBurden_of_classical_trilemma_forgetfulKernel_joint_r2_r4 hf hne hfine' b (fun h => h) (fun h => h)
 
 /-! ## D2 — internal closure iteration scaffold (**SPEC_023_RG1** **P3**)
 
