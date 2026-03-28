@@ -171,4 +171,58 @@ theorem canonical_spectrum_mono_labeled {L : Type} (T : AltRouteTaxonomy L World
   have hsA : CanonicalModeSuccessSpectrum A := canonical_spectrum_mono hρ hCl hτ hsA'
   exact (canonical_spectrum_iff_labeled_successes L T A successful hS hC).1 hsA
 
+/-!
+### Label refinement (comparison only — **EPIC_010**)
+
+**Weaker** “success” labelling (`succ' → succ`) makes **`TaxonomySound`** *easier* to satisfy: fewer labels count
+as successful. **Stronger** labelling (`succ → succ'`) makes **`TaxonomyComplete`** *easier*: canonical successes need
+only be witnessed under a **coarser** badge. These are **transport** lemmas, not uniqueness.
+-/
+
+theorem taxonomy_sound_of_successful_mono
+    (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (A : ReflexiveArchitecture World Obs Repr Claim) (succ succ' : L → Prop)
+    (h : ∀ l, succ' l → succ l) (hS : TaxonomySound L T A succ) : TaxonomySound L T A succ' := by
+  rcases hS with ⟨s1, s2, s3⟩
+  refine ⟨?_, ?_, ?_⟩
+  · intro ρ hs' hρ; exact s1 ρ (h _ hs') hρ
+  · intro Cl hs' hCl; exact s2 Cl (h _ hs') hCl
+  · intro τ hs' hτ; exact s3 τ (h _ hs') hτ
+
+theorem taxonomy_complete_of_successful_mono
+    (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (A : ReflexiveArchitecture World Obs Repr Claim) (succ succ' : L → Prop)
+    (h : ∀ l, succ l → succ' l) (hC : TaxonomyComplete L T A succ) : TaxonomyComplete L T A succ' := by
+  rcases hC with ⟨c1, c2, c3⟩
+  refine ⟨?_, ?_, ?_⟩
+  · intro m1; rcases c1 m1 with ⟨ρ, hρ, hs⟩; exact ⟨ρ, hρ, h _ hs⟩
+  · intro m2; rcases c2 m2 with ⟨Cl, hCl, hs⟩; exact ⟨Cl, hCl, h _ hs⟩
+  · intro m3; rcases c3 m3 with ⟨τ, hτ, hs⟩; exact ⟨τ, hτ, h _ hs⟩
+
+/--
+**Pairwise comparison:** **architecture** monotonicity (**`canonical_spectrum_mono`**) transports **labeled**
+success, when **`A'`** / **`A`** each carry their **own** (sound + complete) label predicate — **no**
+identification of **`succ`** with **`succ'`**. Chain: labeled **`A'`** (`succ'`) ⇔ canonical **`A'`** ⇒
+canonical **`A`** ⇔ labeled **`A`** (`succ`).
+-/
+theorem canonical_spectrum_mono_labeled_pair
+    {L : Type} (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (succ : L → Prop) (succ' : L → Prop) {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (hρ : ∀ ρ, A'.repr_success ρ → A.repr_success ρ)
+    (hCl : ∀ Cl, A'.closure_success Cl → A.closure_success Cl)
+    (hτ : ∀ τ, A'.cert_success τ → A.cert_success τ)
+    (hS : TaxonomySound L T A succ) (hS' : TaxonomySound L T A' succ')
+    (hC : TaxonomyComplete L T A succ) (hC' : TaxonomyComplete L T A' succ') :
+    ((∃ ρ, A'.repr_success ρ ∧ succ' (T.reprTag ρ)) ∨
+        (∃ Cl, A'.closure_success Cl ∧ succ' (T.closureTag Cl)) ∨
+          (∃ τ, A'.cert_success τ ∧ succ' (T.certTag τ))) →
+      ((∃ ρ, A.repr_success ρ ∧ succ (T.reprTag ρ)) ∨
+          (∃ Cl, A.closure_success Cl ∧ succ (T.closureTag Cl)) ∨
+            (∃ τ, A.cert_success τ ∧ succ (T.certTag τ))) := by
+  intro hDisj
+  have hsA' : CanonicalModeSuccessSpectrum A' :=
+    (canonical_spectrum_iff_labeled_successes L T A' succ' hS' hC').2 hDisj
+  have hsA : CanonicalModeSuccessSpectrum A := canonical_spectrum_mono hρ hCl hτ hsA'
+  exact (canonical_spectrum_iff_labeled_successes L T A succ hS hC).1 hsA
+
 end StructuredNonexhaustibility.RouteCanonicality

@@ -1,5 +1,7 @@
 import NemS.Prelude
 import StructuralNonExhaustibility.Core.ReflexiveSystem
+import StructuralNonExhaustibility.Bridges.ToSemanticSelfDescription
+import SemanticSelfDescription.Core.Claims
 import ReflexiveArchitectureNonexhaustibility.EngineReflexiveMorphism
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromRI
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
@@ -68,10 +70,13 @@ def nemsCertificate_of_sync {φ : EngineReflexiveMorphism E World Obs Repr Claim
 **`U123BarrierData`** — this is **not** smuggling (the hypothesis was proved **before**) but is **weak** unless **`rs`**
 comes from a **real** NemS / paper bridge.
 
-**Trivial NemS shell:** **`nemsTrivialBarrierReflexiveSystem`** is a **genuine** `StructuralNonExhaustibility.ReflexiveSystem`
-with `BarrierHyp := True` — useful for **CI / scaffolding** and for **`EngineNemsBarrierSync.trivialBarrier`**. Replace
-with **semantic self-description** / **no-final-self-theory** elaborations when those bridges are fully wired
-(**`nems-lean`** **Bridges**).
+**Trivial NemS shell:** **`nemsTrivialBarrierReflexiveSystem`** remains for **CI / scaffolding**
+(`BarrierHyp := True`).
+
+**Semantic native shell (`EPIC_012` nontrivial tranche):** **`reflexiveSystem_ofSelfSemanticFrame`** in
+**`StructuralNonExhaustibility.Bridges.ToSemanticSelfDescription`** (`nems-lean`) — real **`BarrierHyp`**
+(`Nonempty (BarrierHypotheses F)`). Use **`EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame`** when the engine can
+prove **`sync`** (paper barriers → nonempty semantic hypotheses). **`sync`** is **not** definitional from **`U123`** alone.
 -/
 
 /-- **Scaffolding** NemS shell: **`BarrierHyp`** is **True** (real **`ReflexiveSystem`**, illustrative content only). -/
@@ -100,6 +105,21 @@ def EngineNemsBarrierSync.ofConstantBarrier {E : Type}
 def EngineNemsBarrierSync.trivialBarrier (φ : EngineReflexiveMorphism E World Obs Repr Claim) :
     EngineNemsBarrierSync φ :=
   ofConstantBarrier φ nemsTrivialBarrierReflexiveSystem nemsTrivialBarrierReflexiveSystem_barrier
+
+/--
+**Semantic self-description** NemS point (constant in **`e`**): **`toNems`** is **`reflexiveSystem_ofSelfSemanticFrame F`**.
+
+**Proof obligation **`h`:** for each engine point and **`U123BarrierData`**, supply **`Nonempty (BarrierHypotheses F)`** —
+typically from a **mathematical** bridge (reflection / diagonal closure, etc.), **not** from notation alone.
+-/
+def EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame {W : Type}
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    (h :
+      ∀ e (_ : U123BarrierData (φ.toReflexive e)), Nonempty (SemanticSelfDescription.BarrierHypotheses F)) :
+    EngineNemsBarrierSync φ where
+  toNems := fun _ => StructuralNonExhaustibility.reflexiveSystem_ofSelfSemanticFrame F
+  sync := fun e b => PLift.up (h e b)
 
 /--
 **Recover** **`NemsProgramVBarrierCertificate`** from the trivial sync at **`e₀`** (dependent only on **`φ`**, **`e₀`**).
@@ -169,6 +189,19 @@ def enrichedR4_u123_withAugmentedNemsProgramVRepr_sync
     EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
   promote_barrier_pack_to_enriched_r4 (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀))
     (augmentedReprNemsProgramVSyncPromotionBridge φ S e₀) b
+
+/--
+**End-to-end** enriched **R₄** with **`NemsProgramVBarrierCertificate`** tied to a **semantic** Program V shell and a
+user-supplied **`sync`** proof **`h`** (**`ofSemanticSelfDescriptionFrame`**).
+-/
+def enrichedR4_u123_withAugmentedNemsProgramVRepr_semanticSync
+    {W : Type} (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    (h :
+      ∀ e (_ : U123BarrierData (φ.toReflexive e)), Nonempty (SemanticSelfDescription.BarrierHypotheses F))
+    (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
+    EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
+  enrichedR4_u123_withAugmentedNemsProgramVRepr_sync φ (EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame φ F h) e₀ b
 
 def enrichedR4_tripleBarriers_withAugmentedNemsProgramVRepr_sync
     (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E)
