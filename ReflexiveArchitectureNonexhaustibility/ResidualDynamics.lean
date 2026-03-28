@@ -77,6 +77,13 @@ def RegimeSnapshotsDiffer {World Obs Repr Claim : Type} (s t : RegimeSnapshot Wo
   s.arch ≠ t.arch
 
 /--
+**Strong D1 (regulatory):** a reconfiguration counts as a **proper regime change** when regulators differ.
+-/
+abbrev IsProperRegimeChange {World Obs Repr Claim : Type} (before after : RegimeSnapshot World Obs Repr Claim) :
+    Prop :=
+  RegimeSnapshotsDiffer before after
+
+/--
 A single **residual response** step at the P0 level: either tighten an identification relation (abstract refinement)
 or replace the regulatory snapshot (reconfiguration).
 
@@ -166,6 +173,29 @@ theorem isReconfiguration_eq_true_iff (step : ResidualResponseStep α World Obs 
     | reconfiguration before after => exact ⟨before, after, rfl⟩
   · rintro ⟨before, after, rfl⟩
     rfl
+
+/--
+**Stronger D1 (classical on regulator equality).** Every step is **either**:
+
+* observational refinement, **or**
+* regulatory reconfiguration that **changes** **`RegimeSnapshot.arch`**, **or**
+* regulatory reconfiguration that leaves **`arch`** **equal** (presentation-only / bookkeeping reconfiguration).
+
+Discharged with the **`classical`** tactic (**LEM** on `before.arch = after.arch`) because **`ReflexiveArchitecture`**
+carries no decidability instance. For **D2** / RFO, the middle disjunct is the **regime-shift** locus; the last disjunct
+is explicitly **not** a proper regime change at the carrier level.
+-/
+theorem d1_response_step_classical_trilemma (step : ResidualResponseStep α World Obs Repr Claim) :
+    (∃ coarse fine h, step = refinement coarse fine h) ∨
+      (∃ before after, step = reconfiguration before after ∧ IsProperRegimeChange before after) ∨
+      ∃ before after, step = reconfiguration before after ∧ before.arch = after.arch := by
+  classical
+  rcases d1_response_step_exhaustive step with href | hrec
+  · exact Or.inl href
+  · rcases hrec with ⟨before, after, rfl⟩
+    by_cases heq : before.arch = after.arch
+    · exact Or.inr (Or.inr ⟨before, after, rfl, heq⟩)
+    · exact Or.inr (Or.inl ⟨before, after, rfl, heq⟩)
 
 end ResidualResponseStep
 
