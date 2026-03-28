@@ -22,14 +22,18 @@ This is the **first** non-constant **`U123SemanticBarrierLink`** pattern endorse
 
 **Reusable:** `SemanticSelfDescription.Bridge.AugmentBarrierHypotheses` (nems-lean) + this wrapper.
 
-**Closing the loop (parameter-free `bh`):** needs a **concrete** Paper 51 frame + **`EncodedNontrivial`**
-compatible with a **non-universal**, **non-`Eq`** code equivalence that still supports **full** unityped
-representability (`SRI₀′` / `toSRI_R` side). **nems-lean** now pins the sharp tensions:
-**`SemanticSelfDescription.false_of_encodedNontrivial_*`** (universal/indiscrete `CodeEquiv` vs
-nontrivial encoding) and **`SelfReference.Minimality.not_nonempty_sri0'_nat_equiv_eq`** (`ℕ` + `Equiv = Eq`
-impossible). Until such a witness exists, **`bh`** remains the honest parameter in
-**`enrichedR4_trivialArchitecture_reprAugmentedU123Sync`**; pick the trivial obstruction architecture
-below for **`b`** once **`bh`** is supplied.
+**Closed computational witness (Kleene / `Nat.Partrec.Code`):** **`SemanticSelfDescription.Instances.KleenePartrec`**
+gives **`kleenePartrecFrame`**, **`kleeneComputationalBarrierHypotheses`** (**`BarrierHypothesesPred`** with
+**`P = Computable`**), extensional **`kleeneCodeEquiv`**, and **`EncodedNontrivial`**. This does **not** collapse to
+unconditional **`BarrierHypotheses`** (Rogers fixed points are only assumed for **computable** maps). Use
+**`barrierHypothesesPred_augment_withGlobalConjunct`** for the same **`(U₁)`** global conjunct as below; upgrade to
+**`BarrierHypotheses`** only when **`BarrierHypothesesPred.toBarrierHypotheses`** applies (**`∀ F', P F'`**).
+
+**Closing the loop (parameter-free unconditional `bh`):** still needs **full** **`BarrierHypotheses`** together with
+**`EncodedNontrivial`** and representability beyond the **`Computable`**-predicate boundary.
+**nems-lean** pins the tensions: **`false_of_encodedNontrivial_*`**, **`not_nonempty_sri0'_nat_equiv_eq`**, …
+**`enrichedR4_trivialArchitecture_reprAugmentedU123Sync`** takes unconditional **`bh`**; for Kleene use the
+**pred** augment path unless **`toBarrierHypotheses`** is available.
 -/
 
 namespace StructuredNonexhaustibility
@@ -70,6 +74,18 @@ def barrierHypotheses_u123ReprAugment
     SemanticSelfDescription.BarrierHypotheses F :=
   SemanticSelfDescription.barrierHypotheses_augment_withGlobalConjunct F bh (∀ ρ, ¬ A.repr_success ρ) b.reprBarrier
 
+/--
+Same **global `(U₁)`** conjunct for **`BarrierHypothesesPred`** (Kleene / Rogers **`P`** preserved).
+-/
+def barrierHypothesesPred_u123ReprAugment
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    {P : (F.Code → F.Code) → Prop}
+    (bh : SemanticSelfDescription.BarrierHypothesesPred F P)
+    (b : U123BarrierData A) :
+    SemanticSelfDescription.BarrierHypothesesPred F P :=
+  SemanticSelfDescription.barrierHypothesesPred_augment_withGlobalConjunct F bh (∀ ρ, ¬ A.repr_success ρ) b.reprBarrier
+
 @[simp]
 theorem barrierHypotheses_u123ReprAugment_eq
     (A : ReflexiveArchitecture World Obs Repr Claim)
@@ -77,6 +93,17 @@ theorem barrierHypotheses_u123ReprAugment_eq
     (bh : SemanticSelfDescription.BarrierHypotheses F) (b : U123BarrierData A) :
     barrierHypotheses_u123ReprAugment A F bh b =
       SemanticSelfDescription.barrierHypotheses_augment_withGlobalConjunct F bh (∀ ρ, ¬ A.repr_success ρ) b.reprBarrier :=
+  rfl
+
+@[simp]
+theorem barrierHypothesesPred_u123ReprAugment_eq
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    {P : (F.Code → F.Code) → Prop}
+    (bh : SemanticSelfDescription.BarrierHypothesesPred F P) (b : U123BarrierData A) :
+    barrierHypothesesPred_u123ReprAugment A F bh b =
+      SemanticSelfDescription.barrierHypothesesPred_augment_withGlobalConjunct F bh (∀ ρ, ¬ A.repr_success ρ)
+        b.reprBarrier :=
   rfl
 
 /--
@@ -88,6 +115,21 @@ def u123SemanticBarrierLink_reprAugment
     (bh : SemanticSelfDescription.BarrierHypotheses F) :
     U123SemanticBarrierLink A F where
   barrierHypotheses_of b := barrierHypotheses_u123ReprAugment A F bh b
+
+/--
+Reference **`barrierHypothesesPred_u123ReprAugment`**; yields unconditional **`BarrierHypotheses`** only after
+**`BarrierHypothesesPred.toBarrierHypotheses`** (i.e. when **`P F'`** is automatic for every **`F'`**).
+-/
+def u123SemanticBarrierLink_predReprAugment
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    {P : (F.Code → F.Code) → Prop}
+    (bh : SemanticSelfDescription.BarrierHypothesesPred F P)
+    (hP : ∀ F' : F.Code → F.Code, P F') :
+    U123SemanticBarrierLink A F where
+  barrierHypotheses_of b :=
+    SemanticSelfDescription.BarrierHypothesesPred.toBarrierHypotheses (F := F)
+      (barrierHypothesesPred_u123ReprAugment A F bh b) hP
 
 variable {E : Type}
 
@@ -110,6 +152,19 @@ def engineNemsSync_u123ReprAugment
     (engineMorphism_constArchitecture (E := E) A) F fun _ => u123SemanticBarrierLink_reprAugment A F bh
 
 /--
+**`EngineNemsBarrierSync`** when the repr-augmented package stays at **`BarrierHypothesesPred`** level until **`hP`** closes **`P`** for all transformers.
+-/
+def engineNemsSync_u123PredReprAugment
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    {P : (F.Code → F.Code) → Prop}
+    (bh : SemanticSelfDescription.BarrierHypothesesPred F P)
+    (hP : ∀ F' : F.Code → F.Code, P F') :
+    EngineNemsBarrierSync (engineMorphism_constArchitecture (E := E) A) :=
+  EngineNemsBarrierSync.ofU123SemanticBarrierLink
+    (engineMorphism_constArchitecture (E := E) A) F fun _ => u123SemanticBarrierLink_predReprAugment A F bh hP
+
+/--
 **End-to-end enriched R₄** for the constant morphism, **repr**‑augmented NemS sync, and an arbitrary **`b`**.
 -/
 def enrichedR4_u123ReprAugmentSync
@@ -121,6 +176,21 @@ def enrichedR4_u123ReprAugmentSync
   enrichedR4_u123_withAugmentedNemsProgramVRepr_sync
     (engineMorphism_constArchitecture (E := E) A)
     (engineNemsSync_u123ReprAugment (E := E) A F bh) e₀ b
+
+/--
+**Enriched R₄** with repr-augmented **`BarrierHypothesesPred`** + **`hP`** (same **`b`** slot as **`enrichedR4_u123ReprAugmentSync`**).
+-/
+def enrichedR4_u123PredReprAugmentSync
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    {P : (F.Code → F.Code) → Prop}
+    (bh : SemanticSelfDescription.BarrierHypothesesPred F P)
+    (hP : ∀ F' : F.Code → F.Code, P F')
+    (e₀ : E) (b : U123BarrierData A) :
+    EnrichedR4ResidualWitness A (augmentedReprResidualPayloadFamily A) :=
+  enrichedR4_u123_withAugmentedNemsProgramVRepr_sync
+    (engineMorphism_constArchitecture (E := E) A)
+    (engineNemsSync_u123PredReprAugment (E := E) A F bh hP) e₀ b
 
 /--
 **Specialization** to the **trivial** obstruction architecture (minimal **`b`** family above).
@@ -135,5 +205,21 @@ def enrichedR4_trivialArchitecture_reprAugmentedU123Sync
     EnrichedR4ResidualWitness (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀)
       (augmentedReprResidualPayloadFamily (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀)) :=
   enrichedR4_u123ReprAugmentSync (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀) F bh e₀ b
+
+/--
+**Trivial** architecture + **`BarrierHypothesesPred`** path (**requires** **`hP`**).
+-/
+def enrichedR4_trivialArchitecture_predReprAugmentedU123Sync
+    (World Obs Repr Claim : Type) (obs₀ : Obs)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    {P : (F.Code → F.Code) → Prop}
+    (bh : SemanticSelfDescription.BarrierHypothesesPred F P)
+    (hP : ∀ F' : F.Code → F.Code, P F')
+    (e₀ : E)
+    (b :
+      U123BarrierData (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀)) :
+    EnrichedR4ResidualWitness (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀)
+      (augmentedReprResidualPayloadFamily (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀)) :=
+  enrichedR4_u123PredReprAugmentSync (trivialObstructionReflexiveArchitecture World Obs Repr Claim obs₀) F bh hP e₀ b
 
 end StructuredNonexhaustibility
