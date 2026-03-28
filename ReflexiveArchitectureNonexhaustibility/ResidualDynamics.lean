@@ -14,7 +14,7 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 
 **Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** + **iterate-backed** bundles + **vacuous** / **pathological** adequacy
 (**`closureIterateAdequacy_of_global_closure_failure`**, **`pathologicalAllClosureSuccessUnit`**) + **`closureOpId`** calculus; **D1** classical **trilemma** elimination;
-**`JointR2R4ResidualCertificate`** (single **dynamics record**, two witnesses). Imports **`Attempt`**, **`D002ResidualWitnessTarget`**.
+**contentful** **`hK`** hooks (**`d1_hK_refinement_forgetfulKernel_*`**, **`ψ/χ`** naming vs section **`coarse`/`fine`**); **`JointR2R4ResidualCertificate`** (single **dynamics record**, two witnesses). Imports **`Attempt`**, **`D002ResidualWitnessTarget`**.
 **Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **D3** in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
@@ -560,6 +560,104 @@ theorem standingResidualBurden_joint_forgetful_r2_and_barrier_r4 {α β : Type} 
                   r4 =
                     barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier) :=
   exists_admissible_r2_and_barrier_linked_r4_joint hf hne b
+
+/-! ### **D1** — **contentful** refinement branch (**kernel** / **joint** **R₂**/**R₄**)
+
+**SPEC_023_RG1:** supply **`hK`** for **`standingResidualBurden_of_classical_trilemma`** (or **`d1_classical_trilemma_elim`**)
+with **`Prop`**s built from **D0** still-**`fine`** + forgetful **IC** geometry + optional **`U123BarrierData`**.
+
+**Naming:** **`ψ`** = **coarse**, **`χ`** = **fine** refinement relations — avoids confusion with section
+**`variable {coarse fine : Identification α}`** elsewhere in this file.
+
+**Anti-smuggling:** **`ResidualResponseStep`** does **not** mention **`f`**, **`x`**, **`y`**, or **`b`**; linkage is **always** an
+explicit **`hfine'`** obligation (typically: whenever the step carries **refinement** data **`ψ, χ`**, the **fine**
+relation **`χ`** identifies **`x,y`**).
+-/
+
+/--
+**Refinement-shaped** standing bundle: distinguished fiber pair stays **`χ`**-identified **and** an **admissible** **R₂**
+**`ResidualWitness`** exists (**forgetful** **IC** core).
+
+Does **not** reference **`step`**; pair with **`d1_hK_refinement_forgetfulKernel_*_of_refineStillFine`** for **trilemma** **`hK`**.
+-/
+theorem standingResidualBurden_refinementPayload_forgetfulKernel_r2_bundle {α β : Type} {f : α → β} {x y : α}
+    (hf : f x = f y) (hne : x ≠ y) {ψ χ : Identification α} (_hstep : IsRefinementStep ψ χ) (hχ : χ x y) :
+    StandingResidualBurden
+      (χ x y ∧
+        ∃ rw : ResidualWitness,
+          IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness) :=
+  standingResidualBurden_and (d0_forgetfulKernel_standing_fine hf hne hχ)
+    (standingResidualBurden_forgetfulKernel_exists_admissible_r2 hf hne)
+
+/--
+Same as **`standingResidualBurden_refinementPayload_forgetfulKernel_r2_bundle`** plus **`U123BarrierData`**-linked **R₄** coexistence
+(**`standingResidualBurden_joint_forgetful_r2_and_barrier_r4`** shape).
+
+**Universe:** **`α β : Type`** aligns with **`ResidualWitness.carrier`** + **`joint`** lemmas.
+-/
+theorem standingResidualBurden_refinementPayload_forgetfulKernel_joint_r2_r4 {α β : Type} {f : α → β} {x y : α}
+    (hf : f x = f y) (hne : x ≠ y) {ψ χ : Identification α} (_hstep : IsRefinementStep ψ χ) (hχ : χ x y)
+    (b : U123BarrierData A) :
+    StandingResidualBurden
+      (χ x y ∧
+        (∃ r2 r4 : ResidualWitness,
+          IsR2Residual r2 ∧
+            AdmissibleResidual r2 ∧
+              r2 ≠ trivialR4ResidualWitness ∧
+                IsR4PositiveSurvivor r4 ∧
+                  AdmissibleResidual r4 ∧
+                    r4 =
+                      barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier)) :=
+  standingResidualBurden_and (d0_forgetfulKernel_standing_fine hf hne hχ)
+    (standingResidualBurden_joint_forgetful_r2_and_barrier_r4 hf hne b)
+
+/--
+**`hK`** factory (**R₂** only): refinement case ⇒ **existential** package tying **that** step’s **fine** relation to **`x,y`**
+and the forgetful **R₂** witness (**no** section **`fine`** / **`coarse`** capture).
+-/
+theorem d1_hK_refinement_forgetfulKernel_r2_bundle_of_refineStillFine {α β : Type} {f : α → β} {x y : α}
+    (hf : f x = f y) (hne : x ≠ y) {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) :
+    (∃ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep) →
+      StandingResidualBurden
+        (∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              ∃ rw : ResidualWitness,
+                IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness) := by
+  rintro ⟨ψ, χ, hstep, heq⟩
+  subst heq
+  exact
+    (standingResidualBurden_iff _).mpr
+      ⟨ψ, χ, hstep, And.intro rfl (And.intro (hfine' ψ χ hstep rfl) (d0_forgetfulKernel_obtains_admissible_r2_residual hf hne))⟩
+
+/--
+**`hK`** factory (**joint** **R₂**/**R₄**): refinement case + **`U123BarrierData`**, under the same **`hfine'`** discipline.
+-/
+theorem d1_hK_refinement_forgetfulKernel_joint_r2_r4_of_refineStillFine {α β : Type} {f : α → β} {x y : α}
+    (hf : f x = f y) (hne : x ≠ y) {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) (b : U123BarrierData A) :
+    (∃ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep) →
+      StandingResidualBurden
+        (∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              (∃ r2 r4 : ResidualWitness,
+                IsR2Residual r2 ∧
+                  AdmissibleResidual r2 ∧
+                    r2 ≠ trivialR4ResidualWitness ∧
+                      IsR4PositiveSurvivor r4 ∧
+                        AdmissibleResidual r4 ∧
+                          r4 =
+                            barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier)) := by
+  rintro ⟨ψ, χ, hstep, heq⟩
+  subst heq
+  exact
+    (standingResidualBurden_iff _).mpr
+      ⟨ψ, χ, hstep,
+        And.intro rfl (And.intro (hfine' ψ χ hstep rfl) (exists_admissible_r2_and_barrier_linked_r4_joint hf hne b))⟩
 
 /-! ## D2 — internal closure iteration scaffold (**SPEC_023_RG1** **P3**)
 
