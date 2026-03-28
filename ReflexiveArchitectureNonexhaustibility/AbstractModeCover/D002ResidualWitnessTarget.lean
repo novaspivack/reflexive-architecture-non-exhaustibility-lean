@@ -60,6 +60,20 @@ theorem admissible_barrierLinkedR4ResidualWitness {A : ReflexiveArchitecture Wor
   rfl
 
 /--
+**P4 / D3:** **`HEq`** of barrier-linked witnesses from **`A = A'`** and **`u123BarrierData_cast`** agreement — no need to repeat
+**`HEq` on `ReflexiveArchitecture`** when **`Eq`** is already available.
+-/
+theorem barrierLinkedR4ResidualWitness_heq_of_cast_pack {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (h : A = A') (b : U123BarrierData A) (b' : U123BarrierData A')
+    (hb : u123BarrierData_cast h b = b') :
+    HEq (barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier)
+      (barrierLinkedR4ResidualWitness b'.reprBarrier b'.closureBarrier b'.certBarrier) := by
+  cases h
+  dsimp [u123BarrierData_cast] at hb
+  cases hb
+  exact HEq.rfl
+
+/--
 **D-002 (abstract layer):** barrier-linked **R₄** witness **constructively** from **U₁–U₃**.
 -/
 theorem d002_barrier_linked_r4_witness_holds (A : ReflexiveArchitecture World Obs Repr Claim) :

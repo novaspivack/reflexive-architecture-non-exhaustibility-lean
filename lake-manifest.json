@@ -3,6 +3,13 @@
  "packages":
  [{"type": "path",
    "scope": "",
+   "name": "«infinity-compression»",
+   "manifestFile": "lake-manifest.json",
+   "inherited": false,
+   "dir": "../../infinity-compression/infinity-compression-lean",
+   "configFile": "lakefile.lean"},
+  {"type": "path",
+   "scope": "",
    "name": "«nems-lean»",
    "manifestFile": "lake-manifest.json",
    "inherited": false,

@@ -10,6 +10,9 @@ import ReflexiveArchitectureNonexhaustibility.Residuals
 
 **Dynamics forward:** **`IsRefinementStep`**, **`PairSplitByRefinement`** compose with **`d0_forgetfulKernel_notSeparated_of_still_fine`**.
 
+**Sibling library (**path **`require`**):** **`ICInfinityCompressionSibling.lean`** — **`InfinityCompression.MetaProof.ProperExtensionViaForgetful`**
+⇒ **`KernelWitness`** on **`KernelOfMap`** (dq4.4 fiber collision aligns with **`kernelWitness_of_map`**).
+
 **Sketch:** **`ICRemainderSketch`** stays an abstract “remainder flag” keyed by **`kernel_nonempty`** until ported lemmas
 replace or refine it.
 -/

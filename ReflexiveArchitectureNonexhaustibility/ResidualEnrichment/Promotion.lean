@@ -15,10 +15,8 @@ This **does not** replace abstract **D-002**; it **extends** it when optional en
 **SPEC_023_RG1 D3:** **`standingResidualBurden_promotion_bridge_irrelevant`** — same **`A`**, same **`b`**, vary bridge/family.
 
 **Cross-`A` (equality-shaped):** **`promote_enriched_base_eq_of_arch_eq`**, **`standingResidualBurden_promotion_arch_eq`** — if
-**`A = A'`** and barrier packs agree via **`u123BarrierData_cast`**, promoted **`.base`** **`ResidualWitness`** agrees (**`Engine`**
-corollaries **`*_engine_arch_eq`**). Without bundled **`A = A'`**, **`u123BarrierData_transport_of_success_field_iff`**
-(**`Interfaces.lean`**) relabels **U₁–U₃** under pointwise **`↔`** of success predicates; literal **`Eq`** of promoted **`base`**
-across barrier carriers still needs **`A = A'`** or **`HEq`**.
+**`A = A'`** and barrier packs agree via **`u123BarrierData_cast`**, promoted **`.base`** agrees (**`*_engine_arch_eq`**).
+**P4:** **`u123BarrierData_pull/push_of_succImp_*`** (**`Interfaces.lean`**) for **non-**`↔` morphisms; **`barrierLinkedR4ResidualWitness_heq_of_cast_pack`**, **`residualWitness_heq_of`**; **`standingResidualBurden_enriched_payload`**, **`enrichedR4ResidualWitness_ext`**; literal cross-**`A`** **`Eq`** of **`.base`** without **`A = A'`** still needs **`HEq`** + proof obligations per field.
 -/
 
 namespace StructuredNonexhaustibility
@@ -161,5 +159,37 @@ theorem standingResidualBurden_enriched_obstruction_sig
     (e : EnrichedR4ResidualWitness A F) (P : ObstructionSignature → Prop) :
     StandingResidualBurden (P e.sig) ↔ P e.sig :=
   standingResidualBurden_iff (P e.sig)
+
+/--
+**P4 / richer σ–payload:** **`StandingResidualBurden`** on the **dependent** payload slot (**`PayloadFor F e.sig`**).
+-/
+theorem standingResidualBurden_enriched_payload
+    (A : ReflexiveArchitecture World Obs Repr Claim) (F : ResidualPayloadFamily A)
+    (e : EnrichedR4ResidualWitness A F) (P : PayloadFor F e.sig → Prop) :
+    StandingResidualBurden (P e.payload) ↔ P e.payload :=
+  standingResidualBurden_iff (P e.payload)
+
+/--
+**Combined tag + payload obligation** — still **`Prop`-level** identification with **`StandingResidualBurden`** (no smuggling).
+-/
+theorem standingResidualBurden_enriched_sig_and_payload
+    (A : ReflexiveArchitecture World Obs Repr Claim) (F : ResidualPayloadFamily A)
+    (e : EnrichedR4ResidualWitness A F) (P : ObstructionSignature → Prop)
+    (Q : PayloadFor F e.sig → Prop) :
+    StandingResidualBurden (P e.sig ∧ Q e.payload) ↔ P e.sig ∧ Q e.payload := by
+  rw [standingResidualBurden_iff]
+
+/--
+**P4:** extensionality on a **fixed** **`A`** and **`F`** — **`HEq`** on **`payload`** after **`hsig`** identifies the dependent
+carrier **`PayloadFor F e.sig`**.
+
+Cross-**`A`**: combine with **`promote_enriched_base_eq_of_arch_eq`** on **`base`**; **`sig`/`payload`** are separate proof obligations.
+-/
+theorem enrichedR4ResidualWitness_ext {A : ReflexiveArchitecture World Obs Repr Claim}
+    {F : ResidualPayloadFamily A} (e e' : EnrichedR4ResidualWitness A F)
+    (hbase : e.base = e'.base) (hsig : e.sig = e'.sig)
+    (hpayload : HEq e.payload e'.payload) : e = e' := by
+  cases e; cases e'; cases hsig; cases hbase; cases hpayload
+  rfl
 
 end StructuredNonexhaustibility

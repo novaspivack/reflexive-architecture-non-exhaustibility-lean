@@ -42,6 +42,19 @@ structure ResidualWitness where
   carrier : Type
   witness : carrier
 
+/--
+**P4 / D3:** **`HEq`** of witnesses from **`ResidualClass`**, carrier, and witness (**`HEq`**) alignment — no bundled
+**`Eq` of `Type` universes** beyond what **`HEq`** already encodes.
+-/
+theorem residualWitness_heq_of {w w' : ResidualWitness} (hrc : w.rc = w'.rc)
+    (hcar : HEq w.carrier w'.carrier) (hwit : HEq w.witness w'.witness) : HEq w w' := by
+  cases w
+  cases w'
+  cases hrc
+  cases hcar
+  cases hwit
+  rfl
+
 def IsR1Residual (w : ResidualWitness) : Prop :=
   w.rc = ResidualClass.R1
 

@@ -29,6 +29,15 @@ require mathlib from git
 require «nems-lean» from ".." / ".." / "nems-lean"
 -- require «nems-lean» from git "https://github.com/REPLACE_ORG/nems-lean.git" @ "REPLACE_REV"
 
+-- =============================================================================
+-- **EPIC_009 / SPEC_013_IC1 — sibling infinity-compression (optional path pin)**
+--
+-- **Layout:** sibling checkout `infinity-compression/infinity-compression-lean` next to this repo’s parent
+-- (same level as `nems-lean`). **CI** without it: clone into that path or switch to a git `require`.
+-- Wire: **`ICInfinityCompressionSibling.lean`** (**`ProperExtensionViaForgetful` → `KernelWitness`**).
+-- =============================================================================
+require «infinity-compression» from ".." / ".." / "infinity-compression" / "infinity-compression-lean"
+
 @[default_target]
 lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
   roots := #[
@@ -67,6 +76,7 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.Universal,
     `ReflexiveArchitectureNonexhaustibility.Adequacy,
     `ReflexiveArchitectureNonexhaustibility.InfinityCompression,
+    `ReflexiveArchitectureNonexhaustibility.ICInfinityCompressionSibling,
     `ReflexiveArchitectureNonexhaustibility.ResidualDynamics,
     `ReflexiveArchitectureNonexhaustibility.Instances.ONE,
     `ReflexiveArchitectureNonexhaustibility.RouteCanonicality,
