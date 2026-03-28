@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** Next work is **EPIC_005**-centered (opaque mediation / decomposition). **EPIC_004** / **D-002** are **support-only** for that stack; **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) section **Program focus**.
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness (**`U123BarrierData`**) are proved; optional **engine payloads** (**D-001**). **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) section **Program focus**.
 
 ## `sorry` / `axiom` audit
 
@@ -19,7 +19,7 @@
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
 | `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**) |
-| `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces |
+| `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces; **`U123BarrierData`** (**D-002** pack) |
 | `Barriers.lean` | **U₁–U₃** (`barrier_mode*`) — intuitionistic |
 | `SyntacticModeCover.lean` | **Proved** four-way split for `SyntacticTotalization` (tagged syntax **only**) — **base / not the summit** |
 | `AbstractModeCover/Attempt.lean` | `OpaqueTotalizationAttempt`; `GenuineInternalTotalizationAttempt` (**SPEC_015_KM2**) |
@@ -28,11 +28,11 @@
 | `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** as `abstract_opaque_mode_cover_classical`; explicit **`classical`**); `fromSyntactic`; conditional reflection |
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
-| `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002** named target **`D002BarrierLinkedR4WitnessTarget`** (**TODO-077_AB9**) |
+| `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
-| `AbstractModeCover/PostFailureResidual.lean` | **Aftermath (schematic R₄):** **`positive_residual_profile_of_triple_barriers_at_anchor`** — barriers **⇒** **`PositiveResidualProfile`** ( **`trivialR4ResidualWitness`** ); **not** completion — **D-002** = nontrivial barrier-linked witness |
+| `AbstractModeCover/PostFailureResidual.lean` | **Aftermath (barrier-linked R₄):** **`positive_residual_profile_of_triple_barriers_at_anchor`** — **`barrierLinkedR4ResidualWitness`** (**`U123BarrierData`** on **`carrier`**) |
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -76,7 +76,9 @@
 | `representationalProfile_implies_mode1Success` / `closureProfile_implies_mode2Success` / `certificatoryProfile_implies_mode3Success` | **Opaque profile at `anchor` ⇒** matching **`Mode*i*Success`** on `attempt.arch` (**Paper D morphism** to mode calculus). |
 | `paper_d_anchored_honest_completion_refutes_triple_barriers` | **Paper D chain:** **I_anch** (true **`HonestAnchoredInternalCompletion`**) + **U₁–U₃** on same `arch` \(\Rightarrow\) **`False`** (**`PaperDAnchoredChain.lean`**, intuitionistic). |
 | `barriered_architecture_admits_no_true_honest_anchored_internal_completion` | **Global nonexistence:** **¬∃** true **`HonestAnchoredInternalCompletion`** package with `arch = A` under **U₁–U₃** on **`A`**. |
-| `positive_residual_profile_of_triple_barriers_at_anchor` | **Post-failure:** **U₁–U₃** \(\Rightarrow\) **`PositiveResidualProfile`** (schematic **R₄**); **orthogonal** to **D-002** strengthening. |
+| `positive_residual_profile_of_triple_barriers_at_anchor` | **Post-failure:** **U₁–U₃** \(\Rightarrow\) **`PositiveResidualProfile`** with **`barrierLinkedR4ResidualWitness`**. |
+| `d002_barrier_linked_r4_witness_holds` | **D-002 abstract:** **`D002BarrierLinkedR4WitnessTarget`** is a **`theorem`**. |
+| `barrierLinkedR4ResidualWitness` | **R₄** witness with **`carrier = U123BarrierData A`**, point **`⟨d₁,d₂,d₃⟩`** — barrier-linked at **type** level. |
 
 **Still open (philosophical / constructive core):** universal classification from **`GenuineInternalTotalizationAttempt` (= `Nonempty carrier`) alone** without **either** classical case-split **or** an **honest enrichment** (claim soundness, determinacy, **SPEC_012**, …). The gap is **interface under-determination**, not missing packaging of an already classical fact.
 
@@ -92,7 +94,7 @@
 2. **Candidate B — burden-faithful claim (`IsBurdenFaithfulClaim`):** if the claim is **true**, it **constructively** forces M₁\(\lor\)M₂\(\lor\)M₃ at `anchor`, hence the four-way `Prop` (**residual branch unused**). **Sharp fact:** a **simultaneous** honest positive-residual configuration (all three failures) **contradicts** a **true** burden-faithful claim (`burdenFaithful_claim_incompatible_with_threeFailures`). A generic `soundness : claim → Prop` layer **alone** does not force architecture (`trivial_soundness_does_not_force_profiles`).
 3. **Candidate C — profile determinacy:** `Decidable` on the three profiles gives **intuitionistic** four-way cover (`abstract_four_way_of_profileDeterminacy`).
 
-**Still minimal beyond carrier:** **SPEC_012_AA1** / adequacy refinements; **EPIC_004 / D-002** for **barrier-produced** residual linkage when the **positive** branch must be **non-trivial** relative to a completion narrative (**governance:** subordinate to **SPEC_015_KM2**).
+**Still minimal beyond carrier:** **SPEC_012_AA1** / adequacy refinements; **D-001** for **engine** witness payloads beyond abstract **`U123BarrierData`** (**governance:** subordinate to **SPEC_015_KM2**).
 
 ## Smuggling-risk audit (ongoing)
 

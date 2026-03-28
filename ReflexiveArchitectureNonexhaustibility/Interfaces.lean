@@ -28,4 +28,15 @@ abbrev ClosureObstructionInterface : Prop :=
 abbrev SemanticCertificationInterface : Prop :=
   ∀ τ : Claim → Bool, ¬ A.cert_success τ
 
+/--
+**U₁–U₃ barrier pack (**D-002**, **SPEC_003_BT1**): a **Type**-valued record of the three hypotheses.
+
+Used to make **`ResidualWitness.carrier`** depend on **actual** obstruction assumptions (not merely **`Unit`**),
+so positive-survivor scaffolding can be **barrier-linked** at the type level.
+-/
+structure U123BarrierData (A : ReflexiveArchitecture World Obs Repr Claim) : Type where
+  reprBarrier : DiagonalRepresentationalInterface A
+  closureBarrier : ClosureObstructionInterface A
+  certBarrier : SemanticCertificationInterface A
+
 end StructuredNonexhaustibility

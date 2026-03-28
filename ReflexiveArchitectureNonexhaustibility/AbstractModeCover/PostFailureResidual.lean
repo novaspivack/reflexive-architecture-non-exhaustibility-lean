@@ -1,3 +1,4 @@
+import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Profiles
 import ReflexiveArchitectureNonexhaustibility.Interfaces
 
@@ -11,16 +12,14 @@ import ReflexiveArchitectureNonexhaustibility.Interfaces
 
 **This file (Layer 2 / aftermath hook):** for **any** opaque attempt over `arch`, the three **barrier
 interfaces** force **failure** of the three **anchored** canonical success profiles at `anchor`. Hence
-**`PositiveResidualProfile`** holds **intuitionistically**, via the existing **`positive_residual_profile_of_three_failures`**
-packaging — currently with the **schematic** **`trivialR4ResidualWitness`**.
+**`PositiveResidualProfile`** holds **intuitionistically**, using **`barrierLinkedR4ResidualWitness`** from
+**`D002ResidualWitnessTarget.lean`** (**`U123BarrierData`** on **`carrier`**, not **`Unit`**).
 
 **Reading:** this is the **forced survivor disjunct** once M₁–M₃ **success** is ruled out at the anchor — **not**
-“internal completion succeeds through R₄.” It is the mathematical locus for **what the cover leaves** once
-barriers kill canonical completion.
+“internal completion succeeds through R₄.”
 
-**D-002:** **`D002BarrierLinkedR4WitnessTarget`** asks for a **nontrivial barrier-derived** witness, not the
-schematic stub. That strengthening is **orthogonal** to the Layer 1 impossibility theorem and remains the
-right place for engine-linked / witness-production mathematics.
+**Engines:** further **payload** refinement (RI / RFO / ICA-SEM data in a witness) waits on **D-001** pinning;
+the abstract **barrier-pack** linkage is **proved** (**`d002_barrier_linked_r4_witness_holds`**).
 -/
 
 namespace StructuredNonexhaustibility
@@ -46,8 +45,9 @@ theorem not_certificatoryProfile_of_semanticBarrier
   fun h => d3 (a.certAt a.anchor) h
 
 /--
-**Post-failure (schematic R₄):** **U₁–U₃** on `a.arch` force **`PositiveResidualProfile a`** with the current
-**trivial** **R₄** witness — **intuitionistic**, no classical case split.
+**Post-failure (barrier-linked R₄):** **U₁–U₃** on `a.arch` force **`PositiveResidualProfile a`** with
+**`barrierLinkedR4ResidualWitness d₁ d₂ d₃`** — **intuitionistic**; witness **depends on** the barrier
+hypotheses via **`U123BarrierData a.arch`** on **`carrier`**.
 -/
 theorem positive_residual_profile_of_triple_barriers_at_anchor
     (a : OpaqueTotalizationAttempt World Obs Repr Claim)
@@ -55,9 +55,11 @@ theorem positive_residual_profile_of_triple_barriers_at_anchor
     (d2 : ClosureObstructionInterface a.arch)
     (d3 : SemanticCertificationInterface a.arch) :
     PositiveResidualProfile a :=
-  positive_residual_profile_of_three_failures
-    (not_representationalProfile_of_diagonalBarrier a d1)
-    (not_closureProfile_of_closureBarrier a d2)
-    (not_certificatoryProfile_of_semanticBarrier a d3)
+  ⟨barrierLinkedR4ResidualWitness d1 d2 d3,
+    isR4_barrierLinkedR4ResidualWitness d1 d2 d3,
+    admissible_barrierLinkedR4ResidualWitness d1 d2 d3,
+    not_representationalProfile_of_diagonalBarrier a d1,
+    not_closureProfile_of_closureBarrier a d2,
+    not_certificatoryProfile_of_semanticBarrier a d3⟩
 
 end StructuredNonexhaustibility

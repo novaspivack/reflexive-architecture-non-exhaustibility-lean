@@ -79,7 +79,7 @@ attempt’s anchor alone was vacuous. The substantive condition is **failure of 
 gadgets (**SPEC_004_RC1** / BACKGROUND: survivor when representational, closure, and certificatory
 **success** all fail).
 
-**Refinement:** witness payloads / barrier-produced witnesses (**D-002**).
+**Refinement:** **`positive_residual_profile_of_three_failures`** still uses **`trivialR4ResidualWitness`**; barrier-linked packaging lives in **`barrierLinkedR4ResidualWitness`** (**`D002ResidualWitnessTarget.lean`**).
 -/
 def PositiveResidualProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :=
   ∃ w : ResidualWitness,
