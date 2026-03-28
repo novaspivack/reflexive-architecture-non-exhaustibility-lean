@@ -89,6 +89,17 @@ structure U123SemanticBarrierLink
     (F : SemanticSelfDescription.SelfSemanticFrame W) : Type where
   barrierHypotheses_of : U123BarrierData A → SemanticSelfDescription.BarrierHypotheses F
 
+/--
+**Predicated link:** `U123BarrierData` yields **`BarrierHypothesesPred F P`** (summit target for Kleene / Rogers).
+-/
+structure U123SemanticBarrierPredLink
+    {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+    (A : ReflexiveArchitecture World Obs Repr Claim) {W : Type}
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    (P : (F.Code → F.Code) → Prop) : Type where
+  /-- Predicated Paper 51 hypotheses (e.g. Rogers for **`Computable`** maps only). -/
+  barrierHypothesesPred_of : U123BarrierData A → SemanticSelfDescription.BarrierHypothesesPred F P
+
 namespace U123SemanticBarrierLink
 
 /--
@@ -109,6 +120,19 @@ theorem nonempty_of_barrier_pack {World Obs Repr Claim W : Type}
   ⟨(L.barrierHypotheses_of b)⟩
 
 end U123SemanticBarrierLink
+
+namespace U123SemanticBarrierPredLink
+
+theorem nonempty_of_barrier_pack_pred
+    {World Obs Repr Claim W : Type}
+    {A : ReflexiveArchitecture World Obs Repr Claim}
+    {F : SemanticSelfDescription.SelfSemanticFrame W}
+    {P : (F.Code → F.Code) → Prop}
+    (L : U123SemanticBarrierPredLink A F P) (b : U123BarrierData A) :
+    Nonempty (SemanticSelfDescription.BarrierHypothesesPred F P) :=
+  ⟨(L.barrierHypothesesPred_of b)⟩
+
+end U123SemanticBarrierPredLink
 
 /-!
 ### Constructible **`EngineNemsBarrierSync`** values (**D-001**)
@@ -166,6 +190,20 @@ def EngineNemsBarrierSync.ofU123SemanticBarrierLink
     EngineNemsBarrierSync φ where
   toNems := fun _ => StructuralNonExhaustibility.reflexiveSystem_ofSelfSemanticFrame F
   sync := fun e b => PLift.up ⟨(L e).barrierHypotheses_of b⟩
+
+/--
+**Predicated `U123` sync:** **`toNems`** is **`reflexiveSystem_ofSelfSemanticFramePred F P`**, so **`BarrierHyp`** is
+**`Nonempty (BarrierHypothesesPred F P)`** (computational / Rogers summit layer).
+-/
+def EngineNemsBarrierSync.ofU123SemanticBarrierPredLink
+    {W E : Type} {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame.{0, 0} W)
+    {P : (F.Code → F.Code) → Prop}
+    (L : ∀ e : E, U123SemanticBarrierPredLink (φ.toReflexive e) F P) :
+    EngineNemsBarrierSync φ where
+  toNems := fun _ => StructuralNonExhaustibility.reflexiveSystem_ofSelfSemanticFramePred F P
+  sync := fun e b => PLift.up ⟨(L e).barrierHypothesesPred_of b⟩
 
 /--
 **Semantic self-description** NemS point (constant in **`e`**): **`toNems`** is **`reflexiveSystem_ofSelfSemanticFrame F`**.
@@ -333,6 +371,21 @@ def enrichedR4_u123_withAugmentedNemsProgramVRepr_u123DrivenSync
     (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
     EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
   enrichedR4_u123_withAugmentedNemsProgramVRepr_sync φ (EngineNemsBarrierSync.ofU123SemanticBarrierLink φ F L) e₀ b
+
+/--
+**End-to-end** enriched **R₄** from a **predicated** **`U123SemanticBarrierPredLink`**
+(**`Nonempty (BarrierHypothesesPred F P)`** Program V shell).
+-/
+def enrichedR4_u123_withAugmentedNemsProgramVRepr_predLinkSync
+    {W E : Type} {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame.{0, 0} W)
+    {P : (F.Code → F.Code) → Prop}
+    (L : ∀ e : E, U123SemanticBarrierPredLink (φ.toReflexive e) F P)
+    (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
+    EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
+  enrichedR4_u123_withAugmentedNemsProgramVRepr_sync φ
+    (EngineNemsBarrierSync.ofU123SemanticBarrierPredLink φ F L) e₀ b
 
 def enrichedR4_tripleBarriers_withAugmentedNemsProgramVRepr_sync
     (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E)
