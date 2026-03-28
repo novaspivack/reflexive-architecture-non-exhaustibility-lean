@@ -1,0 +1,742 @@
+\documentclass[11pt]{article}
+
+% ---- Packages ----
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{mathtools}
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage[margin=1.15in]{geometry}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+
+% ---- Key-point boxes ----
+\newtcolorbox{keybox}[1][]{
+  colback=blue!4, colframe=blue!35,
+  arc=3pt, boxrule=0.5pt,
+  fonttitle=\bfseries, #1
+}
+
+% ---- Lean name formatting (line-breakable) ----
+\ExplSyntaxOn
+\tl_new:N \l__rfo_leanref_tl
+\NewDocumentCommand \leanref { m }
+  {
+    \tl_set:Nn \l__rfo_leanref_tl { #1 }
+    \regex_replace_all:nnN { \c{_} } { \c{_} \c{allowbreak} } \l__rfo_leanref_tl
+    \regex_replace_all:nnN { \. } { . \c{allowbreak} } \l__rfo_leanref_tl
+    \regex_replace_all:nnN { ([a-z])([A-Z]) } { \1 \c{allowbreak} \2 } \l__rfo_leanref_tl
+    \regex_replace_all:nnN { ([0-9])([A-Z]) } { \1 \c{allowbreak} \2 } \l__rfo_leanref_tl
+    \texttt{\small \tl_use:N \l__rfo_leanref_tl }
+  }
+\ExplSyntaxOff
+
+% ---- Theorem environments ----
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% ---- Macros ----
+\newcommand{\RFO}{\textsc{rfo}}
+\newcommand{\RI}{\textsc{ri}}
+\newcommand{\Lean}{\textsc{Lean\,4}}
+\newcommand{\Mathlib}{\textsc{Mathlib}}
+\newcommand{\ReflTransGen}{\operatorname{ReflTransGen}}
+\newcommand{\PreservedBy}{\operatorname{PreservedBy}}
+\newcommand{\ForwardClosed}{\operatorname{ForwardClosed}}
+\newcommand{\reachableFrom}{\operatorname{reachableFrom}}
+\newcommand{\unionGen}{\operatorname{unionGen}}
+\newcommand{\obj}{\mathsf{obj}}
+\newcommand{\mor}{\mathsf{mor}}
+\newcommand{\represent}{\mathsf{represent}}
+\newcommand{\ProvBic}{\mathrm{ProvBic}}
+
+\title{The General Science of Reflexive Systems:\\
+Nonexhaustibility, Completion Failure, and Residual Structure}
+\author{Nova Spivack\\Independent Research}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This paper develops a general science of reflexive systems: systems that, in a mathematically nontrivial sense, represent, evaluate, certify, locate, or attempt to complete themselves from within. The same structural tensions recur wherever serious self-representation, internal generation, and self-certification meet. Its central claim is that strong \emph{anchored} internal completion is structurally limited. More precisely, when a reflexive system attempts anchored internal completion under sufficiently strong representational, generative, and semantic demands, completion is blocked by lawful barrier families. The failure is not mere collapse. It leaves a structured residual aftermath, with typed witness forms, enrichment channels, and semantic barrier regimes.
+
+The paper organizes this science around five interlocking components: completion modes and anchored vs relocated success; flagship anchored impossibility under three barriers; forced aftermath with witnesses and enrichment; two semantic summits (predicated computational vs proof-theoretic full); and explicit alignment of summit strength back into the residual pipeline.
+
+The outcome is a single scientific arc---not a catalogue of unrelated limitative tricks. Full anchored self-exhaustion in the sense ruled out here would collapse reflexive depth; the paper's positive payload is what lawfully replaces that fantasy.
+\end{abstract}
+
+\begin{keybox}[title=Field law (one sentence)]
+Reflexive systems are governed not by perfect internal completion, but by the lawful interplay of completion ambition, barriered failure, and structured residuality.
+\end{keybox}
+
+\section{Introduction}
+
+\subsection{A new scientific subject}
+
+There is a broad class of systems whose behavior cannot be understood solely by describing external inputs, outputs, and transition laws. These are systems that stand in a nontrivial internal relation to themselves. They represent themselves, evaluate their own states, certify or invalidate their own claims, construct internal surrogates of their own operation, or attempt some form of internal completion. Formal systems with truth and proof predicates, universal computational systems, self-modeling agents, reflective semantic architectures, and reflexive epistemic networks all belong, in different ways, to this family.
+
+This paper studies that family under a single heading:
+
+\begin{definition}[Reflexive system]
+A \emph{reflexive system} is a system whose operation includes a mathematically nontrivial internal relation to itself: self-representation, self-evaluation, self-certification, self-location, or attempted internal completion.
+\end{definition}
+
+The central thesis of the paper is that reflexive systems are governed by a common structural law. They can develop rich internal relations to themselves, but sufficiently strong internal completion is blocked. This blockage is not a mere pathology of one theorem or one formalism. It is a domain law.
+
+\begin{keybox}
+The central scientific claim of this paper is not simply that reflexive systems can fail at self-completion. It is that their failure is lawful, classifiable, and residually structured.
+\end{keybox}
+
+\subsection{Why reflexive systems form a natural scientific class}
+
+A skeptical reader may fear that ``reflexive system'' is a label invented to package one research program. The reply is structural. Across logic, computability, semantics, and engineering, one meets systems whose \emph{internal} relation to themselves is part of the explanatory subject, not an optional gloss:
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Formal truth and proof.} Theories that encode their own syntax and provability, or that quantify over codes for their own assertions, exhibit reflexive organization essentially (Gödel, Tarski tradition).
+\item \textbf{Computability and fixed points.} Universal machines, self-interpreters, and Kleene-style recursion theorems produce nontrivial self-reference as a \emph{mathematical mechanism}, not an accident of notation.
+\item \textbf{Semantic closure and certification.} Architectures that judge, score, or certify their own outputs instantiate reflexive evaluation---from truth predicates (when available) to program logics and verification pipelines.
+\item \textbf{Self-modeling agents.} Any system that maintains an internal model indexed to its own states or policies stands in a reflexive relation that can be made mathematically precise.
+\item \textbf{Epistemic and institutional reflexivity.} Scientific and organizational systems that represent their own methods, standards, or error modes repeat the same pattern at a different scale.
+\end{itemize}
+
+What unifies these cases is not a shared implementation stack but a shared \emph{problem form}: how can internal representation, internal generation, and internal evaluation cohere without collapsing into trivial self-coincidence or false closure? That problem form appears independently in many domains. A science that names it, classifies completion attempts, and proves lawful failure-and-residue patterns is therefore responding to a recurring natural structure, not merely narrating a private formal artifact.
+
+\subsection{From incompleteness results to a science of reflexive systems}
+
+The classical limits due to Gödel, Tarski, Kleene, Lawvere, and their successors are usually stated as \emph{negative} theorems: no comprehensive self-certain truth definition, no finitely axiomatized self-representing theory that proves its own consistency in the naive sense, no unrestricted diagonal-free totality of computable self-transformations, no degenerate categorical fixed-point collapse without cost.
+
+This paper does \emph{not} replace those traditions. It reorganizes their moral. Gödel exposed the limits of ambitious formal self-totalization; Tarski exposed semantic non-self-closure; Kleene exposed how fixed-point and recursion-theoretic internality constrain what can be uniformly realized; Lawvere exposed how diagonal structure permeates categorical settings. Together, they show that reflexive organization is \emph{costly}.
+
+What has been missing at the level of \emph{science}---as opposed to a list of limitative results---is a unified account of \emph{(i)} completion attempts, \emph{(ii)} lawful anchored barriers, \emph{(iii)} forced positive aftermath, and \emph{(iv)} semantic stratification of closure strength. That quartet is the positive scientific payload; \S11 collects its canonical statement once the arc is in view. The flagship impossibility theorem opens the arc; what follows is not optional ornament but the \emph{same} science continuing under lawful failure.
+
+\subsection{From impossibility to science}
+
+Much of the classical literature on self-reference identifies impossibility phenomena: undefinability, incompleteness, diagonal barriers, fixed-point pathologies, undecidable fragments, and semantic escape. These results are profound, but they often stop at the negative limit. They tell us that certain closure ambitions fail, but not what the ambient science of such failure should be.
+
+Here the aim is broader. We seek a theory of:
+\begin{enumerate}[label=(\arabic*)]
+\item what kinds of internal completion reflexive systems can attempt,
+\item why those attempts fail under explicit barrier interfaces,
+\item what structured aftermath remains when they fail,
+\item how semantic barrier regimes stratify the possibilities,
+\item and how these regimes integrate with the residual theory.
+\end{enumerate}
+
+This shift matters. A mature science of reflexive systems should not only identify impossibility. It should identify the lawful aftermath of impossibility.
+
+\subsection{Main contributions}
+
+The paper makes five central contributions.
+
+\begin{enumerate}[leftmargin=2em]
+\item It develops a general classification of completion ambitions in reflexive systems, distinguishing representational, generative/closure, and semantic/certificatory completion modes.
+\item It proves a flagship theorem: under the three obstruction interfaces, true honest anchored internal completion is impossible.
+\item It proves that the failure of completion has lawful aftermath, yielding a positive residual profile and barrier-linked residual witnesses.
+\item It constructs enriched residual witnesses carrying representational, closure, certification, and mixed obstruction payloads.
+\item It develops two semantic barrier summits --- a computational predicated summit and a stronger proof-theoretic summit --- and integrates them into the residual theory.
+\end{enumerate}
+
+\subsection{What this paper is not}
+
+This is not a technology-stack paper, a repository tour, or a report on a formalization project. The formal artifacts matter because they sharpen definitions, block smuggling, and force the theory to become explicit. But the paper's subject is broader. It proposes a general science of reflexive systems, and uses formal realization to establish its claims with unusual precision. Readers outside the formal stack should treat the machine-checked layer as an audit trail for boundaries and constructions, not as the \emph{source} of the scientific problems---those problems arise wherever reflexive completion is attempted in earnest.
+
+\section{Reflexive systems and internal completion}
+
+\subsection{Completion as the governing ambition}
+
+The central organizing notion of the paper is not merely self-reference but \emph{internal completion}. Reflexive systems differ in many ways, but the most important divide is whether they attempt to complete themselves from within. Some systems merely mirror themselves; others attempt to exhaust the relevant internal burden.
+
+\begin{definition}[Internal completion]
+An \emph{internal completion attempt} is an internal attempt by a reflexive system to exhaust, determine, certify, generate, or semantically capture the relevant self-related burden from within.
+\end{definition}
+
+This notion is intentionally broad at the conceptual level. The scientific work begins when we ask how such completion can be attempted.
+
+\subsection{Three principal completion modes}
+
+Across reflexive practice, internal completion pressure organizes into three \emph{central structural families}. These are not mere bookkeeping columns invented for this paper; they are the principal ways serious systems attempt to settle self-related burden internally.
+
+\begin{definition}[Representational completion]
+A system attempts \emph{representational completion} when it tries to capture itself through an internal representational surrogate, image, code, or model that is supposed to exhaust the relevant burden.
+\end{definition}
+
+\begin{definition}[Closure completion]
+A system attempts \emph{closure completion} when it tries to generate or close all relevant internal transitions, reaches, folds, or continuation structure through an internal generative or closure mechanism.
+\end{definition}
+
+\begin{definition}[Semantic/certificatory completion]
+A system attempts \emph{semantic or certificatory completion} when it tries to decide, certify, or semantically totalize the relevant self-related content from within.
+\end{definition}
+
+These three families are not arbitrary. They correspond to the three great ways a reflexive system can claim that its self-related burden is settled:
+\begin{itemize}
+\item by being internally represented,
+\item by being internally generated or closed,
+\item or by being internally certified or semantically exhausted.
+\end{itemize}
+
+\subsection{Anchored completion versus relocated success}
+
+A major conceptual distinction is required here.
+
+\begin{definition}[Anchored completion]
+An internal completion attempt is \emph{anchored} when the relevant success is borne at the internal point, locus, or anchor at which completion is supposed to occur.
+\end{definition}
+
+\begin{definition}[Relocated success]
+A completion-like phenomenon is \emph{relocated} when success occurs only away from the relevant anchor, or only somewhere else in a larger parameter space, carrier, or auxiliary geometry.
+\end{definition}
+
+This distinction is not terminological. It changes the theorem subject. If success is allowed to relocate, then many impossibility theorems for anchored completion do not apply. But this does not refute those theorems. It changes the object under study.
+
+\begin{keybox}
+Anchored completion and relocated success are different scientific subjects. A theorem about anchored impossibility is not defeated by a weaker off-anchor success phenomenon.
+\end{keybox}
+
+The science of reflexive systems must therefore distinguish at least two layers:
+\begin{enumerate}[label=(\roman*)]
+\item strong anchored completion,
+\item weaker geometries of relocated or off-anchor success.
+\end{enumerate}
+
+The flagship theorems of this paper concern the first layer.
+
+\section{The barriered impossibility of anchored completion}
+
+\subsection{Why anchored completion is the central completion notion}
+
+The flagship theorem is stated for \emph{anchored} honest internal completion, not for every conceivable success predicate. That choice is scientifically central.
+
+\paragraph{Strongest serious notion.}
+Among internal completion attempts, anchored completion is the notion that disciplines representation, generation, and evaluation at the locus where completion is \emph{supposed} to discharge the burden. It is the modality that corresponds to ``the system actually settles its own reflexive debt at the appointed place,'' not ``success can be found if we widen the geometry.'' If one were to prove impossibility only for deliberately weakened or relocation-dependent targets, skeptical readers would rightly ask whether anything substantive had been shown.
+
+\paragraph{Relocated success is a different subject.}
+When success is allowed to migrate---to occur only off a designated anchor, or only in an enlarged carrier---the theorem subject changes. Many classical phenomena are best read as \emph{relocated} rather than \emph{anchored} success geometries. The paper does not treat relocation as a loophole that refutes anchored impossibility; it treats it as a distinct scientific layer whose classification belongs in the same science but under different hypotheses.
+
+\paragraph{Why the three barrier families are scientifically central.}
+The three interfaces correspond to the three dominant ways a reflexive system might claim its self-related burden is settled: internal representation, internal generation/closure, internal certification or semantic exhaustion. The paper does \emph{not} claim a single formal theorem that enumerates \emph{every} imaginable completion gadget in all possible universes. What it does claim is that, for scientific purposes, organizing obstruction along these three families captures the principal axes along which serious completion attempts have been understood from Hilbert-era optimism through modern reflexive semantics and computer-assisted certification. Proving anchored impossibility under simultaneous obstruction along all three axes therefore addresses the conjunction of the main classical pressures, not a narrow ad hoc trio.
+
+\subsection{Three obstruction interfaces}
+
+The nonexistence theorem is organized around three obstruction families.
+
+\begin{definition}[Representational obstruction]
+A \emph{representational obstruction interface} expresses the impossibility of successful internal representational completion.
+\end{definition}
+
+\begin{definition}[Closure obstruction]
+A \emph{closure obstruction interface} expresses the impossibility of successful internal generative or closure completion.
+\end{definition}
+
+\begin{definition}[Semantic obstruction]
+A \emph{semantic obstruction interface} expresses the impossibility of successful internal semantic or certificatory completion.
+\end{definition}
+
+The abstract formal stack packages these as the three barrier interfaces on a common reflexive architecture. Their scientific meaning is simple: each says that a corresponding mode of anchored completion cannot succeed.
+
+\subsection{Honest anchored completion}
+
+The target of the flagship theorem is not arbitrary self-related data but \emph{honest anchored internal completion}. In the formal realization this is represented by an anchored completion package with a true internal completion claim plus a burden-bearing discipline. The important point is conceptual: we are not ruling out every object carrying reflexive structure. We are ruling out the existence of a true burden-bearing anchored completion package under the three barriers.
+
+\subsection{Flagship theorem}
+
+\begin{theorem}[Barriered anchored completion is impossible]\label{theorem:barriered-anchored}
+Let \(A\) be a reflexive architecture satisfying the representational, closure, and semantic obstruction interfaces. Then there does not exist a true honest anchored internal completion package over \(A\).
+\end{theorem}
+
+\begin{proof}[Proof architecture]
+The proof has four steps.
+
+First, a true honest anchored completion package forces anchored completion-mode structure. It cannot remain semantically inert; it must commit to one of the canonical anchored completion families.
+
+Second, each anchored family induces a corresponding success predicate at the architecture level: representational success, closure success, or semantic/certificatory success.
+
+Third, the three obstruction interfaces jointly forbid all such success predicates.
+
+Fourth, contradiction follows. Hence no true honest anchored completion package exists.
+\end{proof}
+
+This is the correct theorem surface for the paper. The four-way cover and related profile decompositions are part of the internal proof architecture, but the scientific theorem is global nonexistence.
+
+\begin{keybox}
+The public theorem is not ``one of four disjuncts holds.'' It is: under the three barriers, true honest anchored completion cannot exist.
+\end{keybox}
+
+\subsection{Interpretation: which reflexive aspirations are ruled out?}
+
+Theorem~\ref{theorem:barriered-anchored} (informally, barriered anchored completion is impossible) does not assert that reflexive systems cannot \emph{do} anything interesting. It rules out a specific joint aspiration: \emph{simultaneous} honest settlement of representational, generative/closure, and semantic/certificatory burden \emph{at the anchor} in a way that would amount to full anchored internal completion under the stated interfaces.
+
+What is ruled out includes idealized templates such as: a reflexive architecture that internally represents itself faithfully enough to dissolve diagonal tension, closes all relevant internal generation at the anchor, and certifies or semantically exhausts its self-related claims---all while carrying a true, burden-faithful completion package. What is \emph{not} ruled out, without further argument, is weaker or relocated success, partial satisfiability of isolated barriers, or rich dynamics in the residual regime once the conjunction fails.
+
+\subsection{Why this is stronger than a local diagonal no-go}
+
+The theorem should not be read as merely another diagonal paradox. It is a law about a broad class of burden-bearing internal completion attempts. It says that if a reflexive system tries to settle its own self-related burden in the strong anchored sense, then under the three obstruction interfaces that project fails globally.
+
+\paragraph{Why the science cannot stop here.}
+A science of reflexive systems that ended at impossibility would mistake the subject for a catalogue of gloomy limits. In domains that study living, adaptive, or semantically rich reflexivity, \emph{what happens next} is as important as the failure itself. If strong anchored completion is blocked, the honest question is not only ``blocked how?'' but ``what lawful state succeeds the block?'' Answering that question is not a digression from the flagship theorem; it is the inevitable continuation of the same inquiry.
+
+\section{Aftermath: residual structure is forced}
+
+\noindent\textbf{Plain language.} \textbf{Residual structure} is the lawfully organized remainder of a reflexive system's self-related burden after strong internal completion has failed. It is not arbitrary debris: it is where reflexive organization continues under explicit constraints once closure ambitions break.
+
+\noindent\emph{Intuition.} Equivalently: residual structure is the part of that burden that remains \emph{typed, witness-linked, and integrable} into richer obstruction payloads---closer to a \emph{live} unresolved configuration than to a dead remainder.
+
+\subsection{Failure is not collapse}
+
+The next major claim is positive.
+
+\begin{theorem}[Structured aftermath]
+If the canonical anchored completion modes are blocked, then the resulting state is not merely null or chaotic. A positive residual profile is forced.
+\end{theorem}
+
+The point is that completion failure does not end the theory. It begins the next layer of the science.
+
+\begin{keybox}[title=Aftermath principle]
+Failure is not a defect of reflexive systems in the sense relevant here. It is one of the conditions under which nontrivial reflexive organization can remain \emph{deep} rather than collapsing into pretend closure.
+\end{keybox}
+
+\subsection{Residual profile}
+
+The formal stack isolates a positive residual profile that appears precisely after the failure of the canonical completion modes. Scientifically, this means that the reflexive system is not internally completed, but its noncompletion is itself organized.
+
+\subsection{Why residual structure is not a fourth completion mode}
+
+This distinction is essential.
+
+\begin{remark}
+The residual branch is not a fourth completion mode. The first three families are completion ambitions. The residual branch is an aftermath or survivor family appearing once those ambitions fail.
+\end{remark}
+
+If this distinction is blurred, the science collapses into confusion. The residual is not an alternate success doctrine. It is the lawful structure that remains after strong completion fails.
+
+\subsection{Residual witnesses}
+
+The aftermath is not merely asserted propositionally. It is witnessed. In the formal layer, this appears as \(R_4\)-class residual witnesses that are linked to the barrier pack.
+
+Scientifically, the significance is that failure carries typed residual data rather than merely negative absence.
+
+\paragraph{Why the ``failure is not a defect'' layer comes next.}
+The aftermath theorems are easier to misread than to prove: a hurried reader may still hear only ``completion fails.'' Before turning to witness engineering and semantic depth, the paper must separate \emph{constitutive} failure from pathology and state the philosophical thesis that makes the science worthwhile: nonexhaustibility is the price and condition of nontrivial reflexive depth, not an embarrassment to hide.
+
+\section{Why nonexhaustibility is not a defect}
+
+The flagship impossibility theorem can be misread as a gloomy conclusion: ``reflexive systems cannot win.'' The correct scientific reading is almost the opposite for a theory of depth.
+
+\subsection{Total completion would trivialize reflexive depth}
+
+A reflexive system that were \emph{fully} internally exhausted, in the strong anchored sense ruled out by the barrier interfaces, would no longer carry the tension that makes reflexive structure scientifically interesting. Total self-settlement at the anchor, across representation, generation, and certification, would amount to a false paradise: a self that has, in effect, nothing left to reflexively negotiate. The impossibility theorem says that such paradise is not available as an honest anchored package under the stated laws---not that reflexive life is impoverished, but that it cannot be frozen into a self-transparent totality.
+
+\subsection{Failure preserves nontriviality}
+
+Barriered failure is what prevents collapse into degenerate self-coincidence. Without lawful obstruction, the only alternative is often smuggling: smuggled assumptions, hidden parameters, or informal moves that pretend closure while evading explicit burden. The barriers force honesty about where completion succeeds or fails. In that sense, obstruction is a \emph{guardrail} for nontrivial reflexive science.
+
+\subsection{Kinds of failure: bug, boundary, constitution}
+
+It helps to separate three rhetorical senses of ``failure'':
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Bug-like failure} is pathological: an implementation error, an unsound rule, or an accidental inconsistency. Removing the bug restores intended behavior.
+\item \textbf{Boundary-like failure} marks the edge of a regime: a statement is independent, a resource bound bites, a class restriction is necessary. The system still behaves as designed; the lesson is cartography.
+\item \textbf{Constitutive failure} is the sense central to this paper. Here failure is not a flaw to eliminate but a \emph{lawful outcome} of serious reflexive organization under explicit interfaces. The residual aftermath is not debris to sweep away; it is where structured reflexive life continues after completion ambition meets barrier.
+\end{itemize}
+
+The thesis of this section is that reflexive nonexhaustibility, in the sense developed here, is closest to \textbf{constitutive} failure. The theory's positive energy lies in the aftermath and enrichment layers, not in hoping the barriers disappear.
+
+\subsection{Residual structure as ongoing semantic and architectural life}
+
+Residual profiles and enriched witnesses are not consolation prizes. They are the mathematical forms of \emph{continued} reflexive structure: types of obstruction that survive, can be witnessed, and can be enriched. Semantic summit stratification and O7-style integration then show how different semantic regimes participate in the same post-completion architecture. Nonexhaustibility thus names not a wound but the \emph{space in which} a reflexive system can keep doing honest reflexive work.
+
+\paragraph{Why witnesses and enrichment are the natural next step.}
+Once aftermath is recognized as organized rather than chaotic, the science must say \emph{how} that organization is carried: what is witnessed, with what payloads, and along which obstruction columns. Without this layer, ``residual structure'' would remain a slogan; with it, the aftermath becomes operational science---the bridge from forced profiles to architectures that can respect barrier discipline in practice.
+
+\section{Residual witnesses and enrichment}
+
+\paragraph{Scientific inevitability.}
+A science that stopped at ``a positive profile is forced'' would still lack operational content. The next question is unavoidable: \emph{how} is that profile materialized as witness data, and how does obstruction survive in typed columns? Witness theory answers that question. It is not decorative enrichment; it is the step that turns aftermath from a blanket existence claim into something an architecture can implement, audit, or falsify.
+
+\subsection{Barrier-linked residual witnesses}
+
+The first witness layer is abstract. Under the barrier interfaces, an \(R_4\)-witness can be constructed whose carrier literally contains the barrier pack. This is the abstract D-002 level.
+
+\subsection{Single-column enrichment}
+
+The abstract witness can be enriched along three distinct obstruction columns:
+\begin{enumerate}[label=(\arabic*)]
+\item a representational obstruction payload,
+\item a closure obstruction payload,
+\item a certification obstruction payload.
+\end{enumerate}
+
+These are not decorative tags. Each column carries typed obstruction content.
+
+\subsection{Mixed enrichment}
+
+When the three barriers hold simultaneously, the witness can be enriched with all three columns at once in a named three-field mixed payload. This yields a stronger post-failure theorem:
+
+\begin{theorem}[Mixed residual enrichment]
+Under simultaneous representational, closure, and semantic obstruction, the residual witness carries mixed obstruction content from all three columns at once.
+\end{theorem}
+
+This is a major strengthening of the aftermath theory. It shows that post-failure structure is not merely nonempty but internally differentiated.
+
+\subsection{Scientific meaning}
+
+The science of reflexive systems therefore does not stop at:
+\[
+\text{completion fails}.
+\]
+It proceeds to:
+\[
+\text{completion fails in typed ways, and those ways survive as enriched residue.}
+\]
+
+\subsection{Interpretation: what to expect architecturally}
+
+If anchored internal completion is impossible under the joint barriers but structured residuality is lawful, then architectures should be designed for \emph{explicit} barrier discipline rather than for fantasy total self-settlement. Expect:
+\begin{itemize}[leftmargin=1.5em]
+\item typed witness layers that record how each obstruction column fails or persists,
+\item separation between anchored obligations and relocated or auxiliary success,
+\item enrichment pipelines that preserve obstruction content rather than masking it,
+\item and semantic stacks that declare whether they live at predicated or full barrier strength.
+\end{itemize}
+The science discourages ``paper over the tension'' engineering; it rewards reflexive honesty.
+
+\paragraph{Why semantic summit regimes come next.}
+Residual theory describes how obstruction survives and is packaged \emph{after} completion pressure fails. But reflexive systems also inhabit different \emph{semantic organizations}---different senses in which self-semantic closure can be strong, weak, class-restricted, or proof-theoretically full. Without stratifying those regimes, one cannot say scientifically \emph{how strong} barrier-style closure can be in which setting. The next two sections are therefore not a detour from residuality; they complete the vertical axis of the same field.
+
+\section{Semantic barrier regimes I: the computational predicated summit}
+
+\paragraph{Scientific inevitability.}
+Witnesses describe \emph{how} residue is carried at the obstruction layer. They do not yet specify \emph{how strong} self-semantic barrier closure can be in different organizational regimes. Without summit stratification, one cannot distinguish honest class-restricted strength from delusions of unrestricted universality---a distinction that matters as soon as reflexive systems are compared across computational and proof-theoretic implementations.
+
+\subsection{The two principal summit regimes (scope)}
+
+This paper develops two fully articulated \emph{semantic barrier} summit regimes: a \textbf{computational predicated} summit and a \textbf{proof-theoretic full} summit. They are the first two such regimes worked out to closure in the present science with machine-checked summit interfaces. The paper does \textbf{not} claim that no further semantic regimes will ever matter---only that these two are structurally central \emph{now}: they crystallize the distinction between class-restricted (predicated) closure and stronger proof-theoretic full closure, and they supply the comparison and integration story that follows.
+
+Readers should therefore treat them as \textbf{canonical exemplars} and as \textbf{scientifically obligatory} distinctions within reflexive barrier theory, without interpreting the text as asserting metaphysical exhaustiveness over all future semantics.
+
+\subsection{Why a semantic summit is needed}
+
+The theory so far identifies barriered completion failure and structured aftermath. But the semantic side of the story has its own summit structure. Different semantic regimes support different kinds of closure.
+
+\subsection{A concrete computational frame}
+
+The first route is computational. A concrete self-semantic frame is built on a Kleene/\(\texttt{Nat.Partrec.Code}\)-style substrate. The crucial features are:
+\begin{itemize}
+\item concrete code,
+\item a nontrivial extensional equivalence on code,
+\item invariant realized truth,
+\item encoded nontriviality,
+\item and a class-restricted semantic barrier package.
+\end{itemize}
+
+\subsection{Predicated barrier hypotheses}
+
+The outcome is not full unrestricted barrier closure but a predicated summit.
+
+\begin{theorem}[Computational predicated summit]
+The Kleene self-semantic frame yields a nontrivial self-semantic system satisfying a predicated semantic barrier package for the computable transformer class.
+\end{theorem}
+
+This is the correct shape of the computational route. The summit is \textbf{not} weak because it is ``sloppy'' or half-finished. On the contrary: for the \textbf{computable transformer class} it governs, it achieves real, disciplined barrier closure---the restriction to that class is the \emph{principled} content of the route, not an accident to overcome. The obstruction analysis shows exactly why one must not expect, from that route alone, to obtain the same unrestricted universal closure demanded by full \(\mathrm{BarrierHypotheses}\) for all code transformers.
+
+\subsection{What this teaches}
+
+The computational route is not a failed attempt at the stronger summit. It is a distinct and lawful summit whose scientific role is \textbf{restricted strength}: strong on a class, honest about the boundary. \textbf{Positive reading:} the Kleene summit is a \emph{genuine} semantic achievement on the computable transformer class---a real closure regime, not an approximate hack awaiting ``the real theorem.'' Its scientific office is to mark exactly where that achievement ends and why further universalization demands a different semantic organization. The hierarchy with the proof-theoretic route is therefore not ``bad versus better'' in a moralized sense, but \textbf{scientifically stratified strength}:
+\[
+\text{computational restricted closure} \neq \text{proof-theoretic full closure}.
+\]
+
+\section{Semantic barrier regimes II: the proof-theoretic full summit}
+
+\subsection{Need for a stronger route}
+
+To reach full semantic barrier closure, the computational line is not enough. A stronger route is required.
+
+\subsection{The proof-theoretic frame}
+
+The proof-theoretic route is built from:
+\begin{itemize}
+\item a Gödel system,
+\item a middle equivalence of the \(\ProvBic\)-type,
+\item arithmetical semantics,
+\item encoded nontriviality,
+\item representability and reflection structure.
+\end{itemize}
+
+\subsection{Main theorem}
+
+\begin{theorem}[Proof-theoretic semantic barrier summit]
+Gödel-system structure together with \(\ProvBic\)-arithmetical semantics yields full \(\mathrm{BarrierHypotheses}\).
+\end{theorem}
+
+This theorem is stronger than the computational predicated summit and resolves the earlier obstruction in the correct way: not by claiming that the bare Gödel shell implies full barrier closure, but by adding the semantic layer that makes the full package meaningful.
+
+\textit{Scientific significance.} Full semantic barrier closure is \textbf{not vacuous in principle}: it is \textbf{attainable} under proof-theoretic organization strong enough to support the full package, even though it is unavailable on the current computational API path. The computational route's limitation is structural, not a moral that ``nothing ever closes.'' The contrast locates where genuine universal-grade barrier strength honestly lives.
+
+\begin{keybox}[title=Depth consequence]
+A reflexive system that were fully internally exhausted in the strong anchored sense ruled out here would cease to be reflexively deep in the scientifically relevant sense. Nonexhaustibility is not a defect of reflexive systems but one of the conditions of their depth.
+\end{keybox}
+
+\subsection{Interpretation}
+
+The proof-theoretic route shows that full semantic barrier closure is achievable in a disciplined form, but only at a stronger semantic level than the purely computational summit.
+
+\section{Comparing the semantic summits}
+
+\subsection{Comparison at the API layer}
+
+The computational and proof-theoretic summits should not be conflated. They are not isomorphic as self-semantic frames. The comparison belongs at the barrier-hypothesis/API layer.
+
+\subsection{The computational summit is genuinely weaker}
+
+The formal comparison proves that the Kleene computational route does not promote to the full summit on its present API path. This is not a missing theorem; it is a structural fact.
+
+\begin{theorem}[Computational summit does not upgrade for free]
+The current Kleene predicated summit does not, on its own API path, upgrade to full \(\mathrm{BarrierHypotheses}\).
+\end{theorem}
+
+\subsection{The proof-theoretic summit has a predicated shadow}
+
+Conversely, the full proof-theoretic summit has a predicated shadow. So the relation is asymmetric in the correct direction:
+\[
+\text{full summit} \Longrightarrow \text{predicated shadow},
+\qquad
+\text{but not conversely on the current computational route}.
+\]
+
+\subsection{Scientific significance}
+
+This comparison stabilizes the semantic barrier science. The two summits are related, but not by collapse. The lesson is not merely that one route ranks below another on a single axis. It is that \textbf{semantic barrier strength is itself a stratified resource} of reflexive systems: different organizations yield different honest ceilings on closure.
+
+\subsection{Implications for self-certifying and reflective systems}
+
+The stratification between predicated and full semantic barrier strength has direct readings for systems that verify, certify, or reflect on themselves:
+\begin{itemize}[leftmargin=1.5em]
+\item \textbf{Self-certifying pipelines.} Many real stacks implicitly live at a predicated or resource-aware strength: they prove properties for a restricted class of updates or transformations. The theory says that upgrading to full strength is not notation-deep; it may require a different semantic regime (here, the proof-theoretic route).
+\item \textbf{Reflective AI and semantic verification architectures.} When a model or service evaluates its own outputs or maintains an internal consistency policy, the predicated/full distinction warns against conflating ``works on the guarded class we tested'' with ``full reflexive closure.''
+\item \textbf{Formal scientific systems.} Libraries of mathematics and proof assistants already embody barrier discipline; the paper's science explains why residual structure and enrichment channels are predictable features, not accidents, when completion ambition is honest.
+\end{itemize}
+
+\paragraph{Why integration is the culmination of the arc.}
+Without the next section, a skeptical reader could still imagine three disjoint stories: a \emph{mode-cover} impossibility theater, a \emph{semantic summit} specialty track, and a \emph{residual} witness engineering track. That tripartite split would betray the scientific ambition: the same reflexive systems simultaneously press completion, hit barriers, live in semantic regimes, and leave organized residue. The point of alignment constructions is to show these are \textbf{one system}---not three bibliographies forced between the same covers.
+
+\section{Integration into the residual theory}
+
+\subsection{Why integration is necessary}
+
+Semantic barrier summits would remain scientifically \emph{isolated} if they could not be fed back into the theory of what survives completion failure. Conversely, residual theory would be \emph{semantically blind} if it could not articulate how different barrier strengths (predicated vs full, constant vs pack-dependent seams) participate in the same enriched aftermath pipeline. \textbf{O7-style integration} is therefore not ``another bridge lemma'' in isolation; it is what keeps impossibility, semantics, and residue from fracturing into unrelated specialties.
+
+\paragraph{What would be unfinished without it.}
+Without this alignment arc, a reader could still treat the paper as three parallel specialties: \textbf{(a)} mode-cover impossibility, \textbf{(b)} semantic summit comparison, \textbf{(c)} residual witness engineering. That partition would misdescribe the subject. Real reflexive systems do not get to choose only one storyline; they face completion pressure, semantic closure strength, and residual packaging together. Integration is what makes the narrative \emph{one science} rather than a convenient anthology.
+
+\subsection{Integration seams (O7)}
+
+The following constructions concretely realize the unity described above: proof-theoretic barrier strength is carried into the same enriched \(R_4\) pipeline that packages post-completion obstruction. The triple-augment seam below is the current capstone: the full paper-side barrier pack meets the summit line inside the same witness pipeline that governs aftermath.
+
+\subsection{O7 constant seam}
+
+The first integration seam is constant in the barrier pack. It is the minimal honest bridge from the proof-theoretic summit into the enriched \(R_4\) pipeline.
+
+\subsection{Repr-dependent seam}
+
+The next seam depends genuinely on the representational barrier field \(b.\mathrm{reprBarrier}\). This proves that dependence on paper-barrier content can enter the semantic barrier package nontrivially.
+
+\subsection{Full triple-augment seam}
+
+The strongest current integration theorem augments the proof-theoretic barrier package by all three \(U123\) interface propositions:
+
+\begin{theorem}[Triple-augment proof-theoretic O7 integration]
+Given the full \(U123\) barrier pack, the proof-theoretic barrier package can be augmented by representational, closure, and certification obstruction content and pushed through the enriched \(R_4\) witness pipeline.
+\end{theorem}
+
+The conceptual point is delicate and important. The augmenting conjuncts are abstract interface propositions. This does \emph{not} mean that the internal proof-theoretic semantics has magically become native to closure sets or certification functions. It means that the barrier package carried into the integration seam is strengthened in a disciplined way by the full paper-side barrier pack.
+
+\begin{keybox}
+The O7 integration arc shows that semantic barriers are not isolated summit objects. They can be fed into the residual architecture of reflexive systems in increasingly strong ways: constant, repr-dependent, and fully triple-augmented.
+\end{keybox}
+
+\section{The general science of reflexive systems}
+
+\begin{keybox}[title=Master law of reflexive systems (canonical formulation)]
+Strong internal completion in reflexive systems is structurally limited; its failure is lawful rather than catastrophic; and the resulting residual structure is organized, witnessable, enrichable, and stratified by semantic barrier regime, with explicit integration back into the aftermath architecture.
+\end{keybox}
+
+\subsection{The field law}
+
+We can now state the field-level law developed in the paper.
+
+\begin{theorem}[General law of reflexive systems]
+Reflexive systems are governed by a common structural pattern:
+\begin{enumerate}[label=(\roman*)]
+\item strong internal completion is limited,
+\item completion failure has lawful residual aftermath,
+\item residual structure admits witness and enrichment forms,
+\item semantic barrier regimes stratify reflexive closure,
+\item and these regimes can integrate back into the residual theory.
+\end{enumerate}
+\end{theorem}
+
+\subsection{What is unified here}
+
+In one arc: completion modes \(\to\) anchored impossibility \(\to\) forced aftermath \(\to\) witnesses and enrichment \(\to\) semantic summit stratification \(\to\) integration. That package is what earns the title \emph{general science} rather than a local impossibility note.
+
+\subsection{Relation to earlier traditions}
+
+The historical arc and the contrast to classical limitative results are developed in the Introduction (\S1.3). The synthetic claim here is blunt: Gödel, Tarski, Kleene, and Lawvere (among others) established that diagonal and reflexive structure carries unavoidable cost. This paper's contribution is not to discard those costs but to show how they organize a \emph{field}: completion modes, joint barriers, lawful residue, semantic summit ordering, and explicit integration back into post-completion architecture. The advance is ecological---a theory of how reflexive systems live \emph{under} limitation---not a single sharper paradox.
+
+\subsection{Beyond this formal realization}
+
+The current formal realization is rigorous, but the science is broader than the realization. Nothing in the field law requires that reflexive systems be studied only in the present abstract architecture, only in one theorem prover, or only in one programmatic stack. The present work should be read as a mathematically explicit realization of a broader theory.
+
+\paragraph{Beyond these interface names.}
+What matters scientifically is not the contingent labels of any one formal interface package, but the \textbf{recurring pattern} they make explicit: reflexive systems press toward honest internal completion, are blocked by lawful barrier families rather than mere noise, and \textbf{persist through structured residue} whose semantic strength is regime-dependent. Any future formalism that studies reflexive systems at comparable depth---using different primitives, proof technology, or application domain---will still have to confront analogues of completion pressure, barriered failure, structured residue, summit stratification, and semantic-to-residual alignment, or else explain why its subject falls outside this scientific niche.
+
+\section{Boundaries and open frontiers}
+
+\subsection{What is not claimed}
+
+The paper does not claim:
+\begin{itemize}
+\item that all reflexive success is anchored success;
+\item that off-anchor or relocated success collapses to the same theorem subject;
+\item that unrestricted intuitionistic four-way cover follows from bare `Genuine` alone under the current definition;
+\item that all semantic summits collapse into one frame;
+\item or that all future taxonomy or integration questions are settled.
+\end{itemize}
+
+These boundaries are scientific strengths, not weaknesses. They prevent the theory from overspeaking.
+
+\subsection{Open frontiers}
+
+Natural next frontiers include:
+\begin{itemize}
+\item deeper engine-native payload transport,
+\item stronger internalization of the triple-augment integration seam,
+\item richer taxonomy comparison work,
+\item additional semantic barrier regimes beyond the present computational/proof-theoretic pair,
+\item and \textbf{reflexive response dynamics}: principled accounts of how systems refine or restructure under standing residual.
+\end{itemize}
+
+\subsection{Prospect: residual structure and reflexive development}
+
+The present stack supports, with proof, a cycle of the form \(\text{completion attempt} \to \text{barrier} \to \text{lawful residual}\) where residual structure is \textbf{not inert}: it is typed, witness-linked, enrichable, and tied to semantic summit strata via integration.
+
+What is \textbf{not} yet a theorem of this paper---but is a natural next scientific hypothesis---is a \textbf{generative} reading in which residual structure \emph{drives} further refinement or architectural reorganization (``residual as engine of continued reflexive development''). One careful way to parse that hypothesis is a hierarchy:
+\begin{itemize}[leftmargin=1.5em]
+\item (\textbf{Persistence}) residual is a standing unresolved burden for a reflexive system that continues to honor its barriers;
+\item (\textbf{Pressure}) continued completion ambition must \emph{engage} that burden rather than semantically erase it;
+\item (\textbf{Generativity}) response to residual yields nontrivial refinement or restructuring;
+\item (\textbf{Regime shift}) when residual cannot be absorbed in the current architecture, continued honest reflexive response forces transition to a distinct regulatory regime (as suggested, for example, when closure/fold obstruction prevents the current reach regime from exhausting transition structure).
+\end{itemize}
+Proving the stronger levels would require new dynamical primitives (e.g.\ an explicit reflexive response or architecture-update operator). The scientific interpretation is nonetheless suggestive: nonexhaustibility may underwrite not only limits but \textbf{histories} of reflexive organization. This paper stops at the summit-ready static arc; the dynamical layer is left as an explicit forward program, tracked normatively in the parent repository as \textbf{SPEC\_023\_RG1} (epic \textbf{EPIC\_015}: residual persistence, response, and regime shift under adequacy and obstruction discipline). That spec separates proved static structure from the theorem program for dynamics; it also records the deliberate weakening of naive ``self-improvement iff residual response'' claims in favor of residual-\emph{driven} improvement where formalized.
+
+\subsection{Why the science already matters}
+
+A science need not close every future summit to become real. It must identify the right subject, the right laws, the right regimes, and the right aftermath structure. This paper does that. The payoff for readers outside the present formal stack is exactly that pattern---in proof assistants, reflective AI architectures, internal certification pipelines, and epistemic institutions---not the proprietary naming of any single module.
+
+\section{Objections and clarifications}
+
+\subsection{``Is this just incompleteness in new words?''}
+
+No. Classical incompleteness is largely a \emph{negative} lesson about what cannot be proved or defined. This paper retains that moral but adds a \emph{positive} field law: lawful aftermath, typed witnesses and enrichment, semantic summit stratification, and explicit summit-to-residue integration. A reader who collapses all of that to ``another undecidability story'' has truncated the subject.
+
+\subsection{``Is anchored completion too strong?''}
+
+It is the strongest notion that still answers the intuitive question ``did the system actually settle its reflexive burden where it claims to?'' Weaker targets are scientifically legitimate but different. The paper separates anchored from relocated success precisely so that strength cannot be mistaken for loophole.
+
+\subsection{``Is residual structure just fancy incompleteness remainder?''}
+
+Incompleteness traditionally emphasizes what cannot be proved or defined. The aftermath layer here insists that \emph{positive} structure is forced: profiles, witnesses, typed payloads, and enrichment. Residue is organized scientific data, not mere ``what's left when you give up.''
+
+\subsection{``Are the semantic summits merely examples?''}
+
+They are the two principal summit regimes currently developed with full barrier interfaces in this science. They are exemplary and structurally central; they are not asserted to exhaust all future semantic geometry (\S7.1).
+
+\subsection{``Why should anyone outside your formal stack care?''}
+
+Because the problem form---representation, generation, certification, and honest completion---is ubiquitous. The formal stack is one audit path. The same pattern appears in \textbf{interactive theorem proving} and large formal libraries, in \textbf{reflective AI} architectures that score or police their own outputs, in \textbf{semantic verification} and \textbf{internal certification} pipelines, and in \textbf{epistemic institutions} that codify their own methods and failure modes. The law is meant to be readable from definitions and theorem surfaces without consulting source code.
+
+\subsection{``Does the theory depend on one formalization?''}
+
+The theorems as stated are proved in a specific formal realization, but the philosophical and scientific divisions (anchored vs relocated, completion vs residual, predicated vs full summit) are meant to survive implementation change. Alternative foundations should either vindicate the same moral or explain precisely which hypothesis fails.
+
+\section{Conclusion}
+
+\noindent The Master law (opening of \S11) is the thesis in quotable form. Under the three barriers, anchored completion is impossible, yet organized residue, semantic stratification, and O7 integration complete one scientific arc. \emph{Nontrivial reflexive organization coexists with lawful nonexhaustibility}---not as defeat, but as the texture in which reflexive science proceeds.
+
+\appendix
+
+\section{Theorem map}
+
+\begin{enumerate}[label=\textbf{T\arabic*.}, leftmargin=2.2em]
+\item Barriered anchored completion is impossible.
+\item Completion failure forces positive residual aftermath.
+\item Barrier-linked \(R_4\) witnesses exist at the abstract level.
+\item Residual witnesses admit single-column and mixed enrichment.
+\item The computational semantic route yields a predicated summit.
+\item The proof-theoretic route yields a full semantic barrier summit.
+\item The computational summit does not upgrade for free to the proof-theoretic summit.
+\item The proof-theoretic summit integrates into the enriched residual line through constant, repr-dependent, and triple-augment seams.
+\end{enumerate}
+
+\section{Formal artifact note}
+
+The formal realization for the present paper is machine-checked in \Lean{} with \Mathlib{}, across the reflexive-architecture-nonexhaustibility stack and the supporting \texttt{nems-lean} stack. The machine-checked artifact does not replace the scientific argument of this paper; it serves to make the theorem boundaries, witness constructions, and integration seams explicit and auditable.
+
+\section{Layer distinctions}
+
+The paper distinguishes:
+\begin{enumerate}[label=(\alph*)]
+\item anchored completion from relocated success,
+\item completion modes from residual aftermath,
+\item predicated semantic summits from full semantic summits,
+\item and frozen summit comparisons from future taxonomy ambitions.
+\end{enumerate}
+
+These distinctions are not rhetorical. They are part of the subject matter itself.
+
+\section*{References}
+
+\noindent
+Barwise, J., and Moss, L. \emph{Vicious Circles: On the Mathematics of Non-Wellfounded Phenomena}. CSLI Publications, 1996.
+
+\medskip
+Boolos, G. \emph{The Logic of Provability}. Cambridge University Press, 1993.
+
+\medskip
+Feferman, S. ``Arithmetization of metamathematics in a general setting.'' \emph{Fundamenta Mathematicae} 49 (1960): 35--92.
+
+\medskip
+Gödel, K. ``On formally undecidable propositions of \emph{Principia Mathematica} and related systems I.'' 1931. English translation in \emph{Kurt Gödel: Collected Works}, Vol. I.
+
+\medskip
+Kleene, S. C. \emph{Introduction to Metamathematics}. North-Holland, 1952.
+
+\medskip
+Lawvere, F. W. ``Diagonal arguments and cartesian closed categories.'' In \emph{Category Theory, Homology Theory and their Applications II}, Lecture Notes in Mathematics 92, Springer, 1969.
+
+\medskip
+Rogers, H. \emph{Theory of Recursive Functions and Effective Computability}. MIT Press, 1987.
+
+\medskip
+Smullyan, R. \emph{Gödel's Incompleteness Theorems}. Oxford University Press, 1992.
+
+\medskip
+Spivack, N. \emph{The General Science of Reflexive Systems: formal artifact manifests and machine-checked integration stack}. Unpublished machine-checked research artifact, 2026.
+
+\medskip
+Tarski, A. ``The concept of truth in formalized languages.'' In \emph{Logic, Semantics, Metamathematics}, 2nd ed., Hackett, 1983.
+
+\end{document}
