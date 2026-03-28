@@ -64,4 +64,5 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.Adequacy,
     `ReflexiveArchitectureNonexhaustibility.InfinityCompression,
     `ReflexiveArchitectureNonexhaustibility.Instances.ONE,
-    `ReflexiveArchitectureNonexhaustibility.RouteCanonicality]
+    `ReflexiveArchitectureNonexhaustibility.RouteCanonicality,
+    `ReflexiveArchitectureNonexhaustibility.U123ReprAugmentedSemanticLink]

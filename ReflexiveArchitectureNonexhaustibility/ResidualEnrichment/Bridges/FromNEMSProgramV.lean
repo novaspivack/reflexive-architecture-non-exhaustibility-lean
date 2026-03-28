@@ -28,6 +28,9 @@ Real engines instantiate **`sync`** with their Program V barrier lemmas (**not**
 **`U123SemanticBarrierLink`** + **`ofU123SemanticBarrierLink`** is the supported way to make **`sync`** **depend on** the
 **`U123BarrierData`** witness **`b`** when you have a **proved** map **`U123BarrierData A → BarrierHypotheses F`** (no such map for arbitrary **`A`**, **`F`**).
 
+**Concrete repr-first pattern:** **`U123ReprAugmentedSemanticLink.lean`** — lift **`bh`** with **`b.reprBarrier`** via
+**`SemanticSelfDescription.Bridge.AugmentBarrierHypotheses`** (global **`(U₁)`** conjunct on **`CodeEquiv`**).
+
 **Seam:** **`PayloadPromotionBridge`** unchanged; **`mixedTriple`** / other bridges **unchanged**.
 -/
 
