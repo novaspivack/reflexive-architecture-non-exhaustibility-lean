@@ -30,6 +30,7 @@
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002** named target **`D002BarrierLinkedR4WitnessTarget`** (**TODO-077_AB9**) |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
+| `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `Universal.lean` | `no_success_any_canonical_mode` — flagship **composition** |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -40,8 +41,8 @@
 
 | **Layer** | **Meaning (Lean)** | **Program role** |
 |-----------|-------------------|------------------|
-| **Layer 1 — Anchored completion** | `RepresentationalProfile` / `ClosureProfile` / `CertificatoryProfile` use nominations **at `anchor`** | **Flagship (Paper D):** **`HonestAnchoredInternalCompletion`** (`AnchoredFlagship.lean`) = claim + **`IsBurdenFaithfulClaim`**; **`anchored_flagship_universal_cover_holds`** gives **intuitionistic** four-way cover for **every** such package with **true** claim. **Not** the same as **`AbstractOpaqueModeCoverTarget`** (∀ bare attempts + **`Genuine` alone**). |
-| **Layer 2 — Relocated / off-anchor success** | `RepresentationalProfileAt a p`, … for some `p : carrier`; **`IsBurdenFaithfulSomewhereClaim`** | **Companion** structural family: **success geometry** allowing internal parameters distinct from `anchor`. **Not** a drop-in weakening of Layer 1 — see **`AnchorNecessityBoundary`** in **`WeakerBurdenSearch.lean`**. |
+| **Layer 1 — Anchored completion** | `RepresentationalProfile` / `ClosureProfile` / `CertificatoryProfile` use nominations **at `anchor`** | **Official Paper D completion target:** **`HonestAnchoredInternalCompletion`** (`AnchoredFlagship.lean`) = claim + **`IsBurdenFaithfulClaim`**; **`OfficialLayerOneAnchoredCompletionTarget`** / **`official_layer_one_anchored_completion_target_holds`** (`LayerDiscipline.lean`) = same universal **intuitionistic** four-way cover. **Not** the same as **`AbstractOpaqueModeCoverTarget`** (∀ bare attempts + **`Genuine` alone**). |
+| **Layer 2 — Relocated / off-anchor success** | `RepresentationalProfileAt a p`, … for some `p : carrier`; **`IsBurdenFaithfulSomewhereClaim`** | **Boundary** structural family (not a rival flagship): **success geometry** with parameters distinct from `anchor`. **Does not** supersede Layer 1 — see **`AnchorNecessityBoundary`** in **`WeakerBurdenSearch.lean`** and **`LayerDiscipline.lean`**. |
 
 **Boundary theorem (packaged):** `anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype`,
 `anchor_identification_collapses_somewhereFaithful_to_burdenFaithful`, `anchor_necessity_boundary_bundle_utype`.

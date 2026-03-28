@@ -25,6 +25,7 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.WeakerBurdenSearch,
     `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget,
     `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.AnchoredFlagship,
+    `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.LayerDiscipline,
     `ReflexiveArchitectureNonexhaustibility.Universal,
     `ReflexiveArchitectureNonexhaustibility.Adequacy,
     `ReflexiveArchitectureNonexhaustibility.InfinityCompression,

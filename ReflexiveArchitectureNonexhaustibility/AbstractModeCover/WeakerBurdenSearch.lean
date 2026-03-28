@@ -35,6 +35,10 @@ to anchor burden-faithfulness.
 **Frozen distinction (2026-03-27):** **anchored completion** (profiles at **`anchor`**) and **relocated /
 off-anchor success** (`ProfileAt p` for some `p`) are **non-equivalent** theorem subjects. See section
 **AnchorNecessityBoundary** and **SPEC_015_KM2** / **MANIFEST** “two theorem layers.”
+
+**Relation to Layer 1 flagship:** lemmas here are **boundary** results (what **does not** entail anchored
+completion modes from weaker hypotheses). They **do not** compete with **`OfficialLayerOneAnchoredCompletionTarget`**
+in **`LayerDiscipline.lean`** — that target is the **official** universal Paper D **Layer 1** completion form.
 -/
 
 namespace StructuredNonexhaustibility

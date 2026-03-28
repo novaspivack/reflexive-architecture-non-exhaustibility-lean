@@ -14,6 +14,10 @@ consequent — **no** four-way tag, **no** smuggling).
 **This file:** names **`HonestAnchoredInternalCompletion`** (alias of the packed burden-faithful bundle),
 proves the **intuitionistic anchored completion bridge** into the four profile disjuncts, and packages the
 **universal quantification over interface-equipped** attempts (`AnchoredFlagshipUniversalCover`).
+
+**Layer 1 vs Layer 2 (anti-drift):** see **`LayerDiscipline.lean`** for the explicit statement that **Layer 1**
+is the **official** Paper D completion target and **Layer 2** (**`WeakerBurdenSearch.lean`**) is **boundary**
+mathematics, not a rival flagship line.
 -/
 
 namespace StructuredNonexhaustibility
