@@ -1,9 +1,88 @@
+import ReflexiveArchitectureNonexhaustibility.Basic
+import ReflexiveArchitectureNonexhaustibility.Modes
+import ReflexiveArchitectureNonexhaustibility.Universal
+import ReflexiveArchitectureNonexhaustibility.Interfaces
+import ReflexiveArchitectureNonexhaustibility.Instances.ONE
+
 /-!
-# Route canonicality — **deferred** (**SPEC_014_CC1** / **EPIC_010**)
+# Route completeness & canonical-mode stability (**SPEC_014_CC1**, **EPIC_010**)
+
+This epic is **strictly stronger** than mode **cover** (**SPEC_009_MC1**): it pins down the **M₁ / M₂ / M₃**
+**success spectrum** as the canonical internal **routes** for the **`ReflexiveArchitecture`** signature
+and records **stability** when success predicates **coarsen**.
+
+**ONE / barriers:** **`OneRouteDiscipline`** + **`no_success_any_canonical_mode`** = **route completeness**
+in the sense that **U₁–U₃** leave **no** successful traversal of the three canonical **success** slots.
+
+**NEMS:** NemS Program V (`StructuralNonExhaustibility.ReflexiveSystem`, **`nems-lean`**) is a **parallel**
+reflexive-system schema — compare at the **attachment** layer (**`EngineReflexiveMorphism`**, **`NemsStructuralProgramLink`**),
+not by definitional identification.
 -/
 
 namespace StructuredNonexhaustibility.RouteCanonicality
 
-def deferred : Unit := ()
+open StructuredNonexhaustibility
+
+variable {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+
+/--
+**Canonical success spectrum** for **`ReflexiveArchitecture`**: representational, closure, or certification
+success (**`Modes.lean`** / **SPEC_002_AM1**).
+-/
+abbrev CanonicalModeSuccessSpectrum (A : ReflexiveArchitecture World Obs Repr Claim) : Prop :=
+  Mode1Success A ∨ Mode2Success A ∨ Mode3Success A
+
+/--
+**Route-blocking lemma (ONE packaging):** triple barriers forbid the **entire** canonical spectrum.
+-/
+theorem barriers_forbid_canonical_mode_spectrum (A : ReflexiveArchitecture World Obs Repr Claim)
+    (d1 : DiagonalRepresentationalInterface A) (d2 : ClosureObstructionInterface A)
+    (d3 : SemanticCertificationInterface A) :
+    ¬ CanonicalModeSuccessSpectrum A :=
+  no_success_any_canonical_mode A d1 d2 d3
+
+/--
+**ONE discipline** forbids the canonical spectrum — specialization of **`barriers_forbid_canonical_mode_spectrum`**.
+-/
+theorem oneRouteDiscipline_forbids_canonical_spectrum (A : ReflexiveArchitecture World Obs Repr Claim)
+    (D : OneRouteDiscipline A) : ¬ CanonicalModeSuccessSpectrum A :=
+  barriers_forbid_canonical_mode_spectrum A D.hasDiagonal D.hasClosure D.hasSemantic
+
+/-!
+## Stability (functorial flavor)
+
+If **`A'`**’s success predicates are **implied** by **`A`**’s on the **same** gadgets, then **`Mode*i*Success`**
+on **`A'`** implies **`Mode*i*Success`** on **`A`**. Thus **refinements** of architectures that **only make success
+easier** are **monotone** along the canonical routes — no ad hoc fourth “success kind” is introduced at this layer.
+-/
+
+theorem mode1_success_of_repr_mono {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (h : ∀ ρ : World → Repr, A'.repr_success ρ → A.repr_success ρ) :
+    Mode1Success A' → Mode1Success A := by
+  rintro ⟨ρ, hρ⟩
+  exact ⟨ρ, h ρ hρ⟩
+
+theorem mode2_success_of_closure_mono {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (h : ∀ Cl : Set World → Set World, A'.closure_success Cl → A.closure_success Cl) :
+    Mode2Success A' → Mode2Success A := by
+  rintro ⟨Cl, hCl⟩
+  exact ⟨Cl, h Cl hCl⟩
+
+theorem mode3_success_of_cert_mono {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (h : ∀ τ : Claim → Bool, A'.cert_success τ → A.cert_success τ) :
+    Mode3Success A' → Mode3Success A := by
+  rintro ⟨τ, hτ⟩
+  exact ⟨τ, h τ hτ⟩
+
+theorem canonical_spectrum_mono {A A' : ReflexiveArchitecture World Obs Repr Claim}
+    (hρ : ∀ ρ, A'.repr_success ρ → A.repr_success ρ)
+    (hCl : ∀ Cl, A'.closure_success Cl → A.closure_success Cl)
+    (hτ : ∀ τ, A'.cert_success τ → A.cert_success τ) :
+    CanonicalModeSuccessSpectrum A' → CanonicalModeSuccessSpectrum A := by
+  intro h
+  rcases h with h1 | h2 | h3
+  · exact Or.inl (mode1_success_of_repr_mono hρ h1)
+  · exact Or.inr (Or.inl (mode2_success_of_closure_mono hCl h2))
+  · exact Or.inr (Or.inr (mode3_success_of_cert_mono hτ h3))
 
 end StructuredNonexhaustibility.RouteCanonicality

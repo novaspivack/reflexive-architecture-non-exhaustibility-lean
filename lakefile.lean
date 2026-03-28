@@ -8,35 +8,29 @@ require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "v4.29.0-rc6"
 
 -- =============================================================================
--- **BIG NOTE — D-001 / EPIC_012 / nems-lean (DEFERRED, REPO IS PRIVATE)**
+-- **BIG NOTE — D-001 / EPIC_012 / nems-lean (path pin; full D-001)**
 --
--- **nems-lean** must stay **private** for now. This package **does not** `require`
--- it in the default `lakefile`, so **`lake build` works** for contributors and CI
--- **without** access to nems.
+-- Active **`require`** uses **path** `../../nems-lean` relative to this file (two dirs up from
+-- `reflexive-architecture-nonexhaustibility-lean/`, then **`nems-lean`**). **CI** must clone or
+-- link **`nems-lean`** there, **or** switch to a **git** pin + read credential (**SPEC_018_PN1**).
 --
--- **When nems is public OR CI has a read secret (deploy key / token):**
--- 1. Uncomment **one** of the `require` lines below (prefer **git @ fixed rev**
---    for reproducibility; **path** is fine for local dev).
--- 2. In `ReflexiveArchitectureNonexhaustibility/EngineDependencyPinning.lean`, switch
---    the import to `import NemS.Prelude` (or another smoke module).
--- 3. Run `lake update` and commit `lake-manifest.json`.
+-- After edits: **`lake update`**, commit **`lake-manifest.json`**. Smoke: **`NemS.Prelude`** in
+-- **`EngineDependencyPinning.lean`**, optional **`NemsStructuralProgramLink.lean`**.
 --
--- Example **git** pin (replace ORG + REV):
+-- Example **git** pin when the engine repo is public:
 --   require «nems-lean» from git "https://github.com/ORG/nems-lean.git" @ "deadbeef..."
---
--- Example **path** pin (sibling of **parent** repo — local layout only):
---   require «nems-lean» from ".." / ".." / "nems-lean"
 --
 -- Governance: **SPEC_018_PN1**, root **README.md**, **docs/002_DEVELOPER_SETUP.md**.
 -- =============================================================================
+require «nems-lean» from ".." / ".." / "nems-lean"
 -- require «nems-lean» from git "https://github.com/REPLACE_ORG/nems-lean.git" @ "REPLACE_REV"
--- require «nems-lean» from ".." / ".." / "nems-lean"
 
 @[default_target]
 lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
   roots := #[
     `ReflexiveArchitectureNonexhaustibilityLean,
     `ReflexiveArchitectureNonexhaustibility.EngineDependencyPinning,
+    `ReflexiveArchitectureNonexhaustibility.NemsStructuralProgramLink,
     `ReflexiveArchitectureNonexhaustibility.EngineReflexiveMorphism,
     `ReflexiveArchitectureNonexhaustibility.Basic,
     `ReflexiveArchitectureNonexhaustibility.Modes,

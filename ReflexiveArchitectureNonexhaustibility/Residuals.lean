@@ -12,6 +12,10 @@ It does **not** import the mode-cover conclusion into predicates by fiat.
 
 **Admissibility** remains a **hook** for **SPEC_012_AA1** (**EPIC_008**); refine there,
 not via vacuous overlap of R₁–R₄ roles.
+
+**Cross-repo (EPIC_004 / D-001):** NemS **Program V** (**`nems-lean`**, e.g. **SurvivorCalculus**) is the sibling
+discipline for **positive survivor** content; this file’s **`R4`** tag stays **paper C**-native — link morphisms at
+**`EngineReflexiveMorphism`** / enrichment bridges, **not** by redefining **`ResidualClass`** here.
 -/
 
 namespace StructuredNonexhaustibility

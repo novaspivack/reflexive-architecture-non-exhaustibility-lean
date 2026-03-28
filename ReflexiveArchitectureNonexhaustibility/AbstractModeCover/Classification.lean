@@ -115,6 +115,19 @@ theorem abstract_opaque_mode_cover_target_of_pointwiseDecidable (W O R C : Type)
   intro a hg
   exact abstract_opaque_mode_cover_of_decidable W O R C a (decR a hg) (decC a hg) (decK a hg)
 
+/--
+**SPEC_015 boundary (genuine-only checkbox):** **`GenuineInternalTotalizationAttempt`** is only **`Nonempty carrier`**;
+it does **not** furnish **Decidable** instances on the three anchored profiles. The **general intuitionistic** discharger
+for **`AbstractOpaqueModeCoverTarget`** relative to **`Genuine`** is therefore **`abstract_opaque_mode_cover_target_of_pointwiseDecidable`** / **`abstract_opaque_mode_cover_of_decidable`**; the **unrestricted** cover from **`Genuine` alone** without such
+**supplements** matches the **`abstract_opaque_mode_cover_classical`** route (**LEM** per attempt) or remains a **strictly stronger** open target.
+-/
+theorem abstract_opaque_mode_cover_intuitionistic_when_profilesDecidable (W O R C : Type)
+    (a : OpaqueTotalizationAttempt W O R C) (_hg : GenuineInternalTotalizationAttempt a)
+    (dR : Decidable (RepresentationalProfile a)) (dC : Decidable (ClosureProfile a))
+    (dK : Decidable (CertificatoryProfile a)) :
+    RepresentationalProfile a ∨ ClosureProfile a ∨ CertificatoryProfile a ∨ PositiveResidualProfile a :=
+  abstract_opaque_mode_cover_of_decidable W O R C a dR dC dK
+
 theorem abstract_mediation_decomposition_target_classical (W O R C : Type) :
     AbstractMediationDecompositionTarget W O R C :=
   abstract_cover_implies_mediation_decomposition_target W O R C

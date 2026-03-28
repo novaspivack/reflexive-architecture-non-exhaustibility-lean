@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + four bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **PN1–PN2** **deferred** (private nems); **`PN3–PN4` seam:** **`EngineReflexiveMorphism`**, **`FromNativeTraces`**; **`lakefile`** commented **`require`** + root **`README`** BIG NOTE. **EPIC_010** deferred. See parent [`QUEUE.md`](../QUEUE.md).
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **`require «nems-lean»`** (**path**) + **`NemS.Prelude`** + **`NemsStructuralProgramLink`**; **`EngineReflexiveMorphism`**, **`FromNativeTraces`**. **EPIC_010** (**SPEC_014**): **`RouteCanonicality.lean`**. See parent [`QUEUE.md`](../QUEUE.md).
 
 ## `sorry` / `axiom` audit
 
@@ -16,18 +16,19 @@
 
 | File | Role |
 |------|------|
-| `EngineDependencyPinning.lean` | **D-001:** imports **`EngineReflexiveMorphism`**; **`NemS`** smoke import **deferred** — **`SPEC_018_PN1`** |
+| `EngineDependencyPinning.lean` | **D-001:** **`import NemS.Prelude`**, **`nems_engine_dependency_ok`**; **`EngineReflexiveMorphism`** — **`SPEC_018_PN1`** |
+| `NemsStructuralProgramLink.lean` | **D-001 / NemS:** **`NemsReflexiveSystemSchema`** alias for **`StructuralNonExhaustibility.ReflexiveSystem`** (**Program V** shell) |
 | `EngineReflexiveMorphism.lean` | **PN3:** **`EngineReflexiveMorphism`**, **`ReflexiveBarrierBundle`**, **`EngineU123BarrierData`**, **`oneRouteDiscipline_of_barrier_bundle`** — **`SPEC_003_BT1`** attachment shape (no NemS types) |
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
-| `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**) |
+| `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**); NemS Program V cross-link (docstring) |
 | `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces; **`U123BarrierData`** (**D-002** pack) |
 | `Barriers.lean` | **U₁–U₃** (`barrier_mode*`) — intuitionistic |
 | `SyntacticModeCover.lean` | **Proved** four-way split for `SyntacticTotalization` (tagged syntax **only**) — **base / not the summit** |
 | `AbstractModeCover/Attempt.lean` | `OpaqueTotalizationAttempt`; `GenuineInternalTotalizationAttempt` (**SPEC_015_KM2**) |
 | `AbstractModeCover/Profiles.lean` | Structural profiles on opaque attempts (**not** datatype tags) |
 | `AbstractModeCover/Mediation.lean` | Mediation aliases + **`AbstractMediationDecompositionTarget`** (open `Prop`) |
-| `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** as `abstract_opaque_mode_cover_classical`; explicit **`classical`**); `fromSyntactic`; conditional reflection |
+| `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** classically + **Decidable** route); **`abstract_opaque_mode_cover_intuitionistic_when_profilesDecidable`**; **genuine-only** boundary docstring (**SPEC_015**) |
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
@@ -49,7 +50,7 @@
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
-| `RouteCanonicality.lean` | Deferred (**SPEC_014_CC1**) |
+| `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** **`CanonicalModeSuccessSpectrum`**, barrier/ONE route-blocking, **`canonical_spectrum_mono`** (**`RouteCanonicality`** namespace) |
 
 ## Two theorem layers — anchored completion vs relocated success (**frozen distinction**)
 
