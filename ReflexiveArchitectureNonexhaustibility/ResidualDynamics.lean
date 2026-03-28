@@ -10,11 +10,8 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0** + **D0** (**kernel witness**, **forgetful `KernelOfMap`**, **`residualWitness_of_kernelWitness`**) + **D1**
-(intuitionistic **`d1_*`** + **`Bool`**↔**`∃`**
-+ **`classical`** **`d1_response_step_classical_trilemma`** / **`IsProperRegimeChange`**—**LEM** on **`arch`**
-equality, **disclosed**). **Strong D1** (barrier-typed **R₄** / **`ResidualWitness`** story), **D2** (fold), further **D3**
-(cross-**`arch`**) **open**—**SPEC_023_RG1**.
+**Scope:** **P0** + **D0** + **D1** + **D2** **iterate scaffold** (**`closureIterate`**, trajectory **`Prop`**s) + **D3** transport notes.
+**Strong D1** (barrier **R₄** tie-in), **D2** **fold / non-iterate theorem** (beyond definitions), further **D3** (non-**`Eq`**) **open**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
@@ -416,5 +413,66 @@ theorem d0_forgetfulKernel_standing_fine {f : α → β} {x y : α} {fine : Iden
     (hf : f x = f y) (hne : x ≠ y) (hfine : fine x y) :
     StandingResidualBurden (fine x y) :=
   d0_standing_fine_identification (w := kernelWitness_of_map hf hne) hfine
+
+/-! ## D2 — internal closure iteration scaffold (**SPEC_023_RG1** **P3**)
+
+Aligns with the **RFO** column (**`Set World → Set World`** candidates in **`ClosureObstructionInterface`** / **`FromRFO.lean`**).
+**Fold** theorems will compare honest regime transitions to **membership** in **`InClosureIterateImage`** — here we only fix **iteration**
+**semantics** (no claim that **`closure_success`** coincides with a particular **`Cl`** or **`n`** without further hypotheses).
+
+Anti-smuggling: **`closureIterate`** is **parametric** in **`Cl`**; it does **not** read **`ReflexiveArchitecture.closure_success`**.
+-/
+
+variable {World : Type}
+
+/--
+**Iterative closure step** on **`Set World`** (same **functional** shape as closure candidates in **`Interfaces.lean`**).
+-/
+abbrev ClosureOperator (World : Type) :=
+  Set World → Set World
+
+/--
+**`n`-fold** iteration: **`0` ⇒** identity on **`S`**; **`Nat.succ n` ⇒** apply **`Cl`** after the **`n`**-fold result.
+-/
+def closureIterate (Cl : ClosureOperator World) : Nat → Set World → Set World :=
+  Nat.rec (motive := fun _ => Set World → Set World) (fun S => S) fun _ rec S => Cl (rec S)
+
+@[simp]
+theorem closureIterate_zero (Cl : ClosureOperator World) (S : Set World) :
+    closureIterate Cl 0 S = S :=
+  rfl
+
+@[simp]
+theorem closureIterate_succ (Cl : ClosureOperator World) (n : Nat) (S : Set World) :
+    closureIterate Cl (Nat.succ n) S = Cl (closureIterate Cl n S) :=
+  rfl
+
+theorem closureIterate_one (Cl : ClosureOperator World) (S : Set World) :
+    closureIterate Cl 1 S = Cl S :=
+  rfl
+
+/--
+Some iterate of **`Cl`** from **`S₀`** equals **`B`** (**`∃ n`**).
+-/
+def InClosureIterateImage (Cl : ClosureOperator World) (S₀ B : Set World) : Prop :=
+  ∃ n, closureIterate Cl n S₀ = B
+
+/--
+**No** iterate lands on **`B`** (**non-reach** in the **internal** iterate sense for this **`Cl`** / **`S₀`**).
+-/
+def OutsideClosureIterateImage (Cl : ClosureOperator World) (S₀ B : Set World) : Prop :=
+  ∀ n, closureIterate Cl n S₀ ≠ B
+
+theorem outsideClosureIterate_of_not_in_iterate {Cl : ClosureOperator World} {S₀ B : Set World}
+    (h : ¬InClosureIterateImage Cl S₀ B) : OutsideClosureIterateImage Cl S₀ B :=
+  fun _ heq => h ⟨_, heq⟩
+
+theorem not_in_iterate_of_outside {Cl : ClosureOperator World} {S₀ B : Set World}
+    (h : OutsideClosureIterateImage Cl S₀ B) : ¬InClosureIterateImage Cl S₀ B
+  | ⟨_, heq⟩ => h _ heq
+
+theorem outsideClosureIterate_iff_not_in_iterate (Cl : ClosureOperator World) (S₀ B : Set World) :
+    OutsideClosureIterateImage Cl S₀ B ↔ ¬InClosureIterateImage Cl S₀ B :=
+  Iff.intro not_in_iterate_of_outside outsideClosureIterate_of_not_in_iterate
 
 end StructuredNonexhaustibility
