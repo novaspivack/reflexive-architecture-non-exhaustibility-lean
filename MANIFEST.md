@@ -3,7 +3,15 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **`require «nems-lean»`** (**path**) + **`NemS.Prelude`** + **`NemsStructuralProgramLink`**; **`EngineReflexiveMorphism`**, **`FromNativeTraces`**. **EPIC_010** (**SPEC_014**): **`RouteCanonicality.lean`**. **EPIC_014** / **SPEC_022_RA1**: O7 **T1–T3** (**`ProvBicU123EnrichedR4Alignment.lean`**) — **formal summit frozen** (2026-03-28); further proof mountains = **new phase** in parent specs. See parent [`QUEUE.md`](../QUEUE.md).
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **`require «nems-lean»`** (**path**) + **`NemS.Prelude`** + **`NemsStructuralProgramLink`**; **`EngineReflexiveMorphism`**, **`FromNativeTraces`**. **EPIC_010** (**SPEC_014**): **`RouteCanonicality.lean`**. **EPIC_013** (**SPEC_020_PT1**): proof-theoretic **`godelProvBicBarrierHypotheses`** lives in **nems-lean** (parent epic **complete**). **EPIC_014** (**SPEC_021_SC1**, **SPEC_022_RA1**): Paper 51 **comparison** + O7 **T1–T3** (**`ProvBicU123EnrichedR4Alignment.lean`**) — **integration arc frozen** (2026-03-28); more integration Lean = **new phase** (parent **[`EPIC_014_MASTER_ORCHESTRATION.md`](../specs/INCOMPLETE/IN-PROCESS/EPIC_014_SUMMIT_INTEGRATION_LAYER/EPIC_014_MASTER_ORCHESTRATION.md)** §Summit freeze). See parent [`QUEUE.md`](../QUEUE.md).
+
+## Paper 51 integration stack (**frozen** tranche — parent specs)
+
+| Layer | Parent spec | Lean touchpoint |
+|-------|-------------|-----------------|
+| Proof-theoretic summit | **SPEC_020_PT1** (**EPIC_013**) | **`SemanticSelfDescription/Instances/GodelProvBic.lean`** (**nems-lean**) |
+| Summit **comparison** | **SPEC_021_SC1** | **`SummitComparison.lean`** (**nems-lean**) |
+| O7 → **U123** → enriched **R₄** | **SPEC_022_RA1** (**EPIC_014**) | **`ProvBicU123EnrichedR4Alignment.lean`**: **T1** const link, **T2** repr **`A_link_dep`**, **T3** **`C₁`** triple augment |
 
 ## `sorry` / `axiom` audit
 
@@ -42,7 +50,7 @@
 | `ResidualEnrichment/Bridges/FromSEM.lean` | **F3b:** **`semPayloadPromotionBridge`**; **`CertObstructionPayload`** = Π **`τ`**, **`PLift (¬ cert_success)`**; **D-001** for SEM traces |
 | `ResidualEnrichment/Bridges/FromMixedTriple.lean` | **`mixedTriple`:** **`MixedTripleObstructionPayload`**, **`mixedTriplePayloadPromotionBridge`**, **`enrichedR4_*_withMixedTriplePayload`** (**SPEC_017_MX1**) |
 | `ResidualEnrichment/Bridges/FromNativeTraces.lean` | **PN4:** **`nativeTripleResidualPayloadFamily`**, **`nativeTriplePayloadPromotionBridge`**, **`NativeObstructionTraceRefinement`**, column coherence **`Prop`**s — native carriers at **`Type 1`**; **`SPEC_018_PN1`** |
-| `ResidualEnrichment/Bridges/FromNEMSProgramV.lean` | **D-001 / EPIC_012:** **`U123SemanticBarrierLink`**, **`ofU123SemanticBarrierLink`** (**`b`**.indexed **`sync`**), **`ofSemanticSelfDescriptionFrame`**, **`ofSemanticSelfDescriptionFrame_barrierFromReflection`**, **`enrichedR4_*_u123DrivenSync`**, **`enrichedR4_*_semanticSync`**, **`enrichedR4_*_reflectionSync`**, **`trivialBarrier`**, sync promotion + **`certFn`** bridge |
+| `ResidualEnrichment/Bridges/FromNEMSProgramV.lean` | **D-001 / EPIC_012:** **`U123SemanticBarrierLink`**, **`ofU123SemanticBarrierLink`** (**`b`**.indexed **`sync`**), **`ofSemanticSelfDescriptionFrame`**, **`enrichedR4_*_u123DrivenSync`**, **`enrichedR4_*_semanticSync`**, **`enrichedR4_*_reflectionSync`**, **`trivialBarrier`**, **`certFn`**; **O7** seam: **`ProvBicU123EnrichedR4Alignment.lean`** (**SPEC_022_RA1**, **EPIC_014** **frozen**) |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
@@ -54,7 +62,7 @@
 | `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** spectrum + **`canonical_spectrum_mono`**; **`AltRouteTaxonomy`**, **`TaxonomySound`**, **`TaxonomyComplete`**, **`canonical_spectrum_iff_labeled_successes`**, **`canonical_spectrum_iff_labeled_successes_of_pred_equiv`**, **`canonical_spectrum_mono_labeled`**, **`taxonomy_sound_of_successful_mono`**, **`taxonomy_complete_of_successful_mono`**, **`canonical_spectrum_mono_labeled_pair`** |
 | `U123ReprAugmentedSemanticLink.lean` | **EPIC_012:** non-constant **`U123SemanticBarrierLink`** via **`barrierHypotheses_u123ReprAugment`** (**`b.reprBarrier`**); **`trivialObstruction*`** + **`enrichedR4_*_reprAugmentedU123Sync`** (**`bh`** parameter until a concrete **`EncodedNontrivial`** **×** intermediate-equiv frame lands in **nems-lean**; see **`ToReflection`** / **`UnitypedNatReprObstruction`**) |
 | `KleenePredicatedResidualSummit.lean` | **SPEC_019_PS1:** Kleene **`BarrierHypothesesPred`** + repr augmentation → **`enrichedR4_u123_withAugmentedNemsProgramVRepr_predLinkSync`** |
-| `ProvBicU123EnrichedR4Alignment.lean` | **SPEC_022_RA1** (**O7**): **`A_link_const`**, **`A_link_dep`** (repr), **C₁** (**`godelProvBicBarrierHypotheses_u123Augmented`**, **`u123SemanticBarrierLink_provBicU123TripleAugment`**, triple **`augment_withGlobalConjunct`**) → **`u123DrivenSync`** enriched **R₄** |
+| `ProvBicU123EnrichedR4Alignment.lean` | **SPEC_022_RA1** / **EPIC_014** (**O7**, **frozen**): **T1** **`A_link_const`**, **T2** repr **`A_link_dep`**, **T3** **`C₁`** (**`godelProvBicBarrierHypotheses_u123Augmented`**, **`u123SemanticBarrierLink_provBicU123TripleAugment`**) → **`u123DrivenSync`** enriched **R₄** |
 
 ## Two theorem layers — anchored completion vs relocated success (**frozen distinction**)
 
