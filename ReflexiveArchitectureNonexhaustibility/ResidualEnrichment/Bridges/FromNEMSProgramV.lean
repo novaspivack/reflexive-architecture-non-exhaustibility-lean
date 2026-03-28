@@ -2,6 +2,7 @@ import NemS.Prelude
 import StructuralNonExhaustibility.Core.ReflexiveSystem
 import StructuralNonExhaustibility.Bridges.ToSemanticSelfDescription
 import SemanticSelfDescription.Core.Claims
+import SemanticSelfDescription.Bridge.ToReflection
 import ReflexiveArchitectureNonexhaustibility.EngineReflexiveMorphism
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromRI
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
@@ -122,6 +123,32 @@ def EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame {W : Type}
   sync := fun e b => PLift.up (h e b)
 
 /--
+**Concrete `sync` (`EPIC_012`):** **`BarrierHypotheses F`** from **`barrier_hypotheses_from_reflection`**
+(**`SemanticSelfDescription.Bridge.ToReflection`** — DiagClosed **SRI_R** on **`F.Code`**, **`CodeEquiv`** aligned with
+**`Equiv`**, **`quote = id`**).
+
+**Disclosure:** **`U123BarrierData`** is **not** used in **`sync`** here. The NemS **content** is exactly the Reflection →
+Paper 51 barrier chain; connecting **paper U₁–U₃** to this setup is a **separate** engine obligation when you need that
+correspondence (see also **`ofSemanticSelfDescriptionFrame`** for a generic **`h`**).
+-/
+def EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame_barrierFromReflection
+    {W E : Type} {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    (codeExt : SemanticSelfDescription.CodeExtensional F)
+    [SemanticSelfDescription.EncodedNontrivial F]
+    (R : (F.Code → F.Code) → Prop)
+    [sri : Reflection.SRI_R F.Code F.Code R]
+    (hDiag : Reflection.DiagClosed R)
+    (hEquiv : ∀ a b, codeExt.CodeEquiv a b ↔ sri.Equiv a b)
+    (hR : ∀ F' : F.Code → F.Code, R F')
+    (hQuoteId : ∀ p : F.Code, sri.quote p = p) :
+    EngineNemsBarrierSync φ :=
+  let bh :=
+    SemanticSelfDescription.barrier_hypotheses_from_reflection (F := F) codeExt R hDiag hEquiv hR hQuoteId
+  ofSemanticSelfDescriptionFrame φ F fun _ _ => Nonempty.intro bh
+
+/--
 **Recover** **`NemsProgramVBarrierCertificate`** from the trivial sync at **`e₀`** (dependent only on **`φ`**, **`e₀`**).
 -/
 def nemsTrivialCertificate {E : Type} (φ : EngineReflexiveMorphism E World Obs Repr Claim) (e₀ : E)
@@ -202,6 +229,27 @@ def enrichedR4_u123_withAugmentedNemsProgramVRepr_semanticSync
     (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
     EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
   enrichedR4_u123_withAugmentedNemsProgramVRepr_sync φ (EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame φ F h) e₀ b
+
+/--
+**End-to-end** enriched **R₄** with **`NemsProgramVBarrierCertificate`** tied to **`ofSemanticSelfDescriptionFrame_barrierFromReflection`**.
+-/
+def enrichedR4_u123_withAugmentedNemsProgramVRepr_reflectionSync
+    {W E : Type} {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (F : SemanticSelfDescription.SelfSemanticFrame W)
+    (codeExt : SemanticSelfDescription.CodeExtensional F)
+    [SemanticSelfDescription.EncodedNontrivial F]
+    (R : (F.Code → F.Code) → Prop)
+    [sri : Reflection.SRI_R F.Code F.Code R]
+    (hDiag : Reflection.DiagClosed R)
+    (hEquiv : ∀ a b, codeExt.CodeEquiv a b ↔ sri.Equiv a b)
+    (hR : ∀ F' : F.Code → F.Code, R F')
+    (hQuoteId : ∀ p : F.Code, sri.quote p = p)
+    (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
+    EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
+  enrichedR4_u123_withAugmentedNemsProgramVRepr_sync φ
+    (EngineNemsBarrierSync.ofSemanticSelfDescriptionFrame_barrierFromReflection φ F codeExt R hDiag hEquiv hR hQuoteId)
+    e₀ b
 
 def enrichedR4_tripleBarriers_withAugmentedNemsProgramVRepr_sync
     (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E)

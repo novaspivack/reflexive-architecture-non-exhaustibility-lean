@@ -225,4 +225,23 @@ theorem canonical_spectrum_mono_labeled_pair
   have hsA : CanonicalModeSuccessSpectrum A := canonical_spectrum_mono hρ hCl hτ hsA'
   exact (canonical_spectrum_iff_labeled_successes L T A succ hS hC).1 hsA
 
+/--
+**Predicates pointwise equivalent** on labels: reuse **one** sound + complete certificate for **`succ`** to state the
+**`canonical_spectrum_iff_labeled_successes`** **iff** for an **alias** **`succ'`** — **comparison / relabelling** only.
+-/
+theorem canonical_spectrum_iff_labeled_successes_of_pred_equiv
+    (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (A : ReflexiveArchitecture World Obs Repr Claim) (succ succ' : L → Prop)
+    (he : ∀ l, succ l ↔ succ' l)
+    (hS : TaxonomySound L T A succ) (hC : TaxonomyComplete L T A succ) :
+    CanonicalModeSuccessSpectrum A ↔
+      ((∃ ρ, A.repr_success ρ ∧ succ' (T.reprTag ρ)) ∨
+        (∃ Cl, A.closure_success Cl ∧ succ' (T.closureTag Cl)) ∨
+          (∃ τ, A.cert_success τ ∧ succ' (T.certTag τ))) := by
+  have hS' : TaxonomySound L T A succ' :=
+    taxonomy_sound_of_successful_mono L T A succ succ' (fun l hl => (he l).mpr hl) hS
+  have hC' : TaxonomyComplete L T A succ' :=
+    taxonomy_complete_of_successful_mono L T A succ succ' (fun l hl => (he l).mp hl) hC
+  exact canonical_spectrum_iff_labeled_successes L T A succ' hS' hC'
+
 end StructuredNonexhaustibility.RouteCanonicality
