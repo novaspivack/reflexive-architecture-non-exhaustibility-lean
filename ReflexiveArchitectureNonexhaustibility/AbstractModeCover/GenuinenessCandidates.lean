@@ -5,7 +5,9 @@ import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Classification
 /-!
 # Genuineness enrichment candidates (**SPEC_015_KM2**, **minimal-strengthening search**)
 
-**Owner steering:** test a **small** ordered family of strengthenings; avoid ad hoc proliferation.
+**Owner steering:** test a **small** ordered family of strengthenings; avoid ad hoc proliferation. **Paper D
+flagship** packaging: **`HonestAnchoredInternalCompletion`** / **`AnchoredFlagshipUniversalCover`** in
+**`AnchoredFlagship.lean`**.
 
 ## Status in this file (summary)
 

@@ -29,6 +29,7 @@
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002** named target **`D002BarrierLinkedR4WitnessTarget`** (**TODO-077_AB9**) |
+| `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `Universal.lean` | `no_success_any_canonical_mode` — flagship **composition** |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -39,7 +40,7 @@
 
 | **Layer** | **Meaning (Lean)** | **Program role** |
 |-----------|-------------------|------------------|
-| **Layer 1 — Anchored completion** | `RepresentationalProfile` / `ClosureProfile` / `CertificatoryProfile` use nominations **at `anchor`** | **Flagship** universal structured nonexhaustibility route: **honest internal completion** bears burden **at the designated anchor** (`IsBurdenFaithfulClaim`, etc.). |
+| **Layer 1 — Anchored completion** | `RepresentationalProfile` / `ClosureProfile` / `CertificatoryProfile` use nominations **at `anchor`** | **Flagship (Paper D):** **`HonestAnchoredInternalCompletion`** (`AnchoredFlagship.lean`) = claim + **`IsBurdenFaithfulClaim`**; **`anchored_flagship_universal_cover_holds`** gives **intuitionistic** four-way cover for **every** such package with **true** claim. **Not** the same as **`AbstractOpaqueModeCoverTarget`** (∀ bare attempts + **`Genuine` alone**). |
 | **Layer 2 — Relocated / off-anchor success** | `RepresentationalProfileAt a p`, … for some `p : carrier`; **`IsBurdenFaithfulSomewhereClaim`** | **Companion** structural family: **success geometry** allowing internal parameters distinct from `anchor`. **Not** a drop-in weakening of Layer 1 — see **`AnchorNecessityBoundary`** in **`WeakerBurdenSearch.lean`**. |
 
 **Boundary theorem (packaged):** `anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype`,
