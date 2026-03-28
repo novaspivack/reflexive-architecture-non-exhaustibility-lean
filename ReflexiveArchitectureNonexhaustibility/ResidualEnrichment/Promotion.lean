@@ -152,4 +152,14 @@ theorem standingResidualBurden_promotion_bridge_irrelevant
       StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 A F₂ br₂ b).base) := by
   rw [promote_enriched_base_independent_of_family_and_bridge A F₁ F₂ br₁ br₂ b]
 
+/--
+**Strong D1 — σ slot:** **`EnrichedR4ResidualWitness`** carries **`e.sig : ObstructionSignature`**. Packaging dynamics obligations on
+that tag uses the same **`StandingResidualBurden`/`Prop`** identification as **`standingResidualBurden_iff`**.
+-/
+theorem standingResidualBurden_enriched_obstruction_sig
+    (A : ReflexiveArchitecture World Obs Repr Claim) (F : ResidualPayloadFamily A)
+    (e : EnrichedR4ResidualWitness A F) (P : ObstructionSignature → Prop) :
+    StandingResidualBurden (P e.sig) ↔ P e.sig :=
+  standingResidualBurden_iff (P e.sig)
+
 end StructuredNonexhaustibility

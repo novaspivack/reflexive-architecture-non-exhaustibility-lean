@@ -6,7 +6,8 @@ import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 
 **Dynamics forward (**SPEC_023_RG1** **D2**):** **`ResidualDynamics.lean`** packages **`closureIterate`**, **`OutsideClosureIterateImage`**,
 and **hypothesis-driven** **`ClosureIterateAdequacy`** links from **`closure_success`** to **`InClosureIterateImage`**;
-**`not_closure_success_of_outside_iterate`**, **`closure_obstruction_of_iterate_adequacy_and_universal_outside`**. **`RegimeSnapshot`**
+**`not_closure_success_of_outside_iterate`**, **`closure_obstruction_of_iterate_adequacy_and_universal_outside`**, **`IterateBackedReflexiveArchitecture`**
+/ **`closure_obstruction_of_iterateBacked_and_universal_outside`**. **`RegimeSnapshot`**
 / **`ResidualResponseStep.reconfiguration`** models changing **`closure_success`**. **D3** pack transport without **`A = A'`**:
 **`Interfaces.u123BarrierData_transport_of_success_field_iff`**.
 

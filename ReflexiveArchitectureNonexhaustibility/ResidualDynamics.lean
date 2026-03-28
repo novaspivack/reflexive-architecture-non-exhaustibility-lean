@@ -1,3 +1,5 @@
+import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Attempt
+import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
 import ReflexiveArchitectureNonexhaustibility.Basic
 import ReflexiveArchitectureNonexhaustibility.Residuals
 
@@ -10,9 +12,10 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** under explicit **iterate-soundness**
-hypotheses (**`ClosureIterateAdequacy`**) linking **`closure_success`** to **`InClosureIterateImage`**.
-**Strong D1** (barrier **R₄** tie-in); **D3** field-**iff** barrier transport lives in **`Interfaces.lean`**.
+**Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** + **iterate-backed** bundles
+(**`IterateBackedReflexiveArchitecture`**, **`OpaqueAttemptClosureIterateBacking`**) where adequacy is **packaged**, not proved from thin air;
+**joint** forgetful **R₂** + barrier-linked **R₄** coexistence; imports **`Attempt`**, **`D002ResidualWitnessTarget`** for those bridges.
+**Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **D3** field-**iff** transport lives in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
@@ -415,6 +418,54 @@ theorem d0_forgetfulKernel_standing_fine {f : α → β} {x y : α} {fine : Iden
     StandingResidualBurden (fine x y) :=
   d0_standing_fine_identification (w := kernelWitness_of_map hf hne) hfine
 
+/-! ### Forgetful **kernel** + **U₁–U₃** (**joint** certificates — not an **R₂ → R₄** promotion)
+
+**SPEC_023_RG1 / EPIC_015:** an **IC-style** fiber collision yields an **honest** **R₂** **`ResidualWitness`**
+(**`residualWitness_of_kernelWitness`** chain). **Independently**, **`U123BarrierData`** fixes the **D-002**
+**`barrierLinkedR4ResidualWitness`**. This lemma **coexistence** packages **both** when hypotheses are **simultaneously**
+available — **not** a claim that **`KernelWitness`** *becomes* barrier-linked **R₄** without **extra** typing identification.
+-/
+
+variable {World Obs Repr Claim : Type} {A : ReflexiveArchitecture World Obs Repr Claim}
+
+/--
+**Joint existence:** forgetful **R₂** certificate + the **canonical** barrier-linked **R₄** witness from **`b`**.
+-/
+theorem exists_admissible_r2_and_barrier_linked_r4_joint {α β : Type} {f : α → β} {x y : α} (hf : f x = f y)
+    (hne : x ≠ y) (b : U123BarrierData A) :
+    ∃ r2 r4 : ResidualWitness,
+      IsR2Residual r2 ∧
+        AdmissibleResidual r2 ∧
+          r2 ≠ trivialR4ResidualWitness ∧
+            IsR4PositiveSurvivor r4 ∧
+              AdmissibleResidual r4 ∧
+                r4 = barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier := by
+  refine
+    Exists.intro (residualWitness_of_kernelWitness (kernelWitness_of_map hf hne))
+      (Exists.intro (barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier) ?_)
+  refine And.intro (isR2Residual_residualWitness_of_kernelWitness _) ?_
+  refine And.intro (admissibleResidual_residualWitness_of_kernelWitness _) ?_
+  refine And.intro (residualWitness_of_kernelWitness_ne_trivialR4 _) ?_
+  refine And.intro (isR4_barrierLinkedR4ResidualWitness _ _ _) ?_
+  refine And.intro (admissible_barrierLinkedR4ResidualWitness _ _ _) ?_
+  rfl
+
+/--
+**Same** content under **`StandingResidualBurden`** (**synonymous** with the existential **`Prop`**).
+-/
+theorem standingResidualBurden_joint_forgetful_r2_and_barrier_r4 {α β : Type} {f : α → β} {x y : α} (hf : f x = f y)
+    (hne : x ≠ y) (b : U123BarrierData A) :
+    StandingResidualBurden
+      (∃ r2 r4 : ResidualWitness,
+        IsR2Residual r2 ∧
+          AdmissibleResidual r2 ∧
+            r2 ≠ trivialR4ResidualWitness ∧
+              IsR4PositiveSurvivor r4 ∧
+                AdmissibleResidual r4 ∧
+                  r4 =
+                    barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier) :=
+  exists_admissible_r2_and_barrier_linked_r4_joint hf hne b
+
 /-! ## D2 — internal closure iteration scaffold (**SPEC_023_RG1** **P3**)
 
 Aligns with the **RFO** column (**`Set World → Set World`** candidates in **`ClosureObstructionInterface`** / **`FromRFO.lean`**).
@@ -549,5 +600,62 @@ theorem closure_obstruction_of_iterate_adequacy_and_universal_outside
     {A : ReflexiveArchitecture World Obs Repr Claim} {S₀ B : Set World} (had : ClosureIterateAdequacy A S₀ B)
     (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl S₀ B) : ClosureObstructionInterface A :=
   fun Cl hsucc => not_in_iterate_of_outside (hout Cl) (had Cl hsucc)
+
+/-! ### D2 — iterate-backed regime (**intrinsic `ClosureIterateAdequacy` relative to packaging**)
+
+There is **no** theorem **`∀ A, ClosureIterateAdequacy A S₀ B`** from **`ReflexiveArchitecture` alone**: **`closure_success`**
+is an abstract **SPEC_002_AM1** slot. What *is* **intrinsic** is: **given** a record bundling **`arch`** with **`closureSeed`**
+/ **`closureTarget`** and **`closure_iterate_sound`**, **`ClosureIterateAdequacy arch …`** is **definitionally** the soundness field.
+
+Engines that **commit** to iterate-reachability semantics publish such a bundle; **opaque** attempts admit the same pattern.
+-/
+
+/--
+**Iterate-backed** architecture: **explicit** witness that **`closure_success`** is **sound** for **`InClosureIterateImage`**
+from **`closureSeed`** to **`closureTarget`**.
+-/
+structure IterateBackedReflexiveArchitecture (World Obs Repr Claim : Type) where
+  arch : ReflexiveArchitecture World Obs Repr Claim
+  closureSeed : Set World
+  closureTarget : Set World
+  closure_iterate_sound :
+    ∀ Cl : ClosureOperator World, arch.closure_success Cl → InClosureIterateImage Cl closureSeed closureTarget
+
+/--
+**Definitional** extraction: bundled soundness **is** adequacy for **`arch`**.
+-/
+theorem closureIterateAdequacy_iterateBacked (Ib : IterateBackedReflexiveArchitecture World Obs Repr Claim) :
+    ClosureIterateAdequacy Ib.arch Ib.closureSeed Ib.closureTarget :=
+  Ib.closure_iterate_sound
+
+/--
+**RFO** obstruction from a **backed** architecture + **universal** outside-iterate **geometry** on its packaged seed/target.
+-/
+theorem closure_obstruction_of_iterateBacked_and_universal_outside
+    (Ib : IterateBackedReflexiveArchitecture World Obs Repr Claim)
+    (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl Ib.closureSeed Ib.closureTarget) :
+    ClosureObstructionInterface Ib.arch :=
+  closure_obstruction_of_iterate_adequacy_and_universal_outside (closureIterateAdequacy_iterateBacked Ib) hout
+
+/--
+**Opaque** attempt + the same **iterate-soundness** commitment (**carrier** / nominations irrelevant to this judgment).
+-/
+structure OpaqueAttemptClosureIterateBacking (World Obs Repr Claim : Type) where
+  attempt : OpaqueTotalizationAttempt World Obs Repr Claim
+  closureSeed : Set World
+  closureTarget : Set World
+  closure_iterate_sound :
+    ∀ Cl : ClosureOperator World, attempt.arch.closure_success Cl → InClosureIterateImage Cl closureSeed closureTarget
+
+theorem closureIterateAdequacy_opaqueAttemptClosureIterate
+    (B : OpaqueAttemptClosureIterateBacking World Obs Repr Claim) :
+    ClosureIterateAdequacy B.attempt.arch B.closureSeed B.closureTarget :=
+  B.closure_iterate_sound
+
+theorem closure_obstruction_of_opaqueAttemptIterateBacking_and_universal_outside
+    (B : OpaqueAttemptClosureIterateBacking World Obs Repr Claim)
+    (hout : ∀ Cl : ClosureOperator World, OutsideClosureIterateImage Cl B.closureSeed B.closureTarget) :
+    ClosureObstructionInterface B.attempt.arch :=
+  closure_obstruction_of_iterate_adequacy_and_universal_outside (closureIterateAdequacy_opaqueAttemptClosureIterate B) hout
 
 end StructuredNonexhaustibility
