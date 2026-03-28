@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness (**`U123BarrierData`**) are proved; optional **engine payloads** (**D-001**). **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) section **Program focus**.
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness (**`U123BarrierData`**) are proved. **EPIC_011 / SPEC_016_ER1:** **`ResidualEnrichment`** (**payload interfaces**, **`EnrichedR4ResidualWitness`**, **`PayloadPromotionBridge`** + promotion). **F3** engine bridges = **D-001**. **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) section **Program focus**.
 
 ## `sorry` / `axiom` audit
 
@@ -29,6 +29,13 @@
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
+| `ResidualEnrichment/Payloads.lean` | **SPEC_016_ER1 F1:** **`ObstructionSignature`**, **`ResidualPayloadFamily`**, **`SigmaResidualPayload`** |
+| `ResidualEnrichment/EnrichedWitness.lean` | **SPEC_016_ER1 F1:** **`EnrichedR4ResidualWitness`** — base witness + signature + payload |
+| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); promotion is **data** (`def`/`abbrev`), not `theorem` |
+| `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
+| `ResidualEnrichment/Bridges/FromRI.lean` | **TODO F3:** bridge when **D-001** pins RI |
+| `ResidualEnrichment/Bridges/FromRFO.lean` | **TODO F3:** bridge when **D-001** pins RFO |
+| `ResidualEnrichment/Bridges/FromSEM.lean` | **TODO F3:** bridge when **D-001** pins ICA/SEM |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
