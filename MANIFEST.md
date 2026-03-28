@@ -34,8 +34,8 @@
 | `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); promotion is **data** (`def`/`abbrev`), not `theorem` |
 | `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
 | `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
-| `ResidualEnrichment/Bridges/FromRFO.lean` | **TODO F3:** bridge when **D-001** pins RFO |
-| `ResidualEnrichment/Bridges/FromSEM.lean` | **TODO F3:** bridge when **D-001** pins ICA/SEM |
+| `ResidualEnrichment/Bridges/FromRFO.lean` | **F3b:** **`rfoPayloadPromotionBridge`**; **`ClosureObstructionPayload`** = Π **`Cl`**, **`PLift (¬ closure_success)`**; **D-001** for RFO-native traces |
+| `ResidualEnrichment/Bridges/FromSEM.lean` | **F3b:** **`semPayloadPromotionBridge`**; **`CertObstructionPayload`** = Π **`τ`**, **`PLift (¬ cert_success)`**; **D-001** for SEM traces |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |

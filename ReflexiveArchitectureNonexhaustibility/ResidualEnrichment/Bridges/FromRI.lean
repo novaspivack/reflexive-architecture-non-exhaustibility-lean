@@ -1,10 +1,10 @@
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 
 /-!
-# Bridge — representational / diagonal column (**EPIC_011** **F3a**)
+# Bridge — representational / diagonal column (**EPIC_011** **F3**)
 
-**Scope:** first **end-to-end** **`PayloadPromotionBridge`** without pinning an external RI package (**D-001** still
-open for NEMS / nems-lean–style imports).
+**Scope:** first **end-to-end** **`PayloadPromotionBridge`** (see also **`FromRFO`**, **`FromSEM`** for the other
+columns). **D-001** upgrades this payload **type** with NEMS / RI-native traces.
 
 **Payload content:** the representational barrier is **`∀ ρ, ¬ A.repr_success ρ`** (**`DiagonalRepresentationalInterface`**,
 **`Interfaces.lean`**). As a **`Prop`** it is not usable as **`PayloadFor`** data; we use **`PLift`** at each
@@ -12,8 +12,8 @@ internal gadget **`ρ`** so the carrier is a **Π-type in `Type`**: fiber-wise w
 proposed representational totalization. That is **intrinsic obstruction** content (what RI instantiations prove), not a
 relabelling of **`U123BarrierData`**.
 
-**Reusable pattern (for **F3b**):** extract a **Π–PLift** witness from a field of **`U123BarrierData`**, tag with
-**`ObstructionSignature.reprDiag`**, and hand off to **`promote_barrier_pack_to_enriched_r4`**.
+**Shared pattern (all three columns):** extract a **Π–PLift** witness from a field of **`U123BarrierData`**, tag with
+the matching **`ObstructionSignature`**, call **`promote_barrier_pack_to_enriched_r4`**.
 
 **Still TODO after D-001:** swap **`ReprObstructionPayload`** for a richer **engine-native** trace type (diagonal
 witness, Gödelized obstruction, …) and keep **`PayloadPromotionBridge`** as the seam.
