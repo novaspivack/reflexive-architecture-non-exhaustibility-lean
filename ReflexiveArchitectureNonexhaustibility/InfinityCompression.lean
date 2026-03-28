@@ -2,6 +2,10 @@ import ReflexiveArchitectureNonexhaustibility.Residuals
 
 /-!
 # Infinity Compression remainder hooks (**SPEC_013_IC1**)
+
+**Forward:** abstract **refinement-step** language for dynamical **D0** lemmas lives in **`ResidualDynamics.lean`**
+(**`IsRefinementStep`**, **`PairSplitByRefinement`**) under **SPEC_023_RG1** / **EPIC_015**—this file stays the IC sketch
+until **SPEC_013_IC1** imports or ports kernel formalism.
 -/
 
 namespace StructuredNonexhaustibility
