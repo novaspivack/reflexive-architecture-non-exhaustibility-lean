@@ -101,9 +101,9 @@ theorem refinement_reconfiguration_disjoint (step : ResidualResponseStep α Worl
     False := by
   cases step with
   | refinement _ _ _ =>
-      simp [isRefinement, isReconfiguration] at hr hrc
+      simp [isReconfiguration] at hrc
   | reconfiguration _ _ =>
-      simp [isRefinement, isReconfiguration] at hr hrc
+      simp [isRefinement] at hr
 
 end ResidualResponseStep
 
