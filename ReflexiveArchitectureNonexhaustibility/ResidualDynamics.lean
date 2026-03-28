@@ -129,7 +129,7 @@ inductive ResidualResponseStep (α World Obs Repr Claim : Type) : Type
 
 namespace ResidualResponseStep
 
-variable {α World Obs Repr Claim : Type}
+variable {World Obs Repr Claim : Type}
 
 /-- A step used **observational** refinement rather than regulatory change. -/
 def isRefinement (step : ResidualResponseStep α World Obs Repr Claim) : Bool :=
@@ -244,6 +244,43 @@ theorem d1_classical_trilemma_elim {step : ResidualResponseStep α World Obs Rep
   · exact Or.inr (Or.inr (h₃ h₃'))
 
 end ResidualResponseStep
+
+/-! ### Strong **D1** — **`StandingResidualBurden`** and the classical **trilemma**
+
+**Pattern:** instantiate **`d1_classical_trilemma_elim`** with **`K`**, **`P`**, **`B`** naming the persistent **refinement** obligation,
+**proper** regime shift, or bookkeeping **reconfiguration**, then rebrand the disjunction with **`standingResidualBurden_iff`**.
+
+**Anti-smuggling:** no default link from “some response step” to a **concrete** **kernel**/**U123** **`Prop`** without hypotheses—only
+the **case-split** machine is unconditional (**classical** trilemma).
+-/
+
+variable {World Obs Repr Claim : Type}
+
+/--
+**`StandingResidualBurden`** form of **`d1_classical_trilemma_elim`** — one disjunctive dynamics obligation.
+-/
+theorem standingResidualBurden_of_classical_trilemma {step : ResidualResponseStep α World Obs Repr Claim} {K P B : Prop}
+    (hK : (∃ coarse fine h, step = ResidualResponseStep.refinement coarse fine h) → K)
+    (hP :
+      (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) → P)
+    (hB : (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) → B) :
+    StandingResidualBurden (K ∨ P ∨ B) :=
+  (standingResidualBurden_iff (K ∨ P ∨ B)).mpr
+    (@ResidualResponseStep.d1_classical_trilemma_elim α World Obs Repr Claim step K P B hK hP hB)
+
+/--
+**Proper** regime change **is** **`RegimeSnapshotsDiffer`** — packaged as **standing** burden (identity on **`Prop`**).
+-/
+theorem standingResidualBurden_proper_regimeChange {before after : RegimeSnapshot World Obs Repr Claim}
+    (h : IsProperRegimeChange before after) : StandingResidualBurden (RegimeSnapshotsDiffer before after) :=
+  h
+
+/--
+**Bookkeeping** reconfiguration: carriers match — literal **standing** **`Prop`** (**diagnostic** / contrast with **proper** shift).
+-/
+theorem standingResidualBurden_bookkeeping_sameArch {before after : RegimeSnapshot World Obs Repr Claim}
+    (h : before.arch = after.arch) : StandingResidualBurden (before.arch = after.arch) :=
+  h
 
 /-! ## D0 — kernel witness / non-resolving refinement (**SPEC_023_RG1** **P1** relational seed)
 
@@ -478,6 +515,13 @@ theorem jointR2R4ResidualCertificate_r4_props {α β : Type} {f : α → β} {x 
     IsR4PositiveSurvivor J.r4 ∧ AdmissibleResidual J.r4 := by
   rw [J.r4_eq]
   exact And.intro (isR4_barrierLinkedR4ResidualWitness _ _ _) (admissible_barrierLinkedR4ResidualWitness _ _ _)
+
+/--
+**Inhabitation** of the joint certificate (for **Nonempty** / choice-style consumers).
+-/
+theorem nonempty_jointR2R4ResidualCertificate {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    (b : U123BarrierData A) : Nonempty (JointR2R4ResidualCertificate α β f x y hf hne b) :=
+  ⟨jointR2R4ResidualCertificate hf hne b⟩
 
 /--
 **Joint existence:** forgetful **R₂** certificate + the **canonical** barrier-linked **R₄** witness from **`b`**.
