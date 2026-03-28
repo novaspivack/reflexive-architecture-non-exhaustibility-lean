@@ -7,8 +7,8 @@ package «reflexive-architecture-nonexhaustibility-lean» where
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4.git" @ "v4.29.0-rc6"
 
--- D-001 (**EPIC_012** / **SPEC_018_PN1**): add engine `require` here after toolchain alignment (e.g. nems-lean).
--- Do not add broken pins — default `lake build` must stay green for mathlib-only clones.
+-- **D-001 PN1:** sibling **nems-lean** (`../../nems-lean` from this package). **SPEC_018_PN1**, **docs/002_DEVELOPER_SETUP.md**.
+require «nems-lean» from ".." / ".." / "nems-lean"
 
 @[default_target]
 lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where

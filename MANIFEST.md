@@ -16,7 +16,7 @@
 
 | File | Role |
 |------|------|
-| `EngineDependencyPinning.lean` | **D-001 / EPIC_012** placeholder — **`SPEC_018_PN1`**; first real `require` in **`lakefile.lean`** |
+| `EngineDependencyPinning.lean` | **D-001 PN2:** imports **`NemS.Prelude`** (path **`«nems-lean»`** in **`lakefile.lean`**) — **`SPEC_018_PN1`** |
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
 | `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**) |
