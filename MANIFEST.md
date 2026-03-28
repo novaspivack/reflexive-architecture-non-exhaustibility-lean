@@ -58,7 +58,7 @@
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
 | `Adequacy.lean` | **SPEC_012_AA1** + **SPEC_023_RG1 D3**: **`d3_adequacy_aftermath_standing_burden`**, **`d3_aftermath_standing_r4_admissible_core`**; **`CertificateWorldConsistent`**, **`honest_aftermath_carries_admissible_r4`**; imports **`ResidualDynamics`** |
 | `InfinityCompression.lean` | **SPEC_013_IC1:** imports **`ResidualDynamics`**; **`ICKernel`** = **`KernelOfMap`**; **`ICRemainderSketch`**, **`sketchToWitness`**, **`ic_sketch_tags_r4`**; sibling IC library import still **out of band** |
-| `ResidualDynamics.lean` | **SPEC_023_RG1**: **D0**–**D1**; **`standingResidualBurden_*`** (**D3** propositional transport); **D2** proof / morphism-grade **D3** **open** |
+| `ResidualDynamics.lean` | **SPEC_023_RG1**: **D0**–**D1**; **`residualWitness_of_kernelWitness`** + admissible **R₂** packaging; **`standingResidualBurden_*`** (**D3** propositional); **D2** / **R₄** enrichment bridge **open** |
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
 | `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** spectrum + **`canonical_spectrum_mono`**; **`AltRouteTaxonomy`**, **`TaxonomySound`**, **`TaxonomyComplete`**, **`canonical_spectrum_iff_labeled_successes`**, **`canonical_spectrum_iff_labeled_successes_of_pred_equiv`**, **`canonical_spectrum_mono_labeled`**, **`taxonomy_sound_of_successful_mono`**, **`taxonomy_complete_of_successful_mono`**, **`canonical_spectrum_mono_labeled_pair`** |
 | `U123ReprAugmentedSemanticLink.lean` | **EPIC_012:** non-constant **`U123SemanticBarrierLink`** via **`barrierHypotheses_u123ReprAugment`** (**`b.reprBarrier`**); **`trivialObstruction*`** + **`enrichedR4_*_reprAugmentedU123Sync`** (**`bh`** parameter until a concrete **`EncodedNontrivial`** **×** intermediate-equiv frame lands in **nems-lean**; see **`ToReflection`** / **`UnitypedNatReprObstruction`**) |
@@ -108,6 +108,7 @@
 | `d3_aftermath_standing_r4_admissible_core` | **`Adequacy.lean`:** **D3** weakening to **`∃ w, IsR4 ∧ AdmissibleResidual`** via **`standingResidualBurden_of_imp`**. |
 | `standingResidualBurden_of_imp` | **`ResidualDynamics.lean`:** **`P → Q`** transports **`StandingResidualBurden P`** (**propositional D3**). |
 | `standingResidualBurden_promotion_bridge_irrelevant` | **`Promotion.lean`:** same **`U123BarrierData`** ⇒ **`StandingResidualBurden (P .base)`** unchanged across **`PayloadPromotionBridge`** choices (**base-predicate D3**). |
+| `residualWitness_of_kernelWitness`, `admissibleResidual_residualWitness_of_kernelWitness` | **`ResidualDynamics.lean`:** **R₂** **`ResidualWitness`** from **`KernelWitness`** (admissible; **≠** **`trivialR4`**); **R₄** / **`U123BarrierData`** upgrade **open**. |
 | `canonical_spectrum_iff_labeled_successes` | **RouteCanonicality:** **F2-1** + **sound + complete** taxonomy \(\Leftrightarrow\) labeled gadget successes. |
 | `canonical_spectrum_mono_labeled` | **RouteCanonicality:** transport labeled successes across **`canonical_spectrum_mono`**. |
 | `d002_barrier_linked_r4_witness_holds` | **D-002 abstract:** **`D002BarrierLinkedR4WitnessTarget`** is a **`theorem`**. |

@@ -1,4 +1,5 @@
 import ReflexiveArchitectureNonexhaustibility.Basic
+import ReflexiveArchitectureNonexhaustibility.Residuals
 
 /-!
 # Residual dynamics — **SPEC_023_RG1** / **EPIC_015** phase **P0**
@@ -9,9 +10,11 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0** + **D0** (**kernel witness**, **forgetful `KernelOfMap`**) + **D1** (intuitionistic **`d1_*`** + **`Bool`**↔**`∃`**
+**Scope:** **P0** + **D0** (**kernel witness**, **forgetful `KernelOfMap`**, **`residualWitness_of_kernelWitness`**) + **D1**
+(intuitionistic **`d1_*`** + **`Bool`**↔**`∃`**
 + **`classical`** **`d1_response_step_classical_trilemma`** / **`IsProperRegimeChange`**—**LEM** on **`arch`**
-equality, **disclosed**). **Barrier / `ResidualWitness` strong D1**, **D2** (fold), **D3** (adequacy) **open**—**SPEC_023_RG1**.
+equality, **disclosed**). **Strong D1** (barrier-typed **R₄** / **`ResidualWitness`** story), **D2** (fold), further **D3**
+(cross-**`arch`**) **open**—**SPEC_023_RG1**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
@@ -285,6 +288,46 @@ theorem d0_standing_unmet_need {K : α → α → Prop} {w : KernelWitness α K}
     (hneed : Need) (hfine : fine w.x w.y) :
     StandingResidualBurden (Need ∧ fine w.x w.y) :=
   And.intro hneed hfine
+
+/-! ### **KernelWitness** → **`ResidualWitness`** (**SPEC_023_RG1** / **EPIC_009** hook)
+
+Paper **C** residual point with **R₂** tag and carrier **`α × α`**: the distinguished pair is the witness **data**.
+This is **not** barrier-linked **R₄** (still **`U123BarrierData`**); it **is** an honest, **admissible** (**negative class**)
+typed residual for the same kernel geometry **IC** uses.
+-/
+
+/--
+Package a **`KernelWitness`** as a **`ResidualWitness`** tagged **R₂**.
+
+**Not** **R₄** / **`trivialR4ResidualWitness`**; enrichment to **R₄** payloads stays at **`ResidualEnrichment`**
+/ **D-002** with extra hypotheses.
+-/
+def residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop} (w : KernelWitness α K) : ResidualWitness :=
+  ⟨ResidualClass.R2, α × α, (w.x, w.y)⟩
+
+theorem isR2Residual_residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop} (w : KernelWitness α K) :
+    IsR2Residual (residualWitness_of_kernelWitness w) :=
+  rfl
+
+theorem not_isR4Residual_residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop} (w : KernelWitness α K) :
+    ¬ IsR4PositiveSurvivor (residualWitness_of_kernelWitness w) :=
+  fun h4 => negative_not_r4 (residualWitness_of_kernelWitness w) (Or.inr (Or.inl rfl)) h4
+
+theorem residualWitness_of_kernelWitness_ne_trivialR4 {α : Type _} {K : α → α → Prop} (w : KernelWitness α K) :
+    residualWitness_of_kernelWitness w ≠ trivialR4ResidualWitness := by
+  intro he
+  have h4 : IsR4PositiveSurvivor (residualWitness_of_kernelWitness w) := by
+    rw [he]
+    exact isR4_trivialR4
+  exact not_isR4Residual_residualWitness_of_kernelWitness w h4
+
+theorem isNegativeResidualClass_residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop}
+    (w : KernelWitness α K) : IsNegativeResidualClass (residualWitness_of_kernelWitness w) :=
+  Or.inr (Or.inl rfl)
+
+theorem admissibleResidual_residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop}
+    (w : KernelWitness α K) : AdmissibleResidual (residualWitness_of_kernelWitness w) :=
+  admissible_of_negativeClass (isNegativeResidualClass_residualWitness_of_kernelWitness w)
 
 /-! ## Forgetful-map kernel (**SPEC_013_IC1** geometric pattern)
 
