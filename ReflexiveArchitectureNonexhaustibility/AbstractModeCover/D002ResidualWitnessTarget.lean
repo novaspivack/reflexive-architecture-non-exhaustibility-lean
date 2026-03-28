@@ -13,6 +13,11 @@ schematic **`trivialR4ResidualWitness`** chain under triple anchored failure.
 
 **Status:** this file **names** the composition-shaped obligation. **No** nontrivial barrier-to-witness
 construction is claimed here yet (**TODO** below).
+
+**Stage 0 (proved elsewhere):** **`PostFailureResidual.lean`** shows **U₁–U₃** force **`PositiveResidualProfile`**
+with the **schematic** **`trivialR4ResidualWitness`** — the **post-failure** disjunct, **not** honest anchored
+completion. **D-002** targets a **strictly stronger** barrier-linked witness when a **non-schematic** story is
+required.
 -/
 
 namespace StructuredNonexhaustibility

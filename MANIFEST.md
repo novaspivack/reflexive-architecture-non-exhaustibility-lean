@@ -31,7 +31,8 @@
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002** named target **`D002BarrierLinkedR4WitnessTarget`** (**TODO-077_AB9**) |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
-| `AbstractModeCover/PaperDAnchoredChain.lean` | **Paper D anchored chain:** **`paper_d_anchored_honest_completion_refutes_triple_barriers`** — **I_anch** (true **`HonestAnchoredInternalCompletion`**) + **U₁–U₃** on `attempt.arch` is **`False`** via **`no_success_any_canonical_mode`** + profile **`→` `Mode*i*Success`** lemmas (**`Profiles.lean`**) |
+| `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
+| `AbstractModeCover/PostFailureResidual.lean` | **Aftermath (schematic R₄):** **`positive_residual_profile_of_triple_barriers_at_anchor`** — barriers **⇒** **`PositiveResidualProfile`** ( **`trivialR4ResidualWitness`** ); **not** completion — **D-002** = nontrivial barrier-linked witness |
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -74,6 +75,8 @@
 | `genuine_alone_does_not_imply_threeWayAnchorModes` | Refutes **`Genuine` ⇒ anchored `ThreeWayAnchorModes`** universally; **R₄** disjunct is separate (**`AbstractOpaqueModeCoverTarget`** not refuted here). |
 | `representationalProfile_implies_mode1Success` / `closureProfile_implies_mode2Success` / `certificatoryProfile_implies_mode3Success` | **Opaque profile at `anchor` ⇒** matching **`Mode*i*Success`** on `attempt.arch` (**Paper D morphism** to mode calculus). |
 | `paper_d_anchored_honest_completion_refutes_triple_barriers` | **Paper D chain:** **I_anch** (true **`HonestAnchoredInternalCompletion`**) + **U₁–U₃** on same `arch` \(\Rightarrow\) **`False`** (**`PaperDAnchoredChain.lean`**, intuitionistic). |
+| `barriered_architecture_admits_no_true_honest_anchored_internal_completion` | **Global nonexistence:** **¬∃** true **`HonestAnchoredInternalCompletion`** package with `arch = A` under **U₁–U₃** on **`A`**. |
+| `positive_residual_profile_of_triple_barriers_at_anchor` | **Post-failure:** **U₁–U₃** \(\Rightarrow\) **`PositiveResidualProfile`** (schematic **R₄**); **orthogonal** to **D-002** strengthening. |
 
 **Still open (philosophical / constructive core):** universal classification from **`GenuineInternalTotalizationAttempt` (= `Nonempty carrier`) alone** without **either** classical case-split **or** an **honest enrichment** (claim soundness, determinacy, **SPEC_012**, …). The gap is **interface under-determination**, not missing packaging of an already classical fact.
 

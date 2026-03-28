@@ -16,7 +16,8 @@ import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.AnchoredFlagship
 
 **Conclusion:** the **conjunction** of a **true** anchored burden-faithful completion package over `arch` and
 the **triple barrier** interfaces on the **same** `arch` is **absurd** — the flagship **structured
-nonexhaustibility** consequence for this layer.
+nonexhaustibility** / **global nonexistence** theorem for **Layer 1** (“**barriered anchored completion is
+impossible**”). See also **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`**.
 
 **Alternate proof** (same logical content, no `Mode` disjunction): barriers yield **¬**each anchored profile;
 use **`burdenFaithful_claim_incompatible_with_threeFailures`** (**`GenuinenessCandidates.lean`**).
@@ -50,5 +51,21 @@ theorem paper_d_anchored_honest_completion_refutes_triple_barriers
       (Or.inr (Or.inl (closureProfile_implies_mode2Success p.base.attempt hC)))
   · exact no_success_any_canonical_mode p.base.attempt.arch d1 d2 d3
       (Or.inr (Or.inr (certificatoryProfile_implies_mode3Success p.base.attempt hK)))
+
+/--
+**Layer 1 — displayed nonexistence theorem (Paper D):** under **U₁–U₃** on `A`, there is **no** true
+**`HonestAnchoredInternalCompletion`** package whose opaque attempt carries that same `arch`.
+
+This is the **pure existential** form of **`paper_d_anchored_honest_completion_refutes_triple_barriers`**.
+-/
+theorem barriered_architecture_admits_no_true_honest_anchored_internal_completion
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (d1 : DiagonalRepresentationalInterface A)
+    (d2 : ClosureObstructionInterface A)
+    (d3 : SemanticCertificationInterface A) :
+    ¬∃ (p : HonestAnchoredInternalCompletion World Obs Repr Claim),
+      p.base.attempt.arch = A ∧ p.base.internalCompletionClaim := by
+  rintro ⟨p, rfl, hcl⟩
+  exact paper_d_anchored_honest_completion_refutes_triple_barriers p hcl d1 d2 d3
 
 end StructuredNonexhaustibility
