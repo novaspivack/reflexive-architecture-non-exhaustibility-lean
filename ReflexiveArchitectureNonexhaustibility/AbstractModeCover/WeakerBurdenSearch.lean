@@ -31,6 +31,10 @@ open-ended candidate zoo.
 main **constructive weakening** that **relocates** architectural success off `anchor`. **Propositional**
 weakenings between `¬(¬M₁∧…)` and `M₁∨…∨M₃` stay **intuitionistically** subtle; **classically** they collapse
 to anchor burden-faithfulness.
+
+**Frozen distinction (2026-03-27):** **anchored completion** (profiles at **`anchor`**) and **relocated /
+off-anchor success** (`ProfileAt p` for some `p`) are **non-equivalent** theorem subjects. See section
+**AnchorNecessityBoundary** and **SPEC_015_KM2** / **MANIFEST** “two theorem layers.”
 -/
 
 namespace StructuredNonexhaustibility
@@ -281,5 +285,60 @@ theorem toyReprOnly_burdenFaithful_not_omitRepr :
     simp [ClosureProfile, CertificatoryProfile, toyAttemptReprOnlyAtAnchor, toyArchReprOnly] at this
 
 end ToyCounterexamples
+
+section AnchorNecessityBoundary
+
+/-!
+## Anchor necessity for anchored three-way completion modes (**boundary theorem**)
+
+**Specification:** The flagship “honest internal completion” layer in **SPEC_015_KM2** targets obligations
+**at `anchor`** (`RepresentationalProfile`, …). **`IsBurdenFaithfulSomewhereClaim`** is **not** a weaker
+substitute for that layer: it is **relocated success geometry**. This section packages the **negative**
+(non-entailment) and **collapse** (subsingleton carrier) facts so the repo can cite a single boundary API.
+
+**Do not** treat somewhere-faithfulness as “almost enough” for anchored classification.
+-/
+
+/--
+**Boundary (negative):** universal “somewhere-faithful + true claim ⇒ anchored `ThreeWayAnchorModes`” is
+**false** already for `OpaqueAttemptWithClaim Unit Unit Bool Unit` (same toy as
+`exists_somewhereFaithful_trueClaim_without_anchor_threeWay`).
+-/
+theorem anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype :
+    ¬ (∀ wc : OpaqueAttemptWithClaim Unit Unit Bool Unit,
+        IsBurdenFaithfulSomewhereClaim wc →
+          wc.internalCompletionClaim → ThreeWayAnchorModes wc.attempt) := by
+  intro H
+  rcases exists_somewhereFaithful_trueClaim_without_anchor_threeWay with ⟨wc, hsf, hcl, hn3⟩
+  exact hn3 (H wc hsf hcl)
+
+/--
+**Boundary (collapse):** when every `p : carrier` is **`anchor`**, spatial weakening coincides with anchor
+burden-faithfulness (**anchor identification** / subsingleton carrier).
+-/
+theorem anchor_identification_collapses_somewhereFaithful_to_burdenFaithful
+    (wc : OpaqueAttemptWithClaim World Obs Repr Claim)
+    (hsub : ∀ p q : wc.attempt.carrier, p = q) :
+    IsBurdenFaithfulSomewhereClaim wc ↔ IsBurdenFaithfulClaim wc :=
+  isSomewhereFaithful_iff_burdenFaithful_of_subsingleton_carrier wc hsub
+
+/--
+**Packaged boundary witness** for citations: separation, universal refutation, orthogonality
+(somewhere \(\nRightarrow\) `IsJointFailureRuledOut` on toy).
+-/
+theorem anchor_necessity_boundary_bundle_utype :
+    (∃ wc : OpaqueAttemptWithClaim Unit Unit Bool Unit,
+        IsBurdenFaithfulSomewhereClaim wc ∧ wc.internalCompletionClaim ∧
+          ¬ ThreeWayAnchorModes wc.attempt) ∧
+      (¬ (∀ wc : OpaqueAttemptWithClaim Unit Unit Bool Unit,
+            IsBurdenFaithfulSomewhereClaim wc →
+              wc.internalCompletionClaim → ThreeWayAnchorModes wc.attempt)) ∧
+      (IsBurdenFaithfulSomewhereClaim ⟨toyAttemptCertSomewhereOffAnchor, True⟩ ∧
+        ¬ IsJointFailureRuledOut ⟨toyAttemptCertSomewhereOffAnchor, True⟩) :=
+  ⟨exists_somewhereFaithful_trueClaim_without_anchor_threeWay,
+    anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype,
+    somewhereFaithful_does_not_imply_jointFailureRuledOut_toy⟩
+
+end AnchorNecessityBoundary
 
 end StructuredNonexhaustibility

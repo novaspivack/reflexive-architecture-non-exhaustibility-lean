@@ -34,11 +34,23 @@
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
 | `RouteCanonicality.lean` | Deferred (**SPEC_014_CC1**) |
 
+## Two theorem layers — anchored completion vs relocated success (**frozen distinction**)
+
+| **Layer** | **Meaning (Lean)** | **Program role** |
+|-----------|-------------------|------------------|
+| **Layer 1 — Anchored completion** | `RepresentationalProfile` / `ClosureProfile` / `CertificatoryProfile` use nominations **at `anchor`** | **Flagship** universal structured nonexhaustibility route: **honest internal completion** bears burden **at the designated anchor** (`IsBurdenFaithfulClaim`, etc.). |
+| **Layer 2 — Relocated / off-anchor success** | `RepresentationalProfileAt a p`, … for some `p : carrier`; **`IsBurdenFaithfulSomewhereClaim`** | **Companion** structural family: **success geometry** allowing internal parameters distinct from `anchor`. **Not** a drop-in weakening of Layer 1 — see **`AnchorNecessityBoundary`** in **`WeakerBurdenSearch.lean`**. |
+
+**Boundary theorem (packaged):** `anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype`,
+`anchor_identification_collapses_somewhereFaithful_to_burdenFaithful`, `anchor_necessity_boundary_bundle_utype`.
+
+**Do not mix layers in prose or proofs** without saying so: anchored classification theorems **require** anchored obligations; allowing relocation changes the **theorem subject**.
+
 ## Disclosure — three “mode cover” layers
 
 1. **Syntactic (proved):** `SyntacticTotalization` carries its regime as a **constructor tag**; `syntactic_four_way` is proof-by-cases. This is the **control theorem**; it does **not** solve BACKGROUND §VII for opaque attempts.
-2. **Abstract — definitions + reflection (in progress):** `AbstractModeCover/*` introduces **non-tag-carrying** `OpaqueTotalizationAttempt`, profile predicates, and **`fromSyntactic`** (embedding). **`syntactic_reflection_four_way_of_axis_success`** is **conditional**: unconditional four-way disjunction of profiles is **false** for arbitrary architectures (see docstring there).
-3. **Abstract — summit (`Prop` targets):** `AbstractOpaqueModeCoverTarget` is a **`theorem`** via **`abstract_opaque_mode_cover_classical`** (disclosed **LEM** on M₁–M₃ profiles at `anchor`). **`AbstractMediationDecompositionTarget`** is likewise discharged **classically** via `abstract_mediation_decomposition_target_classical`. **Constructive / burden-bearing** routes live in **`GenuinenessCandidates.lean`** (burden-faithful claim; per-attempt `Decidable` on profiles).
+2. **Abstract — definitions + reflection (in progress):** `AbstractModeCover/*` introduces **non-tag-carrying** `OpaqueTotalizationAttempt`, profile predicates **at `anchor`**, and **`fromSyntactic`** (embedding). **`syntactic_reflection_four_way_of_axis_success`** is **conditional**: unconditional four-way disjunction of profiles is **false** for arbitrary architectures (see docstring there).
+3. **Abstract — summit (`Prop` targets):** `AbstractOpaqueModeCoverTarget` is a **`theorem`** via **`abstract_opaque_mode_cover_classical`** (disclosed **LEM** on M₁–M₃ profiles at `anchor`). **`AbstractMediationDecompositionTarget`** is likewise discharged **classically** via `abstract_mediation_decomposition_target_classical`. **Constructive / burden-bearing** routes live in **`GenuinenessCandidates.lean`** (anchored **`IsBurdenFaithfulClaim`**; per-attempt `Decidable` on profiles).
 
 ## Summit targets — logical packaging (**partial**, does not close the gap)
 
@@ -52,6 +64,9 @@
 | `burdenFaithful_claim_incompatible_with_threeFailures` | **Faithful true claim** incompatible with ¬M₁∧¬M₂∧¬M₃ (so **not** honest positive-residual data). |
 | `abstract_four_way_of_profileDeterminacy` | **Intuitionistic:** `Decidable` on three profiles \(\Rightarrow\) four-way cover. |
 | `trivial_soundness_does_not_force_profiles` | Generic `soundness : claim → Prop` slot **insufficient** without discipline. |
+| `anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype` | **Layer 2 \(\nRightarrow\) Layer 1:** somewhere-faithful + true claim **does not** force anchored `ThreeWayAnchorModes` (proof refutes universal implication). |
+| `anchor_identification_collapses_somewhereFaithful_to_burdenFaithful` | **Subsingleton carrier:** spatial weakening **collapses** to anchor burden-faithfulness. |
+| `anchor_necessity_boundary_bundle_utype` | One-shot `And` packaging of separation + refutation + orthogonality toy. |
 
 **Still open (philosophical / constructive core):** universal classification from **`GenuineInternalTotalizationAttempt` (= `Nonempty carrier`) alone** without **either** classical case-split **or** an **honest enrichment** (claim soundness, determinacy, **SPEC_012**, …). The gap is **interface under-determination**, not missing packaging of an already classical fact.
 
