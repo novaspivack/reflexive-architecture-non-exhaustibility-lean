@@ -22,6 +22,32 @@ def ClosureProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :
 def CertificatoryProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :=
   a.arch.cert_success (a.certAt a.anchor)
 
+/-- **M₁ success at** `p` (not necessarily `anchor`). -/
+def RepresentationalProfileAt (a : OpaqueTotalizationAttempt World Obs Repr Claim) (p : a.carrier) :
+    Prop :=
+  a.arch.repr_success (a.reprAt p)
+
+/-- **M₂ success at** `p`. -/
+def ClosureProfileAt (a : OpaqueTotalizationAttempt World Obs Repr Claim) (p : a.carrier) : Prop :=
+  a.arch.closure_success (a.closureAt p)
+
+/-- **M₃ success at** `p`. -/
+def CertificatoryProfileAt (a : OpaqueTotalizationAttempt World Obs Repr Claim) (p : a.carrier) :
+    Prop :=
+  a.arch.cert_success (a.certAt p)
+
+@[simp]
+theorem representationalProfileAt_anchor (a : OpaqueTotalizationAttempt World Obs Repr Claim) :
+    RepresentationalProfileAt a a.anchor = RepresentationalProfile a := rfl
+
+@[simp]
+theorem closureProfileAt_anchor (a : OpaqueTotalizationAttempt World Obs Repr Claim) :
+    ClosureProfileAt a a.anchor = ClosureProfile a := rfl
+
+@[simp]
+theorem certificatoryProfileAt_anchor (a : OpaqueTotalizationAttempt World Obs Repr Claim) :
+    CertificatoryProfileAt a a.anchor = CertificatoryProfile a := rfl
+
 /--
 **R₄ (positive residual) profile:** an **R₄-class** admissible witness, and **none** of the three
 canonical mode-success predicates hold at `anchor`.

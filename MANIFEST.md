@@ -27,6 +27,7 @@
 | `AbstractModeCover/Mediation.lean` | Mediation aliases + **`AbstractMediationDecompositionTarget`** (open `Prop`) |
 | `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** as `abstract_opaque_mode_cover_classical`; explicit **`classical`**); `fromSyntactic`; conditional reflection |
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
+| `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep:** somewhere-faithfulness vs anchor; joint-failure / classical_iff; omit-one strictening; toy counterexamples (**SPEC_015_KM2**) |
 | `Universal.lean` | `no_success_any_canonical_mode` — flagship **composition** |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -53,6 +54,8 @@
 | `trivial_soundness_does_not_force_profiles` | Generic `soundness : claim → Prop` slot **insufficient** without discipline. |
 
 **Still open (philosophical / constructive core):** universal classification from **`GenuineInternalTotalizationAttempt` (= `Nonempty carrier`) alone** without **either** classical case-split **or** an **honest enrichment** (claim soundness, determinacy, **SPEC_012**, …). The gap is **interface under-determination**, not missing packaging of an already classical fact.
+
+**Weaker-burden search (2026-03-27, principled):** `WeakerBurdenSearch.lean` — **`IsBurdenFaithfulSomewhereClaim`** is **strictly weaker** than **`IsBurdenFaithfulClaim`** (success at **some** `p : carrier`, not `anchor`; **Bool** carrier toy). **Spatial weakening collapses** on a **subsingleton** carrier (`isSomewhereFaithful_iff_burdenFaithful_of_subsingleton_carrier`). **`IsJointFailureRuledOut`** is **classically** equivalent to anchor burden-faithfulness; **somewhere** \(\nRightarrow\) joint-failure (same toy: anchored triple failure + off-anchor cert success). **Omit-one** bundles (`OmitReprBurden`, ...) **imply** burden-faithfulness; **burden** \(\nRightarrow\) **omitRepr** (**Repr-only** witness).
 
 ## Outcome B — under-determination of the current opaque layer
 

@@ -22,6 +22,7 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Mediation,
     `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Classification,
     `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.GenuinenessCandidates,
+    `ReflexiveArchitectureNonexhaustibility.AbstractModeCover.WeakerBurdenSearch,
     `ReflexiveArchitectureNonexhaustibility.Universal,
     `ReflexiveArchitectureNonexhaustibility.Adequacy,
     `ReflexiveArchitectureNonexhaustibility.InfinityCompression,
