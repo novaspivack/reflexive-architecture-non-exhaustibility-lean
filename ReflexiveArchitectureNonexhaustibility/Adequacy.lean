@@ -1,6 +1,7 @@
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.AnchoredFlagship
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.PostFailureResidual
+import ReflexiveArchitectureNonexhaustibility.Interfaces
 import ReflexiveArchitectureNonexhaustibility.ResidualDynamics
 import ReflexiveArchitectureNonexhaustibility.Residuals
 
@@ -10,6 +11,8 @@ import ReflexiveArchitectureNonexhaustibility.Residuals
 **Dynamics (**SPEC_023_RG1** / **EPIC_015**): **`d3_adequacy_aftermath_standing_burden`** repackages
 **`honest_aftermath_carries_admissible_r4`** as **`StandingResidualBurden`** — same mathematical content, dynamics
 vocabulary for “burden does not vanish under triple barriers; it is organized into admissible **R₄**.”
+**`U123BarrierData`** / **`RegimeSnapshot`** entry points: **`d3_adequacy_aftermath_standing_burden_of_u123BarrierData`**,
+**`…_of_nonempty_u123_arch`**, **`…_of_regime_arch_eq_u123`** (**`u123BarrierData_cast`**).
 
 **Cross-walk (baseline → anchored flagship):**
 
@@ -128,5 +131,60 @@ theorem d3_aftermath_standing_r4_admissible_core
       rintro ⟨w, hwR, hwA, _, _, _⟩
       exact ⟨w, hwR, hwA⟩)
     (d3_adequacy_aftermath_standing_burden a d1 d2 d3)
+
+/--
+**D3** aftermath from a **typed** **`U123BarrierData a.arch`** pack (**SPEC_003_BT1** / **D-002**) — definitionally the same
+input family as **`d3_adequacy_aftermath_standing_burden`**, repackaged for **`U123BarrierData`** consumers.
+-/
+theorem d3_adequacy_aftermath_standing_burden_of_u123BarrierData
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (b : U123BarrierData a.arch) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness,
+        IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
+          ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
+  d3_adequacy_aftermath_standing_burden a b.reprBarrier b.closureBarrier b.certBarrier
+
+/--
+**D3** aftermath from **`Nonempty (U123BarrierData a.arch)`** (e.g. dynamics-layer **`…_u123RegimeHypotheses`** on **`RegimeSnapshot.arch`**
+once aligned with **`a.arch`**).
+-/
+theorem d3_adequacy_aftermath_standing_burden_of_nonempty_u123_arch
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (hb : Nonempty (U123BarrierData a.arch)) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness,
+        IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
+          ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
+  Nonempty.elim hb (d3_adequacy_aftermath_standing_burden_of_u123BarrierData a)
+
+/--
+**Regime snapshot** **`s.arch`** carries **`U123BarrierData`** and matches **`a.arch`** ⇒ **D3** on **`a`**
+(**`u123BarrierData_cast`** along **`a.arch = s.arch`**).
+-/
+theorem d3_adequacy_aftermath_standing_burden_of_regime_arch_eq_u123
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (s : RegimeSnapshot World Obs Repr Claim)
+    (harch : a.arch = s.arch)
+    (b : U123BarrierData s.arch) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness,
+        IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
+          ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
+  d3_adequacy_aftermath_standing_burden_of_u123BarrierData a (u123BarrierData_cast harch.symm b)
+
+/--
+**Nonempty** **`U123BarrierData s.arch`** + **`a.arch = s.arch`** ⇒ **D3** on **`a`**.
+-/
+theorem d3_adequacy_aftermath_standing_burden_of_regime_arch_eq_nonempty_u123
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim)
+    (s : RegimeSnapshot World Obs Repr Claim)
+    (harch : a.arch = s.arch)
+    (hb : Nonempty (U123BarrierData s.arch)) :
+    StandingResidualBurden
+      (∃ w : ResidualWitness,
+        IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
+          ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a) :=
+  Nonempty.elim hb (d3_adequacy_aftermath_standing_burden_of_regime_arch_eq_u123 a s harch)
 
 end StructuredNonexhaustibility
