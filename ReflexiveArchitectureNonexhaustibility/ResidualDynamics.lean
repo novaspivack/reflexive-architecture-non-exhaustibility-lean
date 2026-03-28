@@ -1,6 +1,7 @@
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Attempt
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
 import ReflexiveArchitectureNonexhaustibility.Basic
+import ReflexiveArchitectureNonexhaustibility.Interfaces
 import ReflexiveArchitectureNonexhaustibility.Residuals
 
 /-!
@@ -15,7 +16,7 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 **Scope:** **P0–D3** notes + **D2** **iterate scaffold** + **fold / obstruction packaging** + **iterate-backed** bundles + **vacuous** / **pathological** adequacy
 (**`closureIterateAdequacy_of_global_closure_failure`**, **`pathologicalAllClosureSuccessUnit`**) + **`closureOpId`** calculus; **D1** classical **trilemma** elimination;
 **contentful** **`hK`** + **`standingResidualBurden_of_classical_trilemma_forgetfulKernel_*`** (**raw** trilemma disjunction); **`ψ/χ`** naming vs section **`coarse`/`fine`**; **`JointR2R4ResidualCertificate`** (single **dynamics record**, two witnesses). Imports **`Attempt`**, **`D002ResidualWitnessTarget`**.
-**Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **D3** in **`Interfaces.lean`**.
+**Promotion:** **`standingResidualBurden_enriched_obstruction_sig`** (**σ**). **`Interfaces`** (**`u123BarrierData_cast`**, **U123**-aware **`hP`**/**`hB`**). **D3** field-**`↔`** transport remains detailed in **`Interfaces.lean`**.
 Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
@@ -759,6 +760,138 @@ theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_joint_r2_r4
           (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) ∨
         ∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) :=
   standingResidualBurden_of_classical_trilemma_forgetfulKernel_joint_r2_r4 hf hne hfine' b (fun h => h) (fun h => h)
+
+/-! ### **D1** — **`U123BarrierData`** on **reconfiguration** branches (**hypothesis-driven** **`hP`** / **`hB`**)
+
+**SPEC_023_RG1 / SPEC_003_BT1:** strengthen **bookkeeping** reconfiguration with **`Nonempty (U123BarrierData after.arch)`** from
+**`u123BarrierData_cast`**; **proper** regime change with **independent** **`Nonempty`** on **both** **`arch`** slots (**no** transport
+across **`arch`≠** without further structure).
+
+**Anti-smuggling:** all **`U123`** presence on regimes is **user-supplied** via **`∀ before after …`** hypotheses—not a theorem from
+**`ResidualResponseStep`** alone.
+-/
+
+/--
+**D3 bookkeeping transport:** **`RegimeSnapshot.arch`**-equality lifts **`Nonempty (U123BarrierData before.arch)`** to **`after.arch`**.
+-/
+theorem nonempty_u123BarrierData_regime_after_of_arch_eq {World Obs Repr Claim : Type}
+    {before after : RegimeSnapshot World Obs Repr Claim} (ha : before.arch = after.arch)
+    (hb : Nonempty (U123BarrierData before.arch)) : Nonempty (U123BarrierData after.arch) :=
+  Nonempty.elim hb fun b => ⟨u123BarrierData_cast ha b⟩
+
+/--
+**`hB`** factory: from a **uniform** “bookkeeping **reconfiguration** witnesses carry **`U123`** on **`before.arch`**” hypothesis,
+also get **`Nonempty`** on **`after.arch`** (same **equality** of **`arch`**).
+-/
+theorem d1_hB_reconfiguration_bookkeeping_u123_nonemptyTransport
+    {World Obs Repr Claim : Type} {α : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (H :
+      ∀ before after,
+        step = ResidualResponseStep.reconfiguration before after →
+          before.arch = after.arch → Nonempty (U123BarrierData before.arch)) :
+    (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ before.arch = after.arch) →
+      ∃ before after,
+        step = ResidualResponseStep.reconfiguration before after ∧
+          before.arch = after.arch ∧ Nonempty (U123BarrierData after.arch) := by
+  rintro ⟨before, after, heq, ha⟩
+  rcases H before after heq ha with ⟨b⟩
+  refine ⟨before, after, heq, ha, ?_⟩
+  exact ⟨u123BarrierData_cast ha b⟩
+
+/--
+**`hP`** factory: from a **uniform** hypothesis that **proper** **reconfiguration** snapshots each carry **`U123`** on their **`arch`**
+slot, package **paired** **`Nonempty`** obligations (**not** a single merged witness).
+-/
+theorem d1_hP_proper_regimeChange_pair_u123
+    {World Obs Repr Claim : Type} {α : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (H :
+      ∀ before after,
+        step = ResidualResponseStep.reconfiguration before after →
+          IsProperRegimeChange before after →
+            Nonempty (U123BarrierData before.arch) ∧ Nonempty (U123BarrierData after.arch)) :
+    (∃ before after, step = ResidualResponseStep.reconfiguration before after ∧ IsProperRegimeChange before after) →
+      ∃ before after,
+        step = ResidualResponseStep.reconfiguration before after ∧
+          IsProperRegimeChange before after ∧
+            Nonempty (U123BarrierData before.arch) ∧ Nonempty (U123BarrierData after.arch) := by
+  rintro ⟨before, after, heq, hproper⟩
+  rcases H before after heq hproper with ⟨hbef, haft⟩
+  exact ⟨before, after, heq, hproper, hbef, haft⟩
+
+/--
+**Full trilemma** with forgetful **`K`** and **U123-strengthened** reconfiguration **`hP`**/**`hB`** from **`d1_hP_proper_regimeChange_pair_u123`** /
+**`d1_hB_reconfiguration_bookkeeping_u123_nonemptyTransport`**.
+-/
+theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_joint_r2_r4_u123RegimeHypotheses
+    {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y) (b : U123BarrierData A)
+    (hProper :
+      ∀ before after,
+        step = ResidualResponseStep.reconfiguration before after →
+          IsProperRegimeChange before after →
+            Nonempty (U123BarrierData before.arch) ∧ Nonempty (U123BarrierData after.arch))
+    (hBook :
+      ∀ before after,
+        step = ResidualResponseStep.reconfiguration before after →
+          before.arch = after.arch → Nonempty (U123BarrierData before.arch)) :
+    StandingResidualBurden
+      ((∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              (∃ r2 r4 : ResidualWitness,
+                IsR2Residual r2 ∧
+                  AdmissibleResidual r2 ∧
+                    r2 ≠ trivialR4ResidualWitness ∧
+                      IsR4PositiveSurvivor r4 ∧
+                        AdmissibleResidual r4 ∧
+                          r4 =
+                            barrierLinkedR4ResidualWitness b.reprBarrier b.closureBarrier b.certBarrier)) ∨
+          (∃ before after,
+            step = ResidualResponseStep.reconfiguration before after ∧
+              IsProperRegimeChange before after ∧
+                Nonempty (U123BarrierData before.arch) ∧ Nonempty (U123BarrierData after.arch)) ∨
+        ∃ before after,
+          step = ResidualResponseStep.reconfiguration before after ∧
+            before.arch = after.arch ∧ Nonempty (U123BarrierData after.arch)) :=
+  @standingResidualBurden_of_classical_trilemma α World Obs Repr Claim step _ _ _
+    (d1_hK_refinement_forgetfulKernel_joint_r2_r4_of_refineStillFine hf hne hfine' b)
+    (d1_hP_proper_regimeChange_pair_u123 hProper) (d1_hB_reconfiguration_bookkeeping_u123_nonemptyTransport hBook)
+
+/--
+Same **U123** **reconfiguration** packaging as **`…_joint_r2_r4_u123RegimeHypotheses`**, but refinement **`K`** is **forgetful** **R₂** only (**no** joint **U123** tail on **`K`**).
+-/
+theorem standingResidualBurden_of_classical_trilemma_forgetfulKernel_r2_u123RegimeHypotheses
+    {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y)
+    {World Obs Repr Claim : Type} {step : ResidualResponseStep α World Obs Repr Claim}
+    (hfine' :
+      ∀ ψ χ hstep, step = ResidualResponseStep.refinement ψ χ hstep → χ x y)
+    (hProper :
+      ∀ before after,
+        step = ResidualResponseStep.reconfiguration before after →
+          IsProperRegimeChange before after →
+            Nonempty (U123BarrierData before.arch) ∧ Nonempty (U123BarrierData after.arch))
+    (hBook :
+      ∀ before after,
+        step = ResidualResponseStep.reconfiguration before after →
+          before.arch = after.arch → Nonempty (U123BarrierData before.arch)) :
+    StandingResidualBurden
+      ((∃ ψ χ hstep,
+          step = ResidualResponseStep.refinement ψ χ hstep ∧
+            χ x y ∧
+              ∃ rw : ResidualWitness,
+                IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness) ∨
+          (∃ before after,
+            step = ResidualResponseStep.reconfiguration before after ∧
+              IsProperRegimeChange before after ∧
+                Nonempty (U123BarrierData before.arch) ∧ Nonempty (U123BarrierData after.arch)) ∨
+        ∃ before after,
+          step = ResidualResponseStep.reconfiguration before after ∧
+            before.arch = after.arch ∧ Nonempty (U123BarrierData after.arch)) :=
+  @standingResidualBurden_of_classical_trilemma α World Obs Repr Claim step _ _ _
+    (d1_hK_refinement_forgetfulKernel_r2_bundle_of_refineStillFine hf hne hfine')
+    (d1_hP_proper_regimeChange_pair_u123 hProper) (d1_hB_reconfiguration_bookkeeping_u123_nonemptyTransport hBook)
 
 /-! ## D2 — internal closure iteration scaffold (**SPEC_023_RG1** **P3**)
 
