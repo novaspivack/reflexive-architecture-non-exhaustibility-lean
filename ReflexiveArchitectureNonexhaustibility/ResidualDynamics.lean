@@ -300,7 +300,8 @@ typed residual for the same kernel geometry **IC** uses.
 Package a **`KernelWitness`** as a **`ResidualWitness`** tagged **R₂**.
 
 **Not** **R₄** / **`trivialR4ResidualWitness`**; enrichment to **R₄** payloads stays at **`ResidualEnrichment`**
-/ **D-002** with extra hypotheses.
+/ **D-002** with extra hypotheses. **Carrier discipline:** **`ResidualWitness.carrier : Type`** — when re-exporting through **`forgetfulKernel_*`**
+lemmas, take **`α : Type`** (not an arbitrary **`Type u`**) so **`α × α`** fits the witness carrier slot.
 -/
 def residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop} (w : KernelWitness α K) : ResidualWitness :=
   ⟨ResidualClass.R2, α × α, (w.x, w.y)⟩
@@ -352,6 +353,53 @@ def kernelWitness_of_map {f : α → β} {x y : α} (hf : f x = f y) (hne : x �
   y := y
   kem := hf
   ne := hne
+
+/--
+**Definitional link:** forgetful **`kernelWitness_of_map`** then **`residualWitness_of_kernelWitness`** is the explicit **R₂**
+pair on **`α × α`**.
+-/
+theorem residualWitness_kernelWitness_of_map_eq {α β : Type} {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y) :
+    residualWitness_of_kernelWitness (kernelWitness_of_map hf hne) =
+      ⟨ResidualClass.R2, α × α, (x, y)⟩ :=
+  rfl
+
+/--
+Conjunction of **R₂** / admissibility / nontriviality for **`residualWitness_of_kernelWitness w`** (**forgetful** chain).
+
+Split out so **`Exists.intro`** elaborates without **`⟨·,·,·,·⟩`** parsing pitfalls.
+
+**Universe:** **`α β : Type`** aligns with **`ResidualWitness.carrier : Type`** (Paper **C** witness carrier discipline).
+-/
+theorem forgetfulKernel_residual_r2_admissible_nontrivial_props {α β : Type} {f : α → β}
+    (w : KernelWitness α (KernelOfMap f)) :
+    IsR2Residual (residualWitness_of_kernelWitness w) ∧
+      AdmissibleResidual (residualWitness_of_kernelWitness w) ∧
+      residualWitness_of_kernelWitness w ≠ trivialR4ResidualWitness :=
+  And.intro (isR2Residual_residualWitness_of_kernelWitness w)
+    (And.intro (admissibleResidual_residualWitness_of_kernelWitness w)
+      (residualWitness_of_kernelWitness_ne_trivialR4 w))
+
+/--
+**D0 → Paper C calculus (forgetful core):** nontrivial equal-image **`f x = f y`**, **`x ≠ y`** ⇒ some **admissible** **R₂**
+**`ResidualWitness`** incompatible with **`trivialR4ResidualWitness`**.
+
+This is the **IC-style** fiber collision packaged for **`Residuals.lean`** consumers **without** claiming barrier-linked **R₄**.
+-/
+theorem d0_forgetfulKernel_obtains_admissible_r2_residual {α β : Type} {f : α → β} {x y : α} (hf : f x = f y)
+    (hne : x ≠ y) :
+    ∃ rw : ResidualWitness,
+      IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness :=
+  Exists.intro (residualWitness_of_kernelWitness (kernelWitness_of_map hf hne))
+    (forgetfulKernel_residual_r2_admissible_nontrivial_props (kernelWitness_of_map hf hne))
+
+/--
+**D0 / dynamics hook:** same as **`d0_forgetfulKernel_obtains_admissible_r2_residual`** under **`StandingResidualBurden`** (**`≡`** **`Prop`** identity).
+-/
+theorem standingResidualBurden_forgetfulKernel_exists_admissible_r2 {α β : Type} {f : α → β} {x y : α} (hf : f x = f y)
+    (hne : x ≠ y) :
+    StandingResidualBurden
+      (∃ rw : ResidualWitness, IsR2Residual rw ∧ AdmissibleResidual rw ∧ rw ≠ trivialR4ResidualWitness) :=
+  d0_forgetfulKernel_obtains_admissible_r2_residual hf hne
 
 /--
 **D0** for a forgetful kernel: still `fine`-identified ⇒ not separated — specialization of **`d0_witness_not_separated_of_still_fine`**.
