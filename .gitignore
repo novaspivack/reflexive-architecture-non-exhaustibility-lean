@@ -1,2 +1,11 @@
 /.lake/
 build/
+
+# `paper/` — LaTeX build outputs (source of truth: `.tex`; rebuild PDF locally)
+paper/*.aux
+paper/*.log
+paper/*.out
+paper/*.fls
+paper/*.fdb_latexmk
+paper/*.synctex.gz
+paper/*.pdf
