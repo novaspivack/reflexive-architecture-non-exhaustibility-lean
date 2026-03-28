@@ -1,4 +1,5 @@
 import Mathlib.Data.Set.Defs
+import ReflexiveArchitectureNonexhaustibility.Modes
 import ReflexiveArchitectureNonexhaustibility.Residuals
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Attempt
 
@@ -7,6 +8,8 @@ import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Attempt
 
 Profiles are **predicates** on `OpaqueTotalizationAttempt`. Overlap is allowed at this layer; a
 later **classification** theorem may impose disjointness / priority rules.
+
+**Paper D bridge (**`Modes.lean`**): anchored profiles imply matching **`Mode*i*Success`** on `arch` (nominations at **`anchor`**); see **`PaperDAnchoredChain.lean`**.
 -/
 
 namespace StructuredNonexhaustibility
@@ -21,6 +24,25 @@ def ClosureProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :
 
 def CertificatoryProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :=
   a.arch.cert_success (a.certAt a.anchor)
+
+/--
+**Mode-calculus bridge (**`Modes.lean`**): anchored representational profile is a **witness** of **M₁ success**
+for the underlying architecture (nomination at `anchor`).
+-/
+theorem representationalProfile_implies_mode1Success
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim) (h : RepresentationalProfile a) :
+    Mode1Success a.arch :=
+  ⟨a.reprAt a.anchor, h⟩
+
+theorem closureProfile_implies_mode2Success
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim) (h : ClosureProfile a) :
+    Mode2Success a.arch :=
+  ⟨a.closureAt a.anchor, h⟩
+
+theorem certificatoryProfile_implies_mode3Success
+    (a : OpaqueTotalizationAttempt World Obs Repr Claim) (h : CertificatoryProfile a) :
+    Mode3Success a.arch :=
+  ⟨a.certAt a.anchor, h⟩
 
 /-- **M₁ success at** `p` (not necessarily `anchor`). -/
 def RepresentationalProfileAt (a : OpaqueTotalizationAttempt World Obs Repr Claim) (p : a.carrier) :

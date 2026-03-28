@@ -14,7 +14,8 @@ These lemmas are **boundary** results: they record implications and **non-implic
 spatial hypotheses to **anchored** completion modes. They **do not** state or intend a competing universal
 Paper D completion theorem and **do not** supersede Layer 1 as the flagship chain entry point.
 
-Readers tracing Paper D should start from **`AnchoredFlagship.lean`** and this file; they should consult
+Readers tracing Paper D should start from **`AnchoredFlagship.lean`** and this file; **composition with U₁–U₃**
+is **`PaperDAnchoredChain.lean`** (**`paper_d_anchored_honest_completion_refutes_triple_barriers`**). Consult
 **`WeakerBurdenSearch.lean`** for **why** anchor-sensitive hypotheses matter, not as a substitute flagship line.
 -/
 
