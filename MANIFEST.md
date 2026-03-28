@@ -25,7 +25,8 @@
 | `AbstractModeCover/Attempt.lean` | `OpaqueTotalizationAttempt`; `GenuineInternalTotalizationAttempt` (**SPEC_015_KM2**) |
 | `AbstractModeCover/Profiles.lean` | Structural profiles on opaque attempts (**not** datatype tags) |
 | `AbstractModeCover/Mediation.lean` | Mediation aliases + **`AbstractMediationDecompositionTarget`** (open `Prop`) |
-| `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (open `Prop`); `fromSyntactic`; conditional reflection |
+| `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** as `abstract_opaque_mode_cover_classical`; explicit **`classical`**); `fromSyntactic`; conditional reflection |
+| `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `Universal.lean` | `no_success_any_canonical_mode` — flagship **composition** |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -36,7 +37,7 @@
 
 1. **Syntactic (proved):** `SyntacticTotalization` carries its regime as a **constructor tag**; `syntactic_four_way` is proof-by-cases. This is the **control theorem**; it does **not** solve BACKGROUND §VII for opaque attempts.
 2. **Abstract — definitions + reflection (in progress):** `AbstractModeCover/*` introduces **non-tag-carrying** `OpaqueTotalizationAttempt`, profile predicates, and **`fromSyntactic`** (embedding). **`syntactic_reflection_four_way_of_axis_success`** is **conditional**: unconditional four-way disjunction of profiles is **false** for arbitrary architectures (see docstring there).
-3. **Abstract — summit (`Prop` targets):** `AbstractOpaqueModeCoverTarget` and `AbstractMediationDecompositionTarget` name what must be **proved** to earn the philosophical classification **without** smuggling. **Not** asserted as axioms.
+3. **Abstract — summit (`Prop` targets):** `AbstractOpaqueModeCoverTarget` is a **`theorem`** via **`abstract_opaque_mode_cover_classical`** (disclosed **LEM** on M₁–M₃ profiles at `anchor`). **`AbstractMediationDecompositionTarget`** is likewise discharged **classically** via `abstract_mediation_decomposition_target_classical`. **Constructive / burden-bearing** routes live in **`GenuinenessCandidates.lean`** (burden-faithful claim; per-attempt `Decidable` on profiles).
 
 ## Summit targets — logical packaging (**partial**, does not close the gap)
 
@@ -45,18 +46,25 @@
 | `mediation_decomposition_of_four_profiles` | Four-way **profile** OR \(\Rightarrow\) mediation-shaped OR (**purely intuitionistic**). |
 | `abstract_cover_implies_mediation_decomposition_target` | **`AbstractOpaqueModeCoverTarget` \(\Rightarrow\) `AbstractMediationDecompositionTarget`**. |
 | `abstract_mediation_implies_cover_classical` / `abstract_mediation_iff_cover_classical` | Converse and iff use **`classical`** (case split on `PositiveResidualProfile`). **Documented** — not hidden choice. |
+| `abstract_opaque_mode_cover_classical` | **LEM** on M₁–M₃ \(\Rightarrow\) four-way cover (R₄ branch: `positive_residual_profile_of_three_failures`). |
+| `abstract_four_way_of_burdenFaithful_claim` | **Intuitionistic:** true claim + **`IsBurdenFaithfulClaim`** \(\Rightarrow\) cover (**M₁–M₃** disjunct; residual unused). |
+| `burdenFaithful_claim_incompatible_with_threeFailures` | **Faithful true claim** incompatible with ¬M₁∧¬M₂∧¬M₃ (so **not** honest positive-residual data). |
+| `abstract_four_way_of_profileDeterminacy` | **Intuitionistic:** `Decidable` on three profiles \(\Rightarrow\) four-way cover. |
+| `trivial_soundness_does_not_force_profiles` | Generic `soundness : claim → Prop` slot **insufficient** without discipline. |
 
-**Still open:** \(\forall a,\, \texttt{Genuine}\,a \Rightarrow\) profile disjunction — no connection from `Nonempty carrier` alone to `repr_success` / `closure_success` / `cert_success` at `anchor`.
+**Still open (philosophical / constructive core):** universal classification from **`GenuineInternalTotalizationAttempt` (= `Nonempty carrier`) alone** without **either** classical case-split **or** an **honest enrichment** (claim soundness, determinacy, **SPEC_012**, …). The gap is **interface under-determination**, not missing packaging of an already classical fact.
 
 ## Outcome B — under-determination of the current opaque layer
 
-**Why `GenuineInternalTotalizationAttempt` does not entail profiles:** it is only **`Nonempty a.carrier`**. Profiles require **`arch.repr_success (reprAt anchor)`** (or closure/cert analogues) or **`PositiveResidualProfile`**, which adds **existential residual linkage**. None of this follows from mere nonemptiness of parameters.
+**Why `GenuineInternalTotalizationAttempt` does not entail profiles (intuitionistically):** it is only **`Nonempty a.carrier`**. Profiles require **`arch.repr_success (reprAt anchor)`** (or closure/cert analogues) or **`PositiveResidualProfile`**, which adds **existential residual linkage**. None of this follows from mere nonemptiness of parameters.
 
-**Minimal enrichment directions** (non-exhaustive; must not smuggle the four-way conclusion as data):
+**Earned enrichment lemmas** (see **`GenuinenessCandidates.lean`**, ordered **A \(\to\) B \(\to\) C**):
 
-1. An explicit **`claimsInternalCompletion : Prop`** (or family) for the attempt + **soundness** lemmas tying claims to the right profile (**SPEC_012_AA1** / adequacy).
-2. **Determinacy** / priority axioms when several success predicates could hold (avoid collapsing to ambiguous “everything at once” without a story).
-3. **EPIC_004 / D-002** support for the **positive** branch: typed `ResidualWitness` **R₄** when hypotheses support survivor structure (**owner:** subordinate to **SPEC_015_KM2**).
+1. **Candidate A — naked claim:** still insufficient (`claim_independent_of_profiles`).
+2. **Candidate B — burden-faithful claim (`IsBurdenFaithfulClaim`):** if the claim is **true**, it **constructively** forces M₁\(\lor\)M₂\(\lor\)M₃ at `anchor`, hence the four-way `Prop` (**residual branch unused**). **Sharp fact:** a **simultaneous** honest positive-residual configuration (all three failures) **contradicts** a **true** burden-faithful claim (`burdenFaithful_claim_incompatible_with_threeFailures`). A generic `soundness : claim → Prop` layer **alone** does not force architecture (`trivial_soundness_does_not_force_profiles`).
+3. **Candidate C — profile determinacy:** `Decidable` on the three profiles gives **intuitionistic** four-way cover (`abstract_four_way_of_profileDeterminacy`).
+
+**Still minimal beyond carrier:** **SPEC_012_AA1** / adequacy refinements; **EPIC_004 / D-002** for **barrier-produced** residual linkage when the **positive** branch must be **non-trivial** relative to a completion narrative (**owner:** subordinate to **SPEC_015_KM2**).
 
 ## Smuggling-risk audit (ongoing)
 
