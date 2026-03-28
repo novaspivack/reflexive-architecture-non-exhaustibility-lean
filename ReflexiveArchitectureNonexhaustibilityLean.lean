@@ -1,14 +1,15 @@
 /-
-
-# Reflexive Architecture — Nonexhaustibility (Lean)
-
-Machine-checked artifact for **Reflexive-Architecture-Nonexhaustibility**.
-
+Entrypoint: **StructuredNonexhaustibility** — see **`MANIFEST.md`**.
 -/
 
-namespace ReflexiveArchitectureNonexhaustibilityLean
-
-/-- Scaffold placeholder; replace with real definitions and theorems. -/
-def scaffold : Nat := 0
-
-end ReflexiveArchitectureNonexhaustibilityLean
+import ReflexiveArchitectureNonexhaustibility.Basic
+import ReflexiveArchitectureNonexhaustibility.Modes
+import ReflexiveArchitectureNonexhaustibility.Residuals
+import ReflexiveArchitectureNonexhaustibility.Interfaces
+import ReflexiveArchitectureNonexhaustibility.Barriers
+import ReflexiveArchitectureNonexhaustibility.SyntacticModeCover
+import ReflexiveArchitectureNonexhaustibility.Universal
+import ReflexiveArchitectureNonexhaustibility.Adequacy
+import ReflexiveArchitectureNonexhaustibility.InfinityCompression
+import ReflexiveArchitectureNonexhaustibility.Instances.ONE
+import ReflexiveArchitectureNonexhaustibility.RouteCanonicality
