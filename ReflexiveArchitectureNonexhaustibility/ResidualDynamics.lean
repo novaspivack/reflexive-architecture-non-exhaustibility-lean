@@ -9,10 +9,10 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0** scaffolding plus a **relational D0 seed** (**kernel witness** + **non-resolving** refinement:
-still `fine`-identified ⇒ **not** separated by the step). **D1** (response dichotomy), **D2** (fold / regime shift),
-and **D3** (adequacy relocation) are **not** proved here—see **SPEC_023_RG1**. Instantiating **`KernelWitness`**
-from **IC** fibers / forgetful maps is **SPEC_013_IC1**.
+**Scope:** **P0** + **D0** (**kernel witness**, **forgetful `KernelOfMap`**) + **D1 tag-level** lemmas (**exhaustive**
+split of **`ResidualResponseStep`** into refinement vs reconfiguration; **`Bool`**↔**`∃`**). **Stronger D1** (preserve
+standing residual vs change regime), **D2** (fold), **D3** (adequacy relocation) are **still open**—**SPEC_023_RG1**.
+Forgetful kernel instantiation: **SPEC_013_IC1** (**`InfinityCompression`** re-exports **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
 with this data.
@@ -113,6 +113,59 @@ theorem refinement_reconfiguration_disjoint (step : ResidualResponseStep α Worl
       simp [isReconfiguration] at hrc
   | reconfiguration _ _ =>
       simp [isRefinement] at hr
+
+/-! ### D1 — tag-level response dichotomy (**SPEC_023_RG1** **P2** seed)
+
+Every **`ResidualResponseStep`** is **either** an observational refinement (carrying **`IsRefinementStep`** data)
+**or** a regulatory reconfiguration (carrying two **`RegimeSnapshot`**s). This is the disjoint-sum reading of
+“refine **or** reconfigure”; it does **not** yet quantify “preserve vs discharge” residual obligations (**stronger D1**).
+-/
+
+/--
+**D1 (exhaustive).** Intuitionistic `'or'` from the two constructors—no **LEM** on composite dynamics.
+-/
+theorem d1_response_step_exhaustive (step : ResidualResponseStep α World Obs Repr Claim) :
+    (∃ coarse fine h, step = refinement coarse fine h) ∨
+      ∃ before after, step = reconfiguration before after := by
+  cases step with
+  | refinement coarse fine h => exact Or.inl ⟨coarse, fine, h, rfl⟩
+  | reconfiguration before after => exact Or.inr ⟨before, after, rfl⟩
+
+/--
+If the step is **not** tagged as refinement data, it **is** a **reconfiguration** (contrapositive routing).
+-/
+theorem d1_not_refinement_then_reconfiguration (step : ResidualResponseStep α World Obs Repr Claim)
+    (h : ¬∃ coarse fine hstep, step = refinement coarse fine hstep) :
+    ∃ before after, step = reconfiguration before after := by
+  cases step with
+  | refinement coarse fine hstep => exact False.elim (h ⟨coarse, fine, hstep, rfl⟩)
+  | reconfiguration before after => exact ⟨before, after, rfl⟩
+
+/--
+**`Bool` guard** **`isRefinement`** ↔ **`∃`** refinement payload (**decidable** tag).
+-/
+theorem isRefinement_eq_true_iff (step : ResidualResponseStep α World Obs Repr Claim) :
+    isRefinement step = true ↔ ∃ coarse fine h, step = refinement coarse fine h := by
+  constructor
+  · intro hs
+    cases step with
+    | refinement coarse fine h => exact ⟨coarse, fine, h, rfl⟩
+    | reconfiguration _ _ => simp [isRefinement] at hs
+  · rintro ⟨coarse, fine, h, rfl⟩
+    rfl
+
+/--
+**`Bool` guard** **`isReconfiguration`** ↔ **`∃`** regime **before/after** pair.
+-/
+theorem isReconfiguration_eq_true_iff (step : ResidualResponseStep α World Obs Repr Claim) :
+    isReconfiguration step = true ↔ ∃ before after, step = reconfiguration before after := by
+  constructor
+  · intro hs
+    cases step with
+    | refinement _ _ _ => simp [isReconfiguration] at hs
+    | reconfiguration before after => exact ⟨before, after, rfl⟩
+  · rintro ⟨before, after, rfl⟩
+    rfl
 
 end ResidualResponseStep
 
