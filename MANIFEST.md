@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** Next work is **EPIC_005**-centered (opaque mediation / decomposition). **EPIC_004** / **D-002** are **support-only** for that stack; **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) “Owner steering.”
+**Program focus (parent repo):** Next work is **EPIC_005**-centered (opaque mediation / decomposition). **EPIC_004** / **D-002** are **support-only** for that stack; **EPIC_010** stays deferred. See parent [`QUEUE.md`](../QUEUE.md) section **Program focus**.
 
 ## `sorry` / `axiom` audit
 
@@ -85,7 +85,7 @@
 2. **Candidate B — burden-faithful claim (`IsBurdenFaithfulClaim`):** if the claim is **true**, it **constructively** forces M₁\(\lor\)M₂\(\lor\)M₃ at `anchor`, hence the four-way `Prop` (**residual branch unused**). **Sharp fact:** a **simultaneous** honest positive-residual configuration (all three failures) **contradicts** a **true** burden-faithful claim (`burdenFaithful_claim_incompatible_with_threeFailures`). A generic `soundness : claim → Prop` layer **alone** does not force architecture (`trivial_soundness_does_not_force_profiles`).
 3. **Candidate C — profile determinacy:** `Decidable` on the three profiles gives **intuitionistic** four-way cover (`abstract_four_way_of_profileDeterminacy`).
 
-**Still minimal beyond carrier:** **SPEC_012_AA1** / adequacy refinements; **EPIC_004 / D-002** for **barrier-produced** residual linkage when the **positive** branch must be **non-trivial** relative to a completion narrative (**owner:** subordinate to **SPEC_015_KM2**).
+**Still minimal beyond carrier:** **SPEC_012_AA1** / adequacy refinements; **EPIC_004 / D-002** for **barrier-produced** residual linkage when the **positive** branch must be **non-trivial** relative to a completion narrative (**governance:** subordinate to **SPEC_015_KM2**).
 
 ## Smuggling-risk audit (ongoing)
 
