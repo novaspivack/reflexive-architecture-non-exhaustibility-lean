@@ -176,4 +176,44 @@ theorem d0_standing_unmet_need {K : α → α → Prop} {w : KernelWitness α K}
     StandingResidualBurden (Need ∧ fine w.x w.y) :=
   And.intro hneed hfine
 
+/-! ## Forgetful-map kernel (**SPEC_013_IC1** geometric pattern)
+
+The “geometry of what maps forget”: two points lie in the same **fiber** of `f` iff `f x = f y`.
+This is the standard IC-style kernel before importing a sibling **infinity-compression** package.
+-/
+
+variable {α β : Type _}
+
+/--
+Kernel relation induced by a map `f : α → β` (**equal images ⇔ same formal fiber**).
+-/
+def KernelOfMap (f : α → β) : Identification α :=
+  fun x y => f x = f y
+
+/--
+Build a **`KernelWitness`** from a **nontrivial** fiber coincidence (`f x = f y` but `x ≠ y`).
+-/
+def kernelWitness_of_map {f : α → β} {x y : α} (hf : f x = f y) (hne : x ≠ y) :
+    KernelWitness α (KernelOfMap f) where
+  x := x
+  y := y
+  kem := hf
+  ne := hne
+
+/--
+**D0** for a forgetful kernel: still `fine`-identified ⇒ not separated — specialization of **`d0_witness_not_separated_of_still_fine`**.
+-/
+theorem d0_forgetfulKernel_notSeparated_of_still_fine {f : α → β} {x y : α} {coarse fine : Identification α}
+    (hf : f x = f y) (hne : x ≠ y) (hstep : IsRefinementStep coarse fine) (hfine : fine x y) :
+    ¬ WitnessSeparatedByRefinement coarse fine (kernelWitness_of_map hf hne) :=
+  d0_witness_not_separated_of_still_fine (w := kernelWitness_of_map hf hne) hstep hfine
+
+/--
+Standing **fine** identification for a forgetful-kernel witness.
+-/
+theorem d0_forgetfulKernel_standing_fine {f : α → β} {x y : α} {fine : Identification α}
+    (hf : f x = f y) (hne : x ≠ y) (hfine : fine x y) :
+    StandingResidualBurden (fine x y) :=
+  d0_standing_fine_identification (w := kernelWitness_of_map hf hne) hfine
+
 end StructuredNonexhaustibility
