@@ -39,4 +39,19 @@ structure U123BarrierData (A : ReflexiveArchitecture World Obs Repr Claim) : Typ
   closureBarrier : ClosureObstructionInterface A
   certBarrier : SemanticCertificationInterface A
 
+/--
+Transport a **U₁–U₃** pack along **`ReflexiveArchitecture`** equality (**SPEC_003_BT1** / **D3** relocation seed).
+
+When **`h : A = A'`** is **`rfl`**, this is **definitionally** the identity on **`U123BarrierData A`**.
+-/
+def u123BarrierData_cast {A A' : ReflexiveArchitecture World Obs Repr Claim} (h : A = A')
+    (b : U123BarrierData A) : U123BarrierData A' :=
+  match h with
+  | rfl => b
+
+@[simp]
+theorem u123BarrierData_cast_rfl {A : ReflexiveArchitecture World Obs Repr Claim} (b : U123BarrierData A) :
+    u123BarrierData_cast (rfl : A = A) b = b :=
+  rfl
+
 end StructuredNonexhaustibility

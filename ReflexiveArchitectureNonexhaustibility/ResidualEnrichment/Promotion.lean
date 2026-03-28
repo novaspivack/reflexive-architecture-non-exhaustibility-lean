@@ -1,4 +1,5 @@
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
+import ReflexiveArchitectureNonexhaustibility.EngineReflexiveMorphism
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.EnrichedWitness
 import ReflexiveArchitectureNonexhaustibility.ResidualDynamics
 
@@ -11,10 +12,12 @@ build an **`EnrichedR4ResidualWitness`** on top of **`barrierLinkedR4ResidualWit
 This **does not** replace abstract **D-002**; it **extends** it when optional engine content is available via
 **`PayloadPromotionBridge`** hypotheses.
 
-**SPEC_023_RG1 D3 (bridge-grade):** **`standingResidualBurden_promotion_bridge_irrelevant`** — any **`Prop`** predicated on the
-**promoted `.base`** **`ResidualWitness`** is unchanged when swapping **`ResidualPayloadFamily`** / **`PayloadPromotionBridge`**
-(because **`promote_enriched_base_independent_of_family_and_bridge`**). **Not** relocation along **`EngineReflexiveMorphism`** /
-cross-architecture maps — that remains **open**.
+**SPEC_023_RG1 D3:** **`standingResidualBurden_promotion_bridge_irrelevant`** — same **`A`**, same **`b`**, vary bridge/family.
+
+**Cross-`A` (equality-shaped):** **`promote_enriched_base_eq_of_arch_eq`**, **`standingResidualBurden_promotion_arch_eq`** — if
+**`A = A'`** and barrier packs agree via **`u123BarrierData_cast`**, promoted **`.base`** **`ResidualWitness`** agrees (**`Engine`**
+corollaries **`*_engine_arch_eq`**). **Not** a general morphism **semantics** map — only **propositional equality** of architectures
+plus **honest** pack transport.
 -/
 
 namespace StructuredNonexhaustibility
@@ -82,6 +85,56 @@ theorem promote_enriched_base_independent_of_family_and_bridge
     (promote_barrier_pack_to_enriched_r4 A F₁ br₁ b).base =
       (promote_barrier_pack_to_enriched_r4 A F₂ br₂ b).base :=
   rfl
+
+/--
+**D3 (cross-`A`, equality):** same **transported** **`U123BarrierData`** on **`A`** and **`A'`** when **`A = A'`** ⇒ same promoted
+**barrier-linked** **`.base`**, regardless of bridge/family **after** identifying **`A`**.
+
+Hypothesis **`u123BarrierData_cast h b = b'`** is the **adequacy-shaped** “same obstruction content” commitment across the equality.
+-/
+theorem promote_enriched_base_eq_of_arch_eq {A A' : ReflexiveArchitecture World Obs Repr Claim} (h : A = A')
+    (F : ResidualPayloadFamily A) (br : PayloadPromotionBridge A F) (b : U123BarrierData A)
+    (F' : ResidualPayloadFamily A') (br' : PayloadPromotionBridge A' F') (b' : U123BarrierData A')
+    (hbb' : u123BarrierData_cast h b = b') :
+    (promote_barrier_pack_to_enriched_r4 A F br b).base =
+      (promote_barrier_pack_to_enriched_r4 A' F' br' b').base := by
+  cases h
+  dsimp [u123BarrierData_cast] at hbb'
+  cases hbb'
+  exact promote_enriched_base_independent_of_family_and_bridge A F F' br br' b
+
+/--
+**`StandingResidualBurden`** predicates on **`P ∘ .base`** respect **`promote_enriched_base_eq_of_arch_eq`**.
+-/
+theorem standingResidualBurden_promotion_arch_eq {A A' : ReflexiveArchitecture World Obs Repr Claim} (h : A = A')
+    (P : ResidualWitness → Prop) (F : ResidualPayloadFamily A) (br : PayloadPromotionBridge A F) (b : U123BarrierData A)
+    (F' : ResidualPayloadFamily A') (br' : PayloadPromotionBridge A' F') (b' : U123BarrierData A')
+    (hbb' : u123BarrierData_cast h b = b') :
+    StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 A F br b).base) ↔
+      StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 A' F' br' b').base) := by
+  rw [promote_enriched_base_eq_of_arch_eq h F br b F' br' b' hbb']
+
+/--
+**Engine packaging:** same statement with **`φ.toReflexive e`** indices.
+-/
+theorem promote_enriched_base_eq_of_engine_arch_eq {E : Type} (φ : EngineReflexiveMorphism E World Obs Repr Claim) (e₁ e₂ : E)
+    (h : φ.toReflexive e₁ = φ.toReflexive e₂) (F₁ : ResidualPayloadFamily (φ.toReflexive e₁))
+    (br₁ : PayloadPromotionBridge (φ.toReflexive e₁) F₁) (b₁ : U123BarrierData (φ.toReflexive e₁))
+    (F₂ : ResidualPayloadFamily (φ.toReflexive e₂)) (br₂ : PayloadPromotionBridge (φ.toReflexive e₂) F₂)
+    (b₂ : U123BarrierData (φ.toReflexive e₂)) (hb : u123BarrierData_cast h b₁ = b₂) :
+    (promote_barrier_pack_to_enriched_r4 (φ.toReflexive e₁) F₁ br₁ b₁).base =
+      (promote_barrier_pack_to_enriched_r4 (φ.toReflexive e₂) F₂ br₂ b₂).base :=
+  promote_enriched_base_eq_of_arch_eq h F₁ br₁ b₁ F₂ br₂ b₂ hb
+
+theorem standingResidualBurden_promotion_engine_arch_eq {E : Type} (φ : EngineReflexiveMorphism E World Obs Repr Claim) (e₁ e₂ : E)
+    (h : φ.toReflexive e₁ = φ.toReflexive e₂) (P : ResidualWitness → Prop)
+    (F₁ : ResidualPayloadFamily (φ.toReflexive e₁)) (br₁ : PayloadPromotionBridge (φ.toReflexive e₁) F₁)
+    (b₁ : U123BarrierData (φ.toReflexive e₁)) (F₂ : ResidualPayloadFamily (φ.toReflexive e₂))
+    (br₂ : PayloadPromotionBridge (φ.toReflexive e₂) F₂) (b₂ : U123BarrierData (φ.toReflexive e₂))
+    (hb : u123BarrierData_cast h b₁ = b₂) :
+    StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 (φ.toReflexive e₁) F₁ br₁ b₁).base) ↔
+      StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 (φ.toReflexive e₂) F₂ br₂ b₂).base) :=
+  standingResidualBurden_promotion_arch_eq h P F₁ br₁ b₁ F₂ br₂ b₂ hb
 
 /--
 **D3 (bridge-level):** **`StandingResidualBurden`** on a **`Prop`** about the **barrier-linked base** witness does **not** depend
