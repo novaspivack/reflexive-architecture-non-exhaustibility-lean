@@ -284,6 +284,23 @@ theorem toyReprOnly_burdenFaithful_not_omitRepr :
     have := ho trivial
     simp [ClosureProfile, CertificatoryProfile, toyAttemptReprOnlyAtAnchor, toyArchReprOnly] at this
 
+/--
+**EPIC_005 / queue execution — honest obstruction:** **`GenuineInternalTotalizationAttempt`** (nonempty
+`carrier` only) does **not** determine **anchored** M₁–M₃ success. A fortiori it does **not** substitute
+for **anchor burden-faithfulness** or other enrichment.
+
+**Contrast:** the **four-way** `AbstractOpaqueModeCoverTarget` still admits the **positive residual**
+disjunct under triple anchored failure (`positive_residual_profile_of_three_failures`); this lemma isolates
+failure of the **completion-mode / three-way** reading alone.
+-/
+theorem genuine_alone_does_not_imply_threeWayAnchorModes :
+    ¬ (∀ (W O R C : Type) (a : OpaqueTotalizationAttempt W O R C),
+        GenuineInternalTotalizationAttempt a → ThreeWayAnchorModes a) := by
+  intro H
+  have hg : GenuineInternalTotalizationAttempt toyAttemptCertSomewhereOffAnchor :=
+    Nonempty.intro false
+  exact toyCertSomewhere_not_threeWay_manual (H _ _ _ _ toyAttemptCertSomewhereOffAnchor hg)
+
 end ToyCounterexamples
 
 section AnchorNecessityBoundary

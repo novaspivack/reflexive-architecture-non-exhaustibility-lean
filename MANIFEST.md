@@ -27,7 +27,8 @@
 | `AbstractModeCover/Mediation.lean` | Mediation aliases + **`AbstractMediationDecompositionTarget`** (open `Prop`) |
 | `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** as `abstract_opaque_mode_cover_classical`; explicit **`classical`**); `fromSyntactic`; conditional reflection |
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
-| `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep:** somewhere-faithfulness vs anchor; joint-failure / classical_iff; omit-one strictening; toy counterexamples (**SPEC_015_KM2**) |
+| `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
+| `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002** named target **`D002BarrierLinkedR4WitnessTarget`** (**TODO-077_AB9**) |
 | `Universal.lean` | `no_success_any_canonical_mode` — flagship **composition** |
 | `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
@@ -67,6 +68,7 @@
 | `anchored_threeWay_modes_not_entailed_by_somewhereFaithful_claim_utype` | **Layer 2 \(\nRightarrow\) Layer 1:** somewhere-faithful + true claim **does not** force anchored `ThreeWayAnchorModes` (proof refutes universal implication). |
 | `anchor_identification_collapses_somewhereFaithful_to_burdenFaithful` | **Subsingleton carrier:** spatial weakening **collapses** to anchor burden-faithfulness. |
 | `anchor_necessity_boundary_bundle_utype` | One-shot `And` packaging of separation + refutation + orthogonality toy. |
+| `genuine_alone_does_not_imply_threeWayAnchorModes` | Refutes **`Genuine` ⇒ anchored `ThreeWayAnchorModes`** universally; **R₄** disjunct is separate (**`AbstractOpaqueModeCoverTarget`** not refuted here). |
 
 **Still open (philosophical / constructive core):** universal classification from **`GenuineInternalTotalizationAttempt` (= `Nonempty carrier`) alone** without **either** classical case-split **or** an **honest enrichment** (claim soundness, determinacy, **SPEC_012**, …). The gap is **interface under-determination**, not missing packaging of an already classical fact.
 

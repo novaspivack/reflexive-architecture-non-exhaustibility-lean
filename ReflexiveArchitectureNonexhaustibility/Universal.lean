@@ -3,6 +3,11 @@ import ReflexiveArchitectureNonexhaustibility.Modes
 
 /-!
 # Universal structured non-exhaustibility — **composition layer** (**SPEC_010_US1**)
+
+**Layering:** this file proves **mode-calculus** barriers (**U₁–U₃**) vs `Mode*i*Success`. **Anchored**
+opaque mode cover is **`abstract_opaque_mode_cover_classical`** in **`AbstractModeCover/Classification.lean`**
+(**SPEC_015_KM2**). A **Paper D** bundle that **imports** both sides needs an explicit bridge beyond
+`fromSyntactic` — see **SPEC_010_US1** handoff §.
 -/
 
 namespace StructuredNonexhaustibility

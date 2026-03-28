@@ -23,8 +23,9 @@ namespace StructuredNonexhaustibility
 variable {World Obs Repr Claim : Type}
 
 /--
-**Abstract mode-cover obligation** (opaque layer). Unproved as a `theorem` until the mediation stack
-earns it; safe as a `def` of type `Prop`.
+**Abstract mode-cover obligation** (opaque layer). A **`theorem`** **classically**
+(`abstract_opaque_mode_cover_classical`); **intuitionistic** discharges use decidability or anchor
+enrichment (**MANIFEST**). Kept as a `def` of type `Prop` so statements may quantify over it.
 -/
 def AbstractOpaqueModeCoverTarget (World Obs Repr Claim : Type) : Prop :=
   (∀ (a : OpaqueTotalizationAttempt World Obs Repr Claim),
