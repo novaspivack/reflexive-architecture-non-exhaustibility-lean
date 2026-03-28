@@ -32,17 +32,17 @@ def closureObstructionPayloadOfU123 {A : ReflexiveArchitecture World Obs Repr Cl
 **Residual family** focused on the closure slot; other carriers **`Empty`**.
 -/
 def rfoResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) : ResidualPayloadFamily A where
-  reprPayload := Empty
-  closurePayload := ClosureObstructionPayload A
-  certPayload := Empty
-  mixedPayload := Empty
+  reprPayload := ULift Empty
+  closurePayload := ULift (ClosureObstructionPayload A)
+  certPayload := ULift Empty
+  mixedPayload := ULift Empty
 
 /--
 **Concrete bridge:** tag **`closureObstruction`**, payload from **`b.closureBarrier`**.
 -/
 def rfoPayloadPromotionBridge (A : ReflexiveArchitecture World Obs Repr Claim) :
     PayloadPromotionBridge A (rfoResidualPayloadFamily A) where
-  promote b := ⟨ObstructionSignature.closureObstruction, closureObstructionPayloadOfU123 b⟩
+  promote b := ⟨ObstructionSignature.closureObstruction, ULift.up (closureObstructionPayloadOfU123 b)⟩
 
 /--
 **End-to-end:** triple barriers + RFO-family bridge **⇒** enriched **R₄** with closure payload.

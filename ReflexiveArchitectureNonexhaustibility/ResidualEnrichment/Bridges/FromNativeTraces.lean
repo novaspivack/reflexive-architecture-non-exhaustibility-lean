@@ -8,10 +8,10 @@ import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 
 **Interface-native** Π–**`PLift`** bridges (**`FromRI` / `FromRFO` / `FromSEM`**) stay the default.
 
-This module adds a **parallel seam:** pick arbitrary **`Type`** carriers **`R`, `C`, `S`** for
+This module adds a **parallel seam:** pick arbitrary **`Type 1`** carriers **`R`, `C`, `S`** for
 engine-native obstruction traces and supply **`promote : U123BarrierData A → SigmaResidualPayload F`**.
 When **PN1** lands, **`R`, `C`, `S`** become real NemS trace types; until then the carriers are
-**parameters** — no fake engine definitions.
+**parameters** — no fake engine definitions. (Use **`ULift T`** when a **`Type`**-valued trace must sit in **`Type 1`**.)
 
 **Refinement maps** into Π–`PLift` columns record logical agreement (**SPEC_003_BT1** alignment)
 without identifying payload types definitionally.
@@ -27,17 +27,17 @@ variable (A : ReflexiveArchitecture World Obs Repr Claim)
 **Triple-column** residual family: arbitrary native carriers; **`mixed`** slot **`Empty`** —
 use **`FromMixedTriple`** when simultaneous triple content is required.
 -/
-def nativeTripleResidualPayloadFamily (reprNat closureNat certNat : Type) :
+def nativeTripleResidualPayloadFamily (reprNat closureNat certNat : Type 1) :
     ResidualPayloadFamily A where
   reprPayload := reprNat
   closurePayload := closureNat
   certPayload := certNat
-  mixedPayload := Empty
+  mixedPayload := ULift Empty
 
 /--
 Assemble a **`PayloadPromotionBridge`** from any **`promote`** function — the **native** seam.
 -/
-abbrev nativeTriplePayloadPromotionBridge (R C S : Type)
+abbrev nativeTriplePayloadPromotionBridge (R C S : Type 1)
     (promote : U123BarrierData A → SigmaResidualPayload (nativeTripleResidualPayloadFamily A R C S)) :
     PayloadPromotionBridge A (nativeTripleResidualPayloadFamily A R C S) :=
   ⟨promote⟩
@@ -45,7 +45,7 @@ abbrev nativeTriplePayloadPromotionBridge (R C S : Type)
 /--
 **End-to-end** enriched witness from native bridge + barriers.
 -/
-def enrichedR4_u123_withNativeTriple (R C S : Type)
+def enrichedR4_u123_withNativeTriple (R C S : Type 1)
     (br : PayloadPromotionBridge A (nativeTripleResidualPayloadFamily A R C S)) (b : U123BarrierData A) :
     EnrichedR4ResidualWitness A (nativeTripleResidualPayloadFamily A R C S) :=
   promote_barrier_pack_to_enriched_r4 A (nativeTripleResidualPayloadFamily A R C S) br b
@@ -53,7 +53,7 @@ def enrichedR4_u123_withNativeTriple (R C S : Type)
 /--
 Maps from declared native carriers into the **interface-native** Π–`PLift` columns (**EPIC_011**).
 -/
-structure NativeObstructionTraceRefinement (reprNat closureNat certNat : Type) where
+structure NativeObstructionTraceRefinement (reprNat closureNat certNat : Type 1) where
   reprι : reprNat → ReprObstructionPayload A
   closureι : closureNat → ClosureObstructionPayload A
   certι : certNat → CertObstructionPayload A
@@ -61,7 +61,7 @@ structure NativeObstructionTraceRefinement (reprNat closureNat certNat : Type) w
 /--
 The native **`promote`** path **agrees** with **`reprObstructionPayloadOfU123`** after refinement.
 -/
-abbrev NativeReprColumnCoherent (R C S : Type)
+abbrev NativeReprColumnCoherent (R C S : Type 1)
     (ι : NativeObstructionTraceRefinement A R C S)
     (promote : U123BarrierData A → SigmaResidualPayload (nativeTripleResidualPayloadFamily A R C S)) :
     Prop :=
@@ -71,7 +71,7 @@ abbrev NativeReprColumnCoherent (R C S : Type)
 /--
 Same pattern for the closure column (signature **`closureObstruction`**).
 -/
-abbrev NativeClosureColumnCoherent (R C S : Type)
+abbrev NativeClosureColumnCoherent (R C S : Type 1)
     (ι : NativeObstructionTraceRefinement A R C S)
     (promote : U123BarrierData A → SigmaResidualPayload (nativeTripleResidualPayloadFamily A R C S)) :
     Prop :=
@@ -82,7 +82,7 @@ abbrev NativeClosureColumnCoherent (R C S : Type)
 /--
 Same pattern for the certification column (signature **`certSemantic`**).
 -/
-abbrev NativeCertColumnCoherent (R C S : Type)
+abbrev NativeCertColumnCoherent (R C S : Type 1)
     (ι : NativeObstructionTraceRefinement A R C S)
     (promote : U123BarrierData A → SigmaResidualPayload (nativeTripleResidualPayloadFamily A R C S)) :
     Prop :=

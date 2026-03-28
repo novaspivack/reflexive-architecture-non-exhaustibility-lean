@@ -30,17 +30,17 @@ def certObstructionPayloadOfU123 {A : ReflexiveArchitecture World Obs Repr Claim
 **Residual family** focused on the cert slot; other carriers **`Empty`**.
 -/
 def semResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) : ResidualPayloadFamily A where
-  reprPayload := Empty
-  closurePayload := Empty
-  certPayload := CertObstructionPayload A
-  mixedPayload := Empty
+  reprPayload := ULift Empty
+  closurePayload := ULift Empty
+  certPayload := ULift (CertObstructionPayload A)
+  mixedPayload := ULift Empty
 
 /--
 **Concrete bridge:** tag **`certSemantic`**, payload from **`b.certBarrier`**.
 -/
 def semPayloadPromotionBridge (A : ReflexiveArchitecture World Obs Repr Claim) :
     PayloadPromotionBridge A (semResidualPayloadFamily A) where
-  promote b := ⟨ObstructionSignature.certSemantic, certObstructionPayloadOfU123 b⟩
+  promote b := ⟨ObstructionSignature.certSemantic, ULift.up (certObstructionPayloadOfU123 b)⟩
 
 /--
 **End-to-end:** triple barriers + SEM-family bridge **⇒** enriched **R₄** with cert payload.

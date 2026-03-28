@@ -22,7 +22,7 @@ Concrete engines (**`ResidualEnrichment/Bridges/*`**, **D-001**) supply **`promo
 **polymorphic** in **`F`**.
 -/
 structure PayloadPromotionBridge (A : ReflexiveArchitecture World Obs Repr Claim)
-    (F : ResidualPayloadFamily A) : Type where
+    (F : ResidualPayloadFamily A) : Type 2 where
   promote : U123BarrierData A → SigmaResidualPayload F
 
 /--

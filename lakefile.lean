@@ -58,6 +58,7 @@ lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromSEM,
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromMixedTriple,
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromNativeTraces,
+    `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromNEMSProgramV,
     `ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.MixedPayloadDesignNotes,
     `ReflexiveArchitectureNonexhaustibility.Universal,
     `ReflexiveArchitectureNonexhaustibility.Adequacy,

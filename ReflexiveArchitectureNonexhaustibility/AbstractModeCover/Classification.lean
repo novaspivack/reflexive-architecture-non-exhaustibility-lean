@@ -4,7 +4,6 @@ import ReflexiveArchitectureNonexhaustibility.SyntacticModeCover
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Attempt
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Profiles
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.Mediation
-import ReflexiveArchitectureNonexhaustibility.Adequacy
 
 /-!
 # Abstract classification + syntactic reflection (**SPEC_015_KM2**, **Classification**)

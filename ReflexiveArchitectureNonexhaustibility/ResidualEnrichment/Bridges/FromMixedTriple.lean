@@ -37,13 +37,13 @@ def mixedTripleObstructionPayloadOfU123 {A : ReflexiveArchitecture World Obs Rep
   cert := certObstructionPayloadOfU123 b
 
 /--
-**Singleton family** for **`mixedTriple`** only: single-column **`PayloadFor`** arms **`Empty`**.
+**Singleton family** for **`mixedTriple`** only: single-column **`PayloadFor`** arms **`ULift Empty`**.
 -/
 def mixedTripleResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) : ResidualPayloadFamily A where
-  reprPayload := Empty
-  closurePayload := Empty
-  certPayload := Empty
-  mixedPayload := MixedTripleObstructionPayload A
+  reprPayload := ULift Empty
+  closurePayload := ULift Empty
+  certPayload := ULift Empty
+  mixedPayload := ULift (MixedTripleObstructionPayload A)
 
 /--
 **`PayloadPromotionBridge`** tagging **`ObstructionSignature.mixedTriple`**.
@@ -51,7 +51,7 @@ def mixedTripleResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr C
 def mixedTriplePayloadPromotionBridge (A : ReflexiveArchitecture World Obs Repr Claim) :
     PayloadPromotionBridge A (mixedTripleResidualPayloadFamily A) where
   promote b :=
-    ⟨ObstructionSignature.mixedTriple, mixedTripleObstructionPayloadOfU123 b⟩
+    ⟨ObstructionSignature.mixedTriple, ULift.up (mixedTripleObstructionPayloadOfU123 b)⟩
 
 /--
 **End-to-end:** under **U₁–U₃**, enriched **R₄** witness whose payload carries **all three** Π–**`PLift`** columns.

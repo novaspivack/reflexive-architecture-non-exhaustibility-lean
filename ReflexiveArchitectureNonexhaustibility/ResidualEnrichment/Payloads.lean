@@ -33,20 +33,20 @@ inductive ObstructionSignature : Type where
   | mixedTriple : ObstructionSignature
 
 /--
-**Payload family:** four **`Type`** carriers per architecture — **engines** (**D-001**) populate these; the
-abstract layer **quantifies** over them.
+**Payload family:** four carriers per architecture (**`Type 1`** to allow **D-001** NemS **`ReflexiveSystem`**-sized
+payloads alongside **Π–`PLift`** columns).
 -/
-structure ResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) where
-  reprPayload : Type
-  closurePayload : Type
-  certPayload : Type
-  mixedPayload : Type
+structure ResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) : Type 2 where
+  reprPayload : Type 1
+  closurePayload : Type 1
+  certPayload : Type 1
+  mixedPayload : Type 1
 
 /--
 Indexed payload type for a given **ObstructionSignature**.
 -/
 def PayloadFor {A : ReflexiveArchitecture World Obs Repr Claim} (F : ResidualPayloadFamily A) :
-    ObstructionSignature → Type
+    ObstructionSignature → Type 1
   | .reprDiag => F.reprPayload
   | .closureObstruction => F.closurePayload
   | .certSemantic => F.certPayload
@@ -56,7 +56,7 @@ def PayloadFor {A : ReflexiveArchitecture World Obs Repr Claim} (F : ResidualPay
 **Dependent pair:** chosen obstruction tag + value in the matching payload carrier.
 -/
 structure SigmaResidualPayload {A : ReflexiveArchitecture World Obs Repr Claim}
-    (F : ResidualPayloadFamily A) : Type where
+    (F : ResidualPayloadFamily A) : Type 1 where
   sig : ObstructionSignature
   val : PayloadFor F sig
 

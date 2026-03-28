@@ -32,22 +32,23 @@
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
-| `ResidualEnrichment/Payloads.lean` | **SPEC_016_ER1 F1:** **`ObstructionSignature`**, **`ResidualPayloadFamily`**, **`SigmaResidualPayload`** |
+| `ResidualEnrichment/Payloads.lean` | **SPEC_016_ER1 F1:** **`ObstructionSignature`**, **`ResidualPayloadFamily`** (**`Type 1`** payload slots for **D-001**), **`SigmaResidualPayload`** |
 | `ResidualEnrichment/EnrichedWitness.lean` | **SPEC_016_ER1 F1:** **`EnrichedR4ResidualWitness`** — base witness + signature + payload |
-| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); **`promote_enriched_base_*`** lemmas (**base** independent of bridge / family) |
+| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`** (**`Type 2`** — aligns with **`SigmaResidualPayload`** universe), **`promote_barrier_pack_to_enriched_r4`** (and aliases); **`promote_enriched_base_*`** lemmas (**base** independent of bridge / family) |
 | `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
 | `ResidualEnrichment/MixedPayloadDesignNotes.lean` | Pointer + summary: **SPEC_017_MX1** mixed payload shape (**product** of three columns); **no** defs |
-| `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
+| `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); carriers use **`ULift`** for **`Type 1`** slots; **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
 | `ResidualEnrichment/Bridges/FromRFO.lean` | **F3b:** **`rfoPayloadPromotionBridge`**; **`ClosureObstructionPayload`** = Π **`Cl`**, **`PLift (¬ closure_success)`**; **D-001** for RFO-native traces |
 | `ResidualEnrichment/Bridges/FromSEM.lean` | **F3b:** **`semPayloadPromotionBridge`**; **`CertObstructionPayload`** = Π **`τ`**, **`PLift (¬ cert_success)`**; **D-001** for SEM traces |
 | `ResidualEnrichment/Bridges/FromMixedTriple.lean` | **`mixedTriple`:** **`MixedTripleObstructionPayload`**, **`mixedTriplePayloadPromotionBridge`**, **`enrichedR4_*_withMixedTriplePayload`** (**SPEC_017_MX1**) |
-| `ResidualEnrichment/Bridges/FromNativeTraces.lean` | **PN4:** **`nativeTripleResidualPayloadFamily`**, **`nativeTriplePayloadPromotionBridge`**, **`NativeObstructionTraceRefinement`**, column coherence **`Prop`**s — parallel native-trace bridge (**SPEC_018_PN1**) |
+| `ResidualEnrichment/Bridges/FromNativeTraces.lean` | **PN4:** **`nativeTripleResidualPayloadFamily`**, **`nativeTriplePayloadPromotionBridge`**, **`NativeObstructionTraceRefinement`**, column coherence **`Prop`**s — native carriers at **`Type 1`**; **`SPEC_018_PN1`** |
+| `ResidualEnrichment/Bridges/FromNEMSProgramV.lean` | **D-001 concrete:** **`NemsProgramVBarrierCertificate`** (**`ReflexiveSystem`** + **`PLift rs.BarrierHyp`**), **`augmentedReprNemsProgramVPromotionBridge`**, end-to-end **`enrichedR4_*_withAugmentedNemsProgramVRepr`** — engine attachment via **`certFn`** |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
 | `AbstractModeCover/PostFailureResidual.lean` | **Aftermath (barrier-linked R₄):** **`positive_residual_profile_of_triple_barriers_at_anchor`** — **`barrierLinkedR4ResidualWitness`** (**`U123BarrierData`** on **`carrier`**) |
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
-| `Adequacy.lean` | Admissibility scaffolding (**SPEC_012_AA1**) |
+| `Adequacy.lean` | **SPEC_012_AA1** cross-walk + **`ThreeWayAnchorFailures`**, **`burdenFaithful_claim_implies_not_threeWayFailures`**, **`honestAnchored_claim_implies_not_threeWayFailures`** ( **`AdmissibleResidual`** still trivial in **`Residuals.lean`**) |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
 | `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** **`CanonicalModeSuccessSpectrum`**, barrier/ONE route-blocking, **`canonical_spectrum_mono`** (**`RouteCanonicality`** namespace) |

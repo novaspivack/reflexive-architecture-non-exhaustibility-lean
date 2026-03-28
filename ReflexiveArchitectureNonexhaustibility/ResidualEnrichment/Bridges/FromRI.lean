@@ -12,6 +12,9 @@ internal gadget **`ρ`** so the carrier is a **Π-type in `Type`**: fiber-wise w
 proposed representational totalization. That is **intrinsic obstruction** content (what RI instantiations prove), not a
 relabelling of **`U123BarrierData`**.
 
+**Universes:** **`ResidualPayloadFamily`** payload slots live in **`Type 1`** (so NemS-sized **D-001** carriers fit).
+We wrap this column with **`ULift`**; **`ULift.up`** / **`ULift.down`** are the bookkeeping-free isomorphism at use sites.
+
 **Shared pattern (all three columns):** extract a **Π–PLift** witness from a field of **`U123BarrierData`**, tag with
 the matching **`ObstructionSignature`**, call **`promote_barrier_pack_to_enriched_r4`**.
 
@@ -41,17 +44,17 @@ def reprObstructionPayloadOfU123 {A : ReflexiveArchitecture World Obs Repr Claim
 inhabited for this bridge.
 -/
 def riResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) : ResidualPayloadFamily A where
-  reprPayload := ReprObstructionPayload A
-  closurePayload := Empty
-  certPayload := Empty
-  mixedPayload := Empty
+  reprPayload := ULift (ReprObstructionPayload A)
+  closurePayload := ULift Empty
+  certPayload := ULift Empty
+  mixedPayload := ULift Empty
 
 /--
 **Concrete bridge (interface-native):** tag **`reprDiag`** and populate the payload from **`b.reprBarrier`**.
 -/
 def riPayloadPromotionBridge (A : ReflexiveArchitecture World Obs Repr Claim) :
     PayloadPromotionBridge A (riResidualPayloadFamily A) where
-  promote b := ⟨ObstructionSignature.reprDiag, reprObstructionPayloadOfU123 b⟩
+  promote b := ⟨ObstructionSignature.reprDiag, ULift.up (reprObstructionPayloadOfU123 b)⟩
 
 /--
 **End-to-end:** triple barriers + RI-family bridge **⇒** **`EnrichedR4ResidualWitness`** with **`reprDiag`** payload.
