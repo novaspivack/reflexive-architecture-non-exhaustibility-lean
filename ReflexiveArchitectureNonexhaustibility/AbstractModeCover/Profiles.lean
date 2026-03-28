@@ -71,31 +71,31 @@ theorem certificatoryProfileAt_anchor (a : OpaqueTotalizationAttempt World Obs R
     CertificatoryProfileAt a a.anchor = CertificatoryProfile a := rfl
 
 /--
-**R₄ (positive residual) profile:** an **R₄-class** admissible witness, and **none** of the three
+**R₄ (positive residual) profile — mode-cover **schematic** branch:** an **R₄-class** witness and **none** of the three
 canonical mode-success predicates hold at `anchor`.
 
-This **does not** let every attempt invent `⟨R4, carrier, anchor⟩` to cheat the cover: linkage to the
-attempt’s anchor alone was vacuous. The substantive condition is **failure of M₁–M₃** at the nominated
-gadgets (**SPEC_004_RC1** / BACKGROUND: survivor when representational, closure, and certificatory
-**success** all fail).
+**Layer hygiene:** this **does not** import **`AdmissibleResidual`** (**`Residuals.lean`** / **SPEC_012**). The abstract
+cover needs a **purely profile-level** disjunction; **honest** barrier-linked survivors and **EPIC_008** admissibility
+sit in **`PostFailureResidual.lean`** / **`D002ResidualWitnessTarget.lean`**.
 
-**Refinement:** **`positive_residual_profile_of_three_failures`** still uses **`trivialR4ResidualWitness`**; barrier-linked packaging lives in **`barrierLinkedR4ResidualWitness`** (**`D002ResidualWitnessTarget.lean`**).
+**Refinement:** **`positive_residual_profile_of_three_failures`** still uses **`trivialR4ResidualWitness`** for **LEM**/**Decidable**
+case splits; **`barrierLinkedR4ResidualWitness`** supplies the **aftermath** story under **U₁–U₃**.
 -/
 def PositiveResidualProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :=
   ∃ w : ResidualWitness,
-    IsR4PositiveSurvivor w ∧ AdmissibleResidual w ∧
+    IsR4PositiveSurvivor w ∧
       ¬ RepresentationalProfile a ∧ ¬ ClosureProfile a ∧ ¬ CertificatoryProfile a
 
 theorem positive_residual_profile_of_three_failures
     {a : OpaqueTotalizationAttempt World Obs Repr Claim}
     (hR : ¬ RepresentationalProfile a) (hC : ¬ ClosureProfile a) (hK : ¬ CertificatoryProfile a) :
     PositiveResidualProfile a :=
-  ⟨trivialR4ResidualWitness, isR4_trivialR4, trivial, hR, hC, hK⟩
+  ⟨trivialR4ResidualWitness, isR4_trivialR4, hR, hC, hK⟩
 
 theorem not_representational_of_positive_residual
     {a : OpaqueTotalizationAttempt World Obs Repr Claim} (hp : PositiveResidualProfile a) :
     ¬ RepresentationalProfile a := by
-  rcases hp with ⟨_, _, _, hn, _, _⟩
+  rcases hp with ⟨_, _, hn, _, _⟩
   exact hn
 
 end StructuredNonexhaustibility

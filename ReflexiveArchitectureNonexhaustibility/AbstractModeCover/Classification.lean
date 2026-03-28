@@ -261,7 +261,7 @@ theorem positive_profile_of_positive (A : ReflexiveArchitecture World Obs Repr C
     (hC : ¬ ClosureProfile (fromSyntactic A dummyρ dummyCl dummyτ (.positive w)))
     (hK : ¬ CertificatoryProfile (fromSyntactic A dummyρ dummyCl dummyτ (.positive w))) :
     PositiveResidualProfile (fromSyntactic A dummyρ dummyCl dummyτ (.positive w)) := by
-  refine ⟨w, hw, trivial, hR, hC, hK⟩
+  refine ⟨w, hw, hR, hC, hK⟩
 
 theorem syntactic_embedding_carrier_nonempty (A : ReflexiveArchitecture World Obs Repr Claim)
     (dρ : World → Repr) (dCl : Set World → Set World) (dτ : Claim → Bool)

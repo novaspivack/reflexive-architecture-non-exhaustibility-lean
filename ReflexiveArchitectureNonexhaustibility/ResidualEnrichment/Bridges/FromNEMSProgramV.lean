@@ -1,5 +1,6 @@
 import NemS.Prelude
 import StructuralNonExhaustibility.Core.ReflexiveSystem
+import ReflexiveArchitectureNonexhaustibility.EngineReflexiveMorphism
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Bridges.FromRI
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 
@@ -13,10 +14,14 @@ witnessing **`rs.BarrierHyp`** (**`PLift`** — real **proof** content, not a ta
 (dependent product; **`NemsProgramVBarrierCertificate`** may sit in a larger universe, so this slot need not use **`ULift`**
 the way the purely **`Type`**-valued **FromRI** column does).
 
-**Engine link, not magic extraction:** **`certFn : U123BarrierData A → NemsProgramVBarrierCertificate`** is the
-**attachment** (morphism / elaborator) that relates this architecture’s triple barriers to a NemS Program V shell.
-There is **no** canonical **`certFn`** from **`U123BarrierData` alone** without instance-specific mathematics — this is
-honest **D-001** transport.
+**Parameterized seam (legacy hook):** **`certFn : U123BarrierData A → NemsProgramVBarrierCertificate`** — arbitrary
+attachment at the **`PayloadPromotionBridge`** boundary.
+
+**Morphism-native attachment (preferred):** **`EngineNemsBarrierSync`** packages an **`EngineReflexiveMorphism`**, a
+**`toNems : E → ReflexiveSystem`** elaboration, and **proves** that for **every** engine point **`e`**, any
+**`U123BarrierData (φ.toReflexive e)`** yields **`(toNems e).BarrierHyp`**. The certificate at **`e₀`** is then
+**forced** to be **`⟨toNems e₀, sync e₀ b⟩`** — **no** free choice of **`rs`** per barrier pack beyond **`toNems`**.
+Real engines instantiate **`sync`** with their Program V barrier lemmas (**not** definitional magic from **`U123`** alone).
 
 **Seam:** **`PayloadPromotionBridge`** unchanged; **`mixedTriple`** / other bridges **unchanged**.
 -/
@@ -34,6 +39,27 @@ structure NemsProgramVBarrierCertificate where
   rs : StructuralNonExhaustibility.ReflexiveSystem
   /-- Witness of **`rs.BarrierHyp`** as **`Type`-valued data. -/
   barrierPf : PLift rs.BarrierHyp
+
+variable {E : Type}
+
+/--
+**Structured NemS attachment** over **`EngineReflexiveMorphism`**: Program V shells vary with **`e : E`**, and
+**`sync`** is the **engine proof obligation** tying **abstract** **`U123BarrierData`** on **`φ.toReflexive e`** to
+**`BarrierHyp`** of **`toNems e`**.
+-/
+structure EngineNemsBarrierSync (φ : EngineReflexiveMorphism E World Obs Repr Claim) : Type 1 where
+  /-- NemS reflexive system at each engine point (**Program V** stage). -/
+  toNems : E → StructuralNonExhaustibility.ReflexiveSystem
+  /-- **Content:** barriers on the **image** architecture imply the NemS barrier hypothesis at **`e`**. -/
+  sync : ∀ e (_ : U123BarrierData (φ.toReflexive e)), PLift (toNems e).BarrierHyp
+
+/--
+**Certificate** forced by **`sync`** at **`e`** (still **data**-typed via **`PLift`**).
+-/
+def nemsCertificate_of_sync {φ : EngineReflexiveMorphism E World Obs Repr Claim}
+    (S : EngineNemsBarrierSync φ) (e : E) (b : U123BarrierData (φ.toReflexive e)) :
+    NemsProgramVBarrierCertificate :=
+  ⟨S.toNems e, S.sync e b⟩
 
 /--
 **Residual family:** repr slot = Π–`PLift` **×** **`NemsProgramVBarrierCertificate`**; other columns **`Empty`**.
@@ -54,6 +80,26 @@ def augmentedReprNemsProgramVPromotionBridge (certFn : U123BarrierData A → Nem
     ⟨ObstructionSignature.reprDiag, (reprObstructionPayloadOfU123 b, certFn b)⟩
 
 /--
+**Morphism-native bridge** at engine point **`e₀`**: **`A = φ.toReflexive e₀`** — certificate determined by **`S.sync`**.
+-/
+def augmentedReprNemsProgramVSyncPromotionBridge
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E) :
+    PayloadPromotionBridge (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) where
+  promote b :=
+    ⟨ObstructionSignature.reprDiag,
+      (reprObstructionPayloadOfU123 b, nemsCertificate_of_sync S e₀ b)⟩
+
+/--
+**Recover** the **parameterized** bridge from **`sync`** (definitional **unfold** of **`nemsCertificate_of_sync`**).
+-/
+theorem augmentedReprNemsProgramVPromotionBridge_eq_sync
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E) :
+    augmentedReprNemsProgramVPromotionBridge (φ.toReflexive e₀)
+        (fun b => nemsCertificate_of_sync S e₀ b) =
+      augmentedReprNemsProgramVSyncPromotionBridge φ S e₀ := by
+  rfl
+
+/--
 **End-to-end** enriched **R₄** witness with **NemS-typed** second component.
 -/
 def enrichedR4_u123_withAugmentedNemsProgramVRepr (certFn : U123BarrierData A → NemsProgramVBarrierCertificate)
@@ -69,5 +115,21 @@ def enrichedR4_tripleBarriers_withAugmentedNemsProgramVRepr
     EnrichedR4ResidualWitness A (augmentedReprResidualPayloadFamily A) :=
   enriched_r4_from_triple_barriers_and_bridge A (augmentedReprResidualPayloadFamily A)
     (augmentedReprNemsProgramVPromotionBridge A certFn) d1 d2 d3
+
+def enrichedR4_u123_withAugmentedNemsProgramVRepr_sync
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E)
+    (b : U123BarrierData (φ.toReflexive e₀)) :
+    EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
+  promote_barrier_pack_to_enriched_r4 (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀))
+    (augmentedReprNemsProgramVSyncPromotionBridge φ S e₀) b
+
+def enrichedR4_tripleBarriers_withAugmentedNemsProgramVRepr_sync
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim) (S : EngineNemsBarrierSync φ) (e₀ : E)
+    (d1 : DiagonalRepresentationalInterface (φ.toReflexive e₀))
+    (d2 : ClosureObstructionInterface (φ.toReflexive e₀))
+    (d3 : SemanticCertificationInterface (φ.toReflexive e₀)) :
+    EnrichedR4ResidualWitness (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
+  enriched_r4_from_triple_barriers_and_bridge (φ.toReflexive e₀) (augmentedReprResidualPayloadFamily (φ.toReflexive e₀))
+    (augmentedReprNemsProgramVSyncPromotionBridge φ S e₀) d1 d2 d3
 
 end StructuredNonexhaustibility

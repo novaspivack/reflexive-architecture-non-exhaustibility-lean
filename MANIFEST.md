@@ -21,7 +21,7 @@
 | `EngineReflexiveMorphism.lean` | **PN3:** **`EngineReflexiveMorphism`**, **`ReflexiveBarrierBundle`**, **`EngineU123BarrierData`**, **`oneRouteDiscipline_of_barrier_bundle`** — **`SPEC_003_BT1`** attachment shape (no NemS types) |
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
-| `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**); NemS Program V cross-link (docstring) |
+| `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates; **non-vacuous** **`AdmissibleResidual`** (R₄ ⇒ **`U123BarrierData`-shaped** carrier); **`admissible_of_not_r4`**, **`admissible_of_negativeClass`** (**SPEC_004_RC1** / **SPEC_012**) |
 | `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces; **`U123BarrierData`** (**D-002** pack) |
 | `Barriers.lean` | **U₁–U₃** (`barrier_mode*`) — intuitionistic |
 | `SyntacticModeCover.lean` | **Proved** four-way split for `SyntacticTotalization` (tagged syntax **only**) — **base / not the summit** |
@@ -42,16 +42,16 @@
 | `ResidualEnrichment/Bridges/FromSEM.lean` | **F3b:** **`semPayloadPromotionBridge`**; **`CertObstructionPayload`** = Π **`τ`**, **`PLift (¬ cert_success)`**; **D-001** for SEM traces |
 | `ResidualEnrichment/Bridges/FromMixedTriple.lean` | **`mixedTriple`:** **`MixedTripleObstructionPayload`**, **`mixedTriplePayloadPromotionBridge`**, **`enrichedR4_*_withMixedTriplePayload`** (**SPEC_017_MX1**) |
 | `ResidualEnrichment/Bridges/FromNativeTraces.lean` | **PN4:** **`nativeTripleResidualPayloadFamily`**, **`nativeTriplePayloadPromotionBridge`**, **`NativeObstructionTraceRefinement`**, column coherence **`Prop`**s — native carriers at **`Type 1`**; **`SPEC_018_PN1`** |
-| `ResidualEnrichment/Bridges/FromNEMSProgramV.lean` | **D-001 concrete:** **`NemsProgramVBarrierCertificate`** (**`ReflexiveSystem`** + **`PLift rs.BarrierHyp`**), **`augmentedReprNemsProgramVPromotionBridge`**, end-to-end **`enrichedR4_*_withAugmentedNemsProgramVRepr`** — engine attachment via **`certFn`** |
+| `ResidualEnrichment/Bridges/FromNEMSProgramV.lean` | **D-001:** **`EngineNemsBarrierSync`**, **`nemsCertificate_of_sync`**, **`augmentedReprNemsProgramVSyncPromotionBridge`** (morphism-native); **`certFn`** bridge retained; **`augmentedReprNemsProgramVPromotionBridge_eq_sync`** |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |
 | `AbstractModeCover/LayerDiscipline.lean` | **Anti-drift narrative + official target name:** **`OfficialLayerOneAnchoredCompletionTarget`**, theorem **`official_layer_one_anchored_completion_target_holds`** (= flagship universal cover); states Layer 2 (**`WeakerBurdenSearch.lean`**) is **boundary**, not a rival Line-1 flagship |
 | `AbstractModeCover/PaperDAnchoredChain.lean` | **Layer 1 Paper D flagship (nonexistence):** **`paper_d_anchored_honest_completion_refutes_triple_barriers`**; **displayed** **`barriered_architecture_admits_no_true_honest_anchored_internal_completion`** — no **true** **`HonestAnchoredInternalCompletion`** over `arch` under **U₁–U₃** |
-| `AbstractModeCover/PostFailureResidual.lean` | **Aftermath (barrier-linked R₄):** **`positive_residual_profile_of_triple_barriers_at_anchor`** — **`barrierLinkedR4ResidualWitness`** (**`U123BarrierData`** on **`carrier`**) |
+| `AbstractModeCover/PostFailureResidual.lean` | **Aftermath:** **`positive_residual_profile_of_triple_barriers_at_anchor`** (schematic **`PositiveResidualProfile`**); companion **`honest_aftermath_carries_admissible_r4`** in **`Adequacy.lean`** |
 | `Universal.lean` | `no_success_any_canonical_mode` — **U₁–U₃** vs **`Mode*i*Success`** (composed in **`PaperDAnchoredChain.lean`** for anchored flagship) |
-| `Adequacy.lean` | **SPEC_012_AA1** cross-walk + **`ThreeWayAnchorFailures`**, **`burdenFaithful_claim_implies_not_threeWayFailures`**, **`honestAnchored_claim_implies_not_threeWayFailures`** ( **`AdmissibleResidual`** still trivial in **`Residuals.lean`**) |
+| `Adequacy.lean` | **SPEC_012_AA1:** **`CertificateWorldConsistent`**, **`certificateWorldConsistent_holds`**, **`honest_aftermath_carries_admissible_r4`**, joint-failure / flagship lemmas |
 | `InfinityCompression.lean` | IC sketch (**SPEC_013_IC1**) |
 | `Instances/ONE.lean` | `OneRouteDiscipline` bundle (**SPEC_011_OI1**) |
-| `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** **`CanonicalModeSuccessSpectrum`**, barrier/ONE route-blocking, **`canonical_spectrum_mono`** (**`RouteCanonicality`** namespace) |
+| `RouteCanonicality.lean` | **EPIC_010 / SPEC_014:** **`CanonicalModeSuccessSpectrum`**, barrier/ONE route-blocking, **`canonical_spectrum_mono`**; Tranche 2 **`AltRouteTaxonomy`**, **`TaxonomySound`** |
 
 ## Two theorem layers — anchored completion vs relocated success (**frozen distinction**)
 
@@ -90,7 +90,8 @@
 | `representationalProfile_implies_mode1Success` / `closureProfile_implies_mode2Success` / `certificatoryProfile_implies_mode3Success` | **Opaque profile at `anchor` ⇒** matching **`Mode*i*Success`** on `attempt.arch` (**Paper D morphism** to mode calculus). |
 | `paper_d_anchored_honest_completion_refutes_triple_barriers` | **Paper D chain:** **I_anch** (true **`HonestAnchoredInternalCompletion`**) + **U₁–U₃** on same `arch` \(\Rightarrow\) **`False`** (**`PaperDAnchoredChain.lean`**, intuitionistic). |
 | `barriered_architecture_admits_no_true_honest_anchored_internal_completion` | **Global nonexistence:** **¬∃** true **`HonestAnchoredInternalCompletion`** package with `arch = A` under **U₁–U₃** on **`A`**. |
-| `positive_residual_profile_of_triple_barriers_at_anchor` | **Post-failure:** **U₁–U₃** \(\Rightarrow\) **`PositiveResidualProfile`** with **`barrierLinkedR4ResidualWitness`**. |
+| `positive_residual_profile_of_triple_barriers_at_anchor` | **Post-failure:** **U₁–U₃** \(\Rightarrow\) schematic **`PositiveResidualProfile`** + **`barrierLinkedR4ResidualWitness`**. |
+| `honest_aftermath_carries_admissible_r4` | **`Adequacy.lean`:** same barriers \(\Rightarrow\) **R₄** witness is **`AdmissibleResidual`** + triple profile failure — honest **SPEC_012** companion. |
 | `d002_barrier_linked_r4_witness_holds` | **D-002 abstract:** **`D002BarrierLinkedR4WitnessTarget`** is a **`theorem`**. |
 | `barrierLinkedR4ResidualWitness` | **R₄** witness with **`carrier = U123BarrierData A`**, point **`⟨d₁,d₂,d₃⟩`** — barrier-linked at **type** level. |
 

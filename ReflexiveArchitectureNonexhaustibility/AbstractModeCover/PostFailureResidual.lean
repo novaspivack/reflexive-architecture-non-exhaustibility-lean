@@ -57,7 +57,6 @@ theorem positive_residual_profile_of_triple_barriers_at_anchor
     PositiveResidualProfile a :=
   ⟨barrierLinkedR4ResidualWitness d1 d2 d3,
     isR4_barrierLinkedR4ResidualWitness d1 d2 d3,
-    admissible_barrierLinkedR4ResidualWitness d1 d2 d3,
     not_representationalProfile_of_diagonalBarrier a d1,
     not_closureProfile_of_closureBarrier a d2,
     not_certificatoryProfile_of_semanticBarrier a d3⟩

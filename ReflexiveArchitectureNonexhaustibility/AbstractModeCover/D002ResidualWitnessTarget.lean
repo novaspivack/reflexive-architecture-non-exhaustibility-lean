@@ -54,8 +54,9 @@ theorem admissible_barrierLinkedR4ResidualWitness {A : ReflexiveArchitecture Wor
     (d1 : DiagonalRepresentationalInterface A)
     (d2 : ClosureObstructionInterface A)
     (d3 : SemanticCertificationInterface A) :
-    AdmissibleResidual (barrierLinkedR4ResidualWitness d1 d2 d3) :=
-  trivial
+    AdmissibleResidual (barrierLinkedR4ResidualWitness d1 d2 d3) := by
+  right
+  exact ⟨World, Obs, Repr, Claim, A, rfl⟩
 
 /--
 **D-002 (abstract layer):** barrier-linked **R₄** witness **constructively** from **U₁–U₃**.

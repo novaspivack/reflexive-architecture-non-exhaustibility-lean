@@ -1,3 +1,4 @@
+import Mathlib.Data.Set.Defs
 import ReflexiveArchitectureNonexhaustibility.Basic
 import ReflexiveArchitectureNonexhaustibility.Modes
 import ReflexiveArchitectureNonexhaustibility.Universal
@@ -84,5 +85,32 @@ theorem canonical_spectrum_mono {A A' : ReflexiveArchitecture World Obs Repr Cla
   · exact Or.inl (mode1_success_of_repr_mono hρ h1)
   · exact Or.inr (Or.inl (mode2_success_of_closure_mono hCl h2))
   · exact Or.inr (Or.inr (mode3_success_of_cert_mono hτ h3))
+
+/-!
+## Tranche 2 (**SPEC_014** **F2-1** extension) — alternative route taxonomies
+
+**Anchor theorem shape:** **`canonical_spectrum_mono`**. Here: label type **`L`**, gadget-shaped tagging, and a **parameter**
+**`successful : L → Prop`** — **not** defined as **`CanonicalModeSuccessSpectrum`** (anti-smuggling). **`TaxonomySound`**
+states that **successful** labels **map** gadget-level architecture successes into the canonical **`Mode*i*Success`**
+predicates.
+-/
+
+/--
+**Alternative route taxonomy:** labels for each gadget class (**`SPEC_014`** Tranche 2 packaging).
+-/
+structure AltRouteTaxonomy (L : Type) (World Obs Repr Claim : Type) where
+  reprTag : (World → Repr) → L
+  closureTag : (Set World → Set World) → L
+  certTag : (Claim → Bool) → L
+
+/--
+**Soundness (comparison / refinement):** **successful** labels **refine** into canonical mode successes when the
+architecture **actually** succeeds on the tagged gadget.
+-/
+def TaxonomySound (L : Type) (T : AltRouteTaxonomy L World Obs Repr Claim)
+    (A : ReflexiveArchitecture World Obs Repr Claim) (successful : L → Prop) : Prop :=
+  (∀ ρ, successful (T.reprTag ρ) → A.repr_success ρ → Mode1Success A) ∧
+    (∀ Cl, successful (T.closureTag Cl) → A.closure_success Cl → Mode2Success A) ∧
+      (∀ τ, successful (T.certTag τ) → A.cert_success τ → Mode3Success A)
 
 end StructuredNonexhaustibility.RouteCanonicality
