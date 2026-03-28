@@ -113,9 +113,9 @@ theorem cert_profile_of_cert (A : ReflexiveArchitecture World Obs Repr Claim)
 
 theorem positive_profile_of_positive (A : ReflexiveArchitecture World Obs Repr Claim)
     (dummyρ : World → Repr) (dummyCl : Set World → Set World) (dummyτ : Claim → Bool)
-    (w : ResidualWitness) :
+    (w : ResidualWitness) (hw : IsR4PositiveSurvivor w) :
     PositiveResidualProfile (fromSyntactic A dummyρ dummyCl dummyτ (.positive w)) := by
-  refine ⟨w, trivial, admissible_trivial_residual w, rfl, by rfl⟩
+  refine ⟨w, hw, admissible_trivial_residual w, rfl, by rfl⟩
 
 theorem syntactic_embedding_carrier_nonempty (A : ReflexiveArchitecture World Obs Repr Claim)
     (dρ : World → Repr) (dCl : Set World → Set World) (dτ : Claim → Bool)
@@ -130,7 +130,7 @@ theorem syntactic_embedding_carrier_nonempty (A : ReflexiveArchitecture World Ob
 /--
 **Reflection (conditional):** for a syntactic shape, if the architecture’s success predicate
 holds on the **active** axis encoded by that shape, then the corresponding profile holds; the
-`.positive` branch always satisfies `PositiveResidualProfile` via the carried witness.
+`.positive w` branch satisfies `PositiveResidualProfile` when `w` is **R₄** (`IsR4PositiveSurvivor w`).
 
 Unconditional four-way OR of profiles is **false** in general (e.g. `.repr ρ` with `¬ repr_success ρ`
 and dummy gadgets failing the other modes).
@@ -141,7 +141,8 @@ theorem syntactic_reflection_four_way_of_axis_success
     (t : SyntacticTotalization World Repr Claim)
     (hρ : ∀ ρ, t = .repr ρ → A.repr_success ρ)
     (hCl : ∀ Cl, t = .closure Cl → A.closure_success Cl)
-    (hτ : ∀ τ, t = .cert τ → A.cert_success τ) :
+    (hτ : ∀ τ, t = .cert τ → A.cert_success τ)
+    (hpos : ∀ w, t = .positive w → IsR4PositiveSurvivor w) :
     RepresentationalProfile (fromSyntactic A dρ dCl dτ t) ∨
       ClosureProfile (fromSyntactic A dρ dCl dτ t) ∨
         CertificatoryProfile (fromSyntactic A dρ dCl dτ t) ∨
@@ -158,6 +159,6 @@ theorem syntactic_reflection_four_way_of_axis_success
     exact (cert_profile_of_cert A dρ dCl dτ τ).mpr (hτ τ rfl)
   · rcases h with ⟨w, rfl⟩
     right; right; right
-    exact positive_profile_of_positive A dρ dCl dτ w
+    exact positive_profile_of_positive A dρ dCl dτ w (hpos w rfl)
 
 end StructuredNonexhaustibility

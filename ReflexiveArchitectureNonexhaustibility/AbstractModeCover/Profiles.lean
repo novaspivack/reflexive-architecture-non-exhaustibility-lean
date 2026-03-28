@@ -25,8 +25,7 @@ def CertificatoryProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : 
 /--
 Positive residual profile: **R₄** survivor attested by a witness.
 
-**Refinement:** strengthen linkage between `ResidualWitness` and `a.carrier` when **R₄** sharpens
-(**TODO-075_RN7**).
+**Refinement:** optional class-indexed **payload** in `ResidualWitness` (see **D-002** / **SPEC_004**).
 -/
 def PositiveResidualProfile (a : OpaqueTotalizationAttempt World Obs Repr Claim) : Prop :=
   ∃ w : ResidualWitness,

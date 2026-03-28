@@ -16,7 +16,7 @@
 |------|------|
 | `Basic.lean` | `ReflexiveArchitecture` + per-architecture success predicates |
 | `Modes.lean` | `Mode*i*Success` / proposal predicates |
-| `Residuals.lean` | `ResidualWitness`, R₁–R₄ placeholders (sharpen per **SPEC_004_RC1**) |
+| `Residuals.lean` | `ResidualClass`, `ResidualWitness`; **R₁–R₄** predicates by `rc` tag; disjointness lemmas (**SPEC_004_RC1**) |
 | `Interfaces.lean` | `DiagonalRepresentationalInterface`, closure, semantic interfaces |
 | `Barriers.lean` | **U₁–U₃** (`barrier_mode*`) — intuitionistic |
 | `SyntacticModeCover.lean` | **Proved** four-way split for `SyntacticTotalization` (tagged syntax **only**) — **base / not the summit** |
@@ -47,7 +47,7 @@
 ## Strength notes
 
 - **Barriers:** Mathematical content lives in **instantiating** the three `*Interface` hypotheses for concrete `A` (nems / ONE / etc.).
-- **R₁–R₄:** Currently **placeholder** `True` predicates — not a claim that all residuals collapse; sharpen before citing in papers.
+- **R₁–R₄:** Declared by **`ResidualWitness.rc`** (not vacuous `True` on every witness). **Admissibility** still a hook (**SPEC_012**). Optional: dependent payloads per class (**D-002** / future work).
 
 ## Build
 
