@@ -9,8 +9,10 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** definitions + elementary implications only. **D0** (persistence under non-resolving refinement),
-**D1** (response dichotomy), and **D2** (fold / regime shift) are **not** proved here—see **SPEC_023_RG1**.
+**Scope:** **P0** scaffolding plus a **relational D0 seed** (**kernel witness** + **non-resolving** refinement:
+still `fine`-identified ⇒ **not** separated by the step). **D1** (response dichotomy), **D2** (fold / regime shift),
+and **D3** (adequacy relocation) are **not** proved here—see **SPEC_023_RG1**. Instantiating **`KernelWitness`**
+from **IC** fibers / forgetful maps is **SPEC_013_IC1**.
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
 with this data.
@@ -50,6 +52,13 @@ theorem fine_subsumes_coarse_rw (h : IsRefinementStep coarse fine) {x y : α} (h
 theorem not_fine_of_not_coarse (h : IsRefinementStep coarse fine) {x y : α} (hc : ¬ coarse x y) :
     ¬ fine x y :=
   fun hf => hc (h x y hf)
+
+/--
+**P0 / D0 hook:** `P` names an obligation that counts as **standing residual burden** in a dynamical episode.
+
+Instantiations from **IC** / kernel formalism: **SPEC_013_IC1**; lemmas below use this alias for readability.
+-/
+abbrev StandingResidualBurden (P : Prop) : Prop := P
 
 /-! ## Regime snapshots and response tagging -/
 
@@ -107,14 +116,64 @@ theorem refinement_reconfiguration_disjoint (step : ResidualResponseStep α Worl
 
 end ResidualResponseStep
 
-/-! ## Standing burden (pure `Prop` parameter — **D0** hook) -/
+/-! ## D0 — kernel witness / non-resolving refinement (**SPEC_023_RG1** **P1** relational seed)
+
+An abstract **kernel** predicate `K` tags pairs “in the same formal fiber” (IC: preimage of a forgetful map).
+A **refinement** step **separates** such a witness iff it **splits** the pair between `coarse` and `fine`.
+
+The lemmas below are **purely relational**: they do not import Infinity Compression. They still capture the
+hinge implication *non-resolving refinement does not eliminate the witness’s failure to become separated*.
+-/
 
 /--
-**P0 hook for D0:** `P` names an obligation that counts as **standing residual burden** in a dynamical episode.
+Distinct points `x,y` tagged by the kernel predicate **K**.
 
-Later lemmas (**IC** / kernel formalism in **SPEC_013_IC1**) show how to **instantiate** `P` from non-resolving
-refinement without defining `P` to be "whatever makes the theorem true."
+Downstream (**SPEC_013_IC1**): take `K x y := f x = f y` for a forgetful `f`, or the IC remainder kernel.
 -/
-abbrev StandingResidualBurden (P : Prop) : Prop := P
+structure KernelWitness (α : Type _) (K : α → α → Prop) where
+  x : α
+  y : α
+  kem : K x y
+  ne : x ≠ y
+
+/--
+This witness is **separated** by `(coarse,fine)` iff the refinement exhibits a **split** on `(x,y)`.
+-/
+def WitnessSeparatedByRefinement {α : Type _} {K : α → α → Prop} (coarse fine : Identification α)
+    (w : KernelWitness α K) : Prop :=
+  PairSplitByRefinement coarse fine w.x w.y
+
+/--
+**D0 (relational core).** If `x` and `y` remain `fine`-identified after the step, the refinement **did not**
+separate them—regardless of whether `IsRefinementStep` adds new distinctions elsewhere.
+
+(`IsRefinementStep` is kept as a parameter so callers marking a **refinement episode** thread the same hypotheses
+used in **`ResidualResponseStep.refinement`**.)
+-/
+theorem d0_witness_not_separated_of_still_fine {K : α → α → Prop} {w : KernelWitness α K}
+    {coarse fine : Identification α} (_hstep : IsRefinementStep coarse fine) (hfine : fine w.x w.y) :
+    ¬ WitnessSeparatedByRefinement coarse fine w :=
+  fun hsplit => hsplit.2 hfine
+
+/--
+**D0 packaging (standing identification).** The proposition “this pair stays `fine`-identified” is a literal
+**standing** burden in the dynamics hook sense.
+-/
+theorem d0_standing_fine_identification {K : α → α → Prop} {w : KernelWitness α K} {fine : Identification α}
+    (hfine : fine w.x w.y) :
+    StandingResidualBurden (fine w.x w.y) :=
+  hfine
+
+/--
+**D0 + external separation goal.** If an independent obligation `Need` says the witness ought to be separated,
+and the pair remains `fine`-identified, then the conjunction is **standing burden** (not discharged by the step).
+
+`Need` is **not** defined here—avoiding definition smuggling. Typical use: `Need` comes from adequacy / barrier
+certificates once linked at the enrichment layer.
+-/
+theorem d0_standing_unmet_need {K : α → α → Prop} {w : KernelWitness α K} {fine : Identification α} (Need : Prop)
+    (hneed : Need) (hfine : fine w.x w.y) :
+    StandingResidualBurden (Need ∧ fine w.x w.y) :=
+  And.intro hneed hfine
 
 end StructuredNonexhaustibility
