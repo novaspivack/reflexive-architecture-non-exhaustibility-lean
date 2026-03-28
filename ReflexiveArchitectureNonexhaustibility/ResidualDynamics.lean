@@ -230,6 +230,22 @@ theorem d1_response_step_classical_trilemma (step : ResidualResponseStep α Worl
     · exact Or.inr (Or.inl ⟨before, after, rfl, heq⟩)
 
 /--
+**SPEC_023_RG1** **D1** **(i)/(ii)** at **tag level** (**classical**): **either** a **non-proper** episode (observational **refinement**
+**or** **bookkeeping** **reconfiguration**) **or** a **proper** **regime shift** (**`RegimeSnapshot.arch`** changes).
+
+**(i)**’s *residual still nontrivial* clause is **not** folded in here — it is **`StandingResidualBurden`** / **`d3_*`** composition
+(**no** smuggling).
+-/
+theorem d1_classical_persistentOrProperRegimeShift (step : ResidualResponseStep α World Obs Repr Claim) :
+    ((∃ ψ χ hstep, step = refinement ψ χ hstep) ∨
+        (∃ before after, step = reconfiguration before after ∧ before.arch = after.arch)) ∨
+      (∃ before after, step = reconfiguration before after ∧ IsProperRegimeChange before after) := by
+  rcases d1_response_step_classical_trilemma step with h1 | h2 | h3
+  · exact Or.inl (Or.inl h1)
+  · exact Or.inr h2
+  · exact Or.inl (Or.inr h3)
+
+/--
 **Strong D1 (classical scaffold):** map each **trilemma** disjunct to a conclusion — e.g. **`P₁`** = persistent **kernel/U123**
 burden on a **refinement** episode, **`P₂`** = **proper** regime change, **`P₃`** = bookkeeping-only **reconfiguration**.
 -/
@@ -375,6 +391,22 @@ theorem residualWitness_of_kernelWitness_ne_trivialR4 {α : Type _} {K : α → 
     rw [he]
     exact isR4_trivialR4
   exact not_isR4Residual_residualWitness_of_kernelWitness w h4
+
+/--
+**Formal boundary (**SPEC_023_RG1** **D0**):** a **kernel** **R₂** witness is **never** literally the **barrier-linked** **R₄**
+**`ResidualWitness`** — **tags** **`R₂ ≠ R₄`**.
+
+**Positive packaging:** **`JointR2R4ResidualCertificate`**, **`exists_admissible_r2_and_barrier_linked_r4_joint`**, **`nonempty_jointR2R4ResidualCertificate`**.
+-/
+theorem residualWitness_of_kernelWitness_ne_barrierLinkedR4ResidualWitness
+    {α : Type _} {K : α → α → Prop} (w : KernelWitness α K)
+    {World Obs Repr Claim : Type} {A : ReflexiveArchitecture World Obs Repr Claim}
+    (d1 : DiagonalRepresentationalInterface A)
+    (d2 : ClosureObstructionInterface A)
+    (d3 : SemanticCertificationInterface A) :
+    residualWitness_of_kernelWitness w ≠ barrierLinkedR4ResidualWitness d1 d2 d3 := by
+  intro he
+  exact ne_r2_r4 (congrArg ResidualWitness.rc he)
 
 theorem isNegativeResidualClass_residualWitness_of_kernelWitness {α : Type _} {K : α → α → Prop}
     (w : KernelWitness α K) : IsNegativeResidualClass (residualWitness_of_kernelWitness w) :=
@@ -1067,6 +1099,17 @@ theorem not_closureIterateAdequacy_pathologicalUnit (S₀ B : Set Unit) (h : S�
 theorem not_closureIterateAdequacy_pathologicalUnit_empty_univ :
     ¬ ClosureIterateAdequacy pathologicalAllClosureSuccessUnit (∅ : Set Unit) Set.univ :=
   not_closureIterateAdequacy_pathologicalUnit _ _ unit_empty_ne_univ
+
+/--
+**D2** **refutation** of the naive bridge: **global** **`closure_success`** on **every** **`Cl`** does **not** force
+**`ClosureIterateAdequacy`** for any fixed **`S₀`, `B`** — explicit **`pathologicalAllClosureSuccessUnit`** instance.
+-/
+theorem exists_ReflexiveArchitecture_forall_closureSuccess_not_closureIterateAdequacy :
+    ∃ (A : ReflexiveArchitecture Unit Unit Unit Unit) (S₀ B : Set Unit),
+      (∀ Cl : ClosureOperator Unit, A.closure_success Cl) ∧
+        ¬ ClosureIterateAdequacy A S₀ B :=
+  ⟨pathologicalAllClosureSuccessUnit, ∅, Set.univ, fun _ => trivial,
+    not_closureIterateAdequacy_pathologicalUnit_empty_univ⟩
 
 /--
 **Fold obstruction (pointwise):** outside **internal** reachability contradicts **`closure_success`** once iterate soundness is assumed.
