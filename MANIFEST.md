@@ -42,7 +42,7 @@
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
 | `ResidualEnrichment/Payloads.lean` | **SPEC_016_ER1 F1:** **`ObstructionSignature`**, **`ResidualPayloadFamily`** (**`Type 1`** payload slots for **D-001**), **`SigmaResidualPayload`** |
 | `ResidualEnrichment/EnrichedWitness.lean` | **SPEC_016_ER1 F1:** **`EnrichedR4ResidualWitness`** — base witness + signature + payload |
-| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`** (**`Type 2`** — aligns with **`SigmaResidualPayload`** universe), **`promote_barrier_pack_to_enriched_r4`** (and aliases); **`promote_enriched_base_*`** lemmas (**base** independent of bridge / family) |
+| `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`**; **`promote_enriched_base_*`**; **SPEC_023_RG1 D3:** **`standingResidualBurden_promotion_bridge_irrelevant`** (**`StandingResidualBurden (P .base)`** invariant under bridge / family — **same** `arch` / barrier pack) |
 | `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
 | `ResidualEnrichment/MixedPayloadDesignNotes.lean` | Pointer + summary: **SPEC_017_MX1** mixed payload shape (**product** of three columns); **no** defs |
 | `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); carriers use **`ULift`** for **`Type 1`** slots; **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
@@ -107,6 +107,7 @@
 | `d3_adequacy_aftermath_standing_burden` | **`Adequacy.lean`:** same as **`honest_aftermath_carries_admissible_r4`**, as **`StandingResidualBurden`** — **SPEC_023_RG1** **D3** seed. |
 | `d3_aftermath_standing_r4_admissible_core` | **`Adequacy.lean`:** **D3** weakening to **`∃ w, IsR4 ∧ AdmissibleResidual`** via **`standingResidualBurden_of_imp`**. |
 | `standingResidualBurden_of_imp` | **`ResidualDynamics.lean`:** **`P → Q`** transports **`StandingResidualBurden P`** (**propositional D3**). |
+| `standingResidualBurden_promotion_bridge_irrelevant` | **`Promotion.lean`:** same **`U123BarrierData`** ⇒ **`StandingResidualBurden (P .base)`** unchanged across **`PayloadPromotionBridge`** choices (**base-predicate D3**). |
 | `canonical_spectrum_iff_labeled_successes` | **RouteCanonicality:** **F2-1** + **sound + complete** taxonomy \(\Leftrightarrow\) labeled gadget successes. |
 | `canonical_spectrum_mono_labeled` | **RouteCanonicality:** transport labeled successes across **`canonical_spectrum_mono`**. |
 | `d002_barrier_linked_r4_witness_holds` | **D-002 abstract:** **`D002BarrierLinkedR4WitnessTarget`** is a **`theorem`**. |

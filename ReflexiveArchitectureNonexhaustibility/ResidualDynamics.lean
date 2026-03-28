@@ -16,6 +16,9 @@ Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
 with this data.
+
+**D3 bridge note:** **`standingResidualBurden_promotion_bridge_irrelevant`** lives in **`ResidualEnrichment/Promotion.lean`**
+(imports this file) so **`PayloadPromotion`** can cite **`StandingResidualBurden`** without a module cycle.
 -/
 
 namespace StructuredNonexhaustibility

@@ -1,5 +1,6 @@
 import ReflexiveArchitectureNonexhaustibility.AbstractModeCover.D002ResidualWitnessTarget
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.EnrichedWitness
+import ReflexiveArchitectureNonexhaustibility.ResidualDynamics
 
 /-!
 # Payload promotion (**SPEC_016_ER1**, **EPIC_011** phase F2)
@@ -9,6 +10,11 @@ build an **`EnrichedR4ResidualWitness`** on top of **`barrierLinkedR4ResidualWit
 
 This **does not** replace abstract **D-002**; it **extends** it when optional engine content is available via
 **`PayloadPromotionBridge`** hypotheses.
+
+**SPEC_023_RG1 D3 (bridge-grade):** **`standingResidualBurden_promotion_bridge_irrelevant`** — any **`Prop`** predicated on the
+**promoted `.base`** **`ResidualWitness`** is unchanged when swapping **`ResidualPayloadFamily`** / **`PayloadPromotionBridge`**
+(because **`promote_enriched_base_independent_of_family_and_bridge`**). **Not** relocation along **`EngineReflexiveMorphism`** /
+cross-architecture maps — that remains **open**.
 -/
 
 namespace StructuredNonexhaustibility
@@ -76,5 +82,20 @@ theorem promote_enriched_base_independent_of_family_and_bridge
     (promote_barrier_pack_to_enriched_r4 A F₁ br₁ b).base =
       (promote_barrier_pack_to_enriched_r4 A F₂ br₂ b).base :=
   rfl
+
+/--
+**D3 (bridge-level):** **`StandingResidualBurden`** on a **`Prop`** about the **barrier-linked base** witness does **not** depend
+on which **`PayloadPromotionBridge`** / payload family promoted the enrichment — only **`σ`** / engine tagging differs.
+
+Combine with **`standingResidualBurden_of_imp`** to repackage obligations after changing bridges **without** claiming burden
+vanished. Cross-**`ReflexiveArchitecture`** functorial transport stays **out of scope** here.
+-/
+theorem standingResidualBurden_promotion_bridge_irrelevant
+    (A : ReflexiveArchitecture World Obs Repr Claim) (P : ResidualWitness → Prop)
+    (F₁ F₂ : ResidualPayloadFamily A) (br₁ : PayloadPromotionBridge A F₁)
+    (br₂ : PayloadPromotionBridge A F₂) (b : U123BarrierData A) :
+    StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 A F₁ br₁ b).base) ↔
+      StandingResidualBurden (P (promote_barrier_pack_to_enriched_r4 A F₂ br₂ b).base) := by
+  rw [promote_enriched_base_independent_of_family_and_bridge A F₁ F₂ br₁ br₂ b]
 
 end StructuredNonexhaustibility
