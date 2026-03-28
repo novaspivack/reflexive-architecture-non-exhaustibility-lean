@@ -3,7 +3,7 @@
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` (see `lean-toolchain`).  
 **Mathlib:** `v4.29.0-rc6` (see `lake-manifest.json` after `lake update`).
 
-**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **`require «nems-lean»`** (**path**) + **`NemS.Prelude`** + **`NemsStructuralProgramLink`**; **`EngineReflexiveMorphism`**, **`FromNativeTraces`**. **EPIC_010** (**SPEC_014**): **`RouteCanonicality.lean`**. See parent [`QUEUE.md`](../QUEUE.md).
+**Program focus (parent repo):** **Layer 1** Paper D nonexistence + **D-002 abstract** witness are proved. **EPIC_011** (**SPEC_016/017**): **`ResidualEnrichment`** + bridges + **`mixedTriple`**. **EPIC_012** (**D-001**): **`require «nems-lean»`** (**path**) + **`NemS.Prelude`** + **`NemsStructuralProgramLink`**; **`EngineReflexiveMorphism`**, **`FromNativeTraces`**. **EPIC_010** (**SPEC_014**): **`RouteCanonicality.lean`**. **EPIC_014** / **SPEC_022_RA1**: O7 **T1–T3** (**`ProvBicU123EnrichedR4Alignment.lean`**) — **formal summit frozen** (2026-03-28); further proof mountains = **new phase** in parent specs. See parent [`QUEUE.md`](../QUEUE.md).
 
 ## `sorry` / `axiom` audit
 
