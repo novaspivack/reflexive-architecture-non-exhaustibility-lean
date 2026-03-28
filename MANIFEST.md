@@ -33,7 +33,7 @@
 | `ResidualEnrichment/EnrichedWitness.lean` | **SPEC_016_ER1 F1:** **`EnrichedR4ResidualWitness`** — base witness + signature + payload |
 | `ResidualEnrichment/Promotion.lean` | **SPEC_016_ER1 F2:** **`PayloadPromotionBridge`**, **`promote_barrier_pack_to_enriched_r4`** (and aliases); promotion is **data** (`def`/`abbrev`), not `theorem` |
 | `ResidualEnrichment/Summit.lean` | Narrative hub for engine-enriched residual summit |
-| `ResidualEnrichment/Bridges/FromRI.lean` | **TODO F3:** bridge when **D-001** pins RI |
+| `ResidualEnrichment/Bridges/FromRI.lean` | **F3a:** **`riPayloadPromotionBridge`** (RI column); **`ReprObstructionPayload`** = Π-**`PLift`** negations from **`reprBarrier`**; **D-001** for richer NEMS/RI traces |
 | `ResidualEnrichment/Bridges/FromRFO.lean` | **TODO F3:** bridge when **D-001** pins RFO |
 | `ResidualEnrichment/Bridges/FromSEM.lean` | **TODO F3:** bridge when **D-001** pins ICA/SEM |
 | `AbstractModeCover/AnchoredFlagship.lean` | **`HonestAnchoredInternalCompletion`**, **`AnchoredFlagshipUniversalCover`** (proved); Paper D **anchored** bridge (**SPEC_015**, **SPEC_010_US1**) |

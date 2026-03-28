@@ -1,17 +1,73 @@
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Promotion
 
 /-!
-# Bridge placeholder — RI / diagonal representational engines (**D-001**)
+# Bridge — representational / diagonal column (**EPIC_011** **F3a**)
 
-**TODO (EPIC_011 / F3):** construct a **`PayloadPromotionBridge`** (or a partial **`SigmaResidualPayload`**
-producer) from **pinned** RI / diagonal mathematics, once **D-001** fixes import paths.
+**Scope:** first **end-to-end** **`PayloadPromotionBridge`** without pinning an external RI package (**D-001** still
+open for NEMS / nems-lean–style imports).
 
-**Constraint:** **no** heavyweight external import in this repository until **maintainers** record the dependency
-(**`docs/004_ARCHITECTURE.md`**, **D-001**).
+**Payload content:** the representational barrier is **`∀ ρ, ¬ A.repr_success ρ`** (**`DiagonalRepresentationalInterface`**,
+**`Interfaces.lean`**). As a **`Prop`** it is not usable as **`PayloadFor`** data; we use **`PLift`** at each
+internal gadget **`ρ`** so the carrier is a **Π-type in `Type`**: fiber-wise witnesses of **failure** for every
+proposed representational totalization. That is **intrinsic obstruction** content (what RI instantiations prove), not a
+relabelling of **`U123BarrierData`**.
+
+**Reusable pattern (for **F3b**):** extract a **Π–PLift** witness from a field of **`U123BarrierData`**, tag with
+**`ObstructionSignature.reprDiag`**, and hand off to **`promote_barrier_pack_to_enriched_r4`**.
+
+**Still TODO after D-001:** swap **`ReprObstructionPayload`** for a richer **engine-native** trace type (diagonal
+witness, Gödelized obstruction, …) and keep **`PayloadPromotionBridge`** as the seam.
 -/
 
 namespace StructuredNonexhaustibility
 
--- Intentionally empty beyond imports: bridges land here when D-001 unblocks concrete promotion.
+variable {World : Type} {Obs : ObsTy} {Repr : ReprTy} {Claim : ClaimTy}
+
+/--
+**RI-flavored obstruction payload:** for each proposed **`ρ`**, a **data** witness that **`repr_success`** fails.
+-/
+def ReprObstructionPayload (A : ReflexiveArchitecture World Obs Repr Claim) : Type :=
+  (ρ : World → Repr) → PLift (¬ A.repr_success ρ)
+
+/--
+From **`U123BarrierData`**, extract the representational column as **`Type`**-valued Π-witnesses.
+-/
+def reprObstructionPayloadOfU123 {A : ReflexiveArchitecture World Obs Repr Claim}
+    (b : U123BarrierData A) : ReprObstructionPayload A :=
+  fun ρ => PLift.up (b.reprBarrier ρ)
+
+/--
+**Residual family** focused on the representational slot; other carriers are **`Empty`** so **only** the RI column is
+inhabited for this bridge.
+-/
+def riResidualPayloadFamily (A : ReflexiveArchitecture World Obs Repr Claim) : ResidualPayloadFamily A where
+  reprPayload := ReprObstructionPayload A
+  closurePayload := Empty
+  certPayload := Empty
+  mixedPayload := Empty
+
+/--
+**Concrete bridge (interface-native):** tag **`reprDiag`** and populate the payload from **`b.reprBarrier`**.
+-/
+def riPayloadPromotionBridge (A : ReflexiveArchitecture World Obs Repr Claim) :
+    PayloadPromotionBridge A (riResidualPayloadFamily A) where
+  promote b := ⟨ObstructionSignature.reprDiag, reprObstructionPayloadOfU123 b⟩
+
+/--
+**End-to-end:** triple barriers + RI-family bridge **⇒** **`EnrichedR4ResidualWitness`** with **`reprDiag`** payload.
+-/
+def enrichedR4_tripleBarriers_withReprPayload (A : ReflexiveArchitecture World Obs Repr Claim)
+    (d1 : DiagonalRepresentationalInterface A) (d2 : ClosureObstructionInterface A)
+    (d3 : SemanticCertificationInterface A) :
+    EnrichedR4ResidualWitness A (riResidualPayloadFamily A) :=
+  enriched_r4_from_triple_barriers_and_bridge A (riResidualPayloadFamily A) (riPayloadPromotionBridge A) d1 d2 d3
+
+/--
+**Certificate** (“engine obstruction **⇒** enriched witness”): same data as **`enrichedR4_tripleBarriers_withReprPayload`**,
+packaged for readers who pass **`U123BarrierData`** directly.
+-/
+def enrichedR4_u123_withReprPayload (A : ReflexiveArchitecture World Obs Repr Claim) (b : U123BarrierData A) :
+    EnrichedR4ResidualWitness A (riResidualPayloadFamily A) :=
+  promote_barrier_pack_to_enriched_r4 A (riResidualPayloadFamily A) (riPayloadPromotionBridge A) b
 
 end StructuredNonexhaustibility
