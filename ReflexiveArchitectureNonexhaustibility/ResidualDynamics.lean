@@ -9,10 +9,10 @@ Abstract scaffolding for a **dynamical** layer on top of the static barrier/resi
 * **Regime** as a snapshot of **`ReflexiveArchitecture`** data (carriers fixed; regulator predicates may change).
 * A disjoint sum **`ResidualResponseStep`** tagging either refinement or regulatory reconfiguration.
 
-**Scope:** **P0** + **D0** (**kernel witness**, **forgetful `KernelOfMap`**) + **D1 tag-level** lemmas (**exhaustive**
-split of **`ResidualResponseStep`** into refinement vs reconfiguration; **`Bool`**↔**`∃`**). **Stronger D1** (preserve
-standing residual vs change regime), **D2** (fold), **D3** (adequacy relocation) are **still open**—**SPEC_023_RG1**.
-Forgetful kernel instantiation: **SPEC_013_IC1** (**`InfinityCompression`** re-exports **`ICKernel`**).
+**Scope:** **P0** + **D0** (**kernel witness**, **forgetful `KernelOfMap`**) + **D1** (intuitionistic **`d1_*`** + **`Bool`**↔**`∃`**
++ **`classical`** **`d1_response_step_classical_trilemma`** / **`IsProperRegimeChange`**—**LEM** on **`arch`**
+equality, **disclosed**). **Barrier / `ResidualWitness` strong D1**, **D2** (fold), **D3** (adequacy) **open**—**SPEC_023_RG1**.
+Forgetful kernel: **SPEC_013_IC1** (**`InfinityCompression`**, **`ICKernel`**).
 
 **Anti-smuggling:** no axiom that every residual forces a nontrivial step; no identification of "self-improvement"
 with this data.
