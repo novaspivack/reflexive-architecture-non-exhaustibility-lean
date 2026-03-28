@@ -12,10 +12,11 @@ import ReflexiveArchitectureNonexhaustibility.Adequacy
 **Summit:** `AbstractOpaqueModeCoverTarget` names the opaque four-way obligation.
 
 **Proved now:** reflection from `SyntacticTotalization`; **summit (classical):**
-`abstract_opaque_mode_cover_classical` proves **`AbstractOpaqueModeCoverTarget`** with explicit
-`classical` (**LEM** on the three mode profiles) given the **non-vacuous** `PositiveResidualProfile`
-(**Profiles.lean**). **Intuitionistic:** `abstract_opaque_mode_cover_of_decidable` per-attempt
-`Decidable` on those three predicates. Packaging / mediation iff lemmas; see **MANIFEST**.
+`abstract_opaque_mode_cover_classical` proves **`AbstractOpaqueModeCoverTarget`** with **`classical`**
+(**LEM** on profiles via **`by_cases`**). **Intuitionistic:** `abstract_opaque_mode_cover_of_decidable` from
+per-attempt **`Decidable`**. **Explicit-LEM (hypothesis-visible):** `abstract_opaque_mode_cover_of_LEM_on_profiles`
+and `abstract_opaque_mode_cover_target_of_pointwiseLEM_on_profiles` — same case analysis with **`LEM`** on the three
+profile **`Prop`**s stated as assumptions. **Bare `Genuine`:** **SPEC_015** **boundary** — not a routine missing proof.
 -/
 
 namespace StructuredNonexhaustibility
@@ -101,6 +102,38 @@ theorem abstract_opaque_mode_cover_of_decidable (W O R C : Type)
       · exact Or.inr (Or.inr (Or.inl hK))
       · exact Or.inr (Or.inr (Or.inr (positive_residual_profile_of_three_failures hR hC hK)))
 
+/--
+**Explicit **LEM** on profiles** (no `classical` tactic): same case analysis as **`abstract_opaque_mode_cover_of_decidable`**,
+but **`P ∨ ¬ P`** for each of the three anchored profile **`Prop`**s is **hypothesis-visible**. **`Genuine`** is unused in the
+proof tree; kept for **SPEC_015** alignment with **`AbstractOpaqueModeCoverTarget`**’s antecedent.
+-/
+theorem abstract_opaque_mode_cover_of_LEM_on_profiles (W O R C : Type)
+    (a : OpaqueTotalizationAttempt W O R C)
+    (_hg : GenuineInternalTotalizationAttempt a)
+    (lemR : RepresentationalProfile a ∨ ¬ RepresentationalProfile a)
+    (lemC : ClosureProfile a ∨ ¬ ClosureProfile a)
+    (lemK : CertificatoryProfile a ∨ ¬ CertificatoryProfile a) :
+    RepresentationalProfile a ∨ ClosureProfile a ∨ CertificatoryProfile a ∨
+      PositiveResidualProfile a := by
+  rcases lemR with hR | hR
+  · exact Or.inl hR
+  · rcases lemC with hC | hC
+    · exact Or.inr (Or.inl hC)
+    · rcases lemK with hK | hK
+      · exact Or.inr (Or.inr (Or.inl hK))
+      · exact Or.inr (Or.inr (Or.inr (positive_residual_profile_of_three_failures hR hC hK)))
+
+theorem abstract_opaque_mode_cover_target_of_pointwiseLEM_on_profiles (W O R C : Type)
+    (h :
+      ∀ (a : OpaqueTotalizationAttempt W O R C) (_ : GenuineInternalTotalizationAttempt a),
+        (RepresentationalProfile a ∨ ¬ RepresentationalProfile a) ∧
+          (ClosureProfile a ∨ ¬ ClosureProfile a) ∧
+            (CertificatoryProfile a ∨ ¬ CertificatoryProfile a)) :
+    AbstractOpaqueModeCoverTarget W O R C := by
+  intro a hg
+  rcases h a hg with ⟨lemR, lemC, lemK⟩
+  exact abstract_opaque_mode_cover_of_LEM_on_profiles W O R C a hg lemR lemC lemK
+
 theorem abstract_opaque_mode_cover_target_of_pointwiseDecidable (W O R C : Type)
     (decR :
       ∀ (a : OpaqueTotalizationAttempt W O R C) (_ : GenuineInternalTotalizationAttempt a),
@@ -116,10 +149,8 @@ theorem abstract_opaque_mode_cover_target_of_pointwiseDecidable (W O R C : Type)
   exact abstract_opaque_mode_cover_of_decidable W O R C a (decR a hg) (decC a hg) (decK a hg)
 
 /--
-**SPEC_015 boundary (genuine-only checkbox):** **`GenuineInternalTotalizationAttempt`** is only **`Nonempty carrier`**;
-it does **not** furnish **Decidable** instances on the three anchored profiles. The **general intuitionistic** discharger
-for **`AbstractOpaqueModeCoverTarget`** relative to **`Genuine`** is therefore **`abstract_opaque_mode_cover_target_of_pointwiseDecidable`** / **`abstract_opaque_mode_cover_of_decidable`**; the **unrestricted** cover from **`Genuine` alone** without such
-**supplements** matches the **`abstract_opaque_mode_cover_classical`** route (**LEM** per attempt) or remains a **strictly stronger** open target.
+**SPEC_015 boundary:** **`GenuineInternalTotalizationAttempt`** is only **`Nonempty carrier`** — see spec **Sharp boundary**.
+**Discharges:** **`abstract_opaque_mode_cover_target_of_pointwiseDecidable`**, **`abstract_opaque_mode_cover_target_of_pointwiseLEM_on_profiles`**, **`abstract_opaque_mode_cover_classical`**.
 -/
 theorem abstract_opaque_mode_cover_intuitionistic_when_profilesDecidable (W O R C : Type)
     (a : OpaqueTotalizationAttempt W O R C) (_hg : GenuineInternalTotalizationAttempt a)

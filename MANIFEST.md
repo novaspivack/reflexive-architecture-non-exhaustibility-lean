@@ -28,7 +28,7 @@
 | `AbstractModeCover/Attempt.lean` | `OpaqueTotalizationAttempt`; `GenuineInternalTotalizationAttempt` (**SPEC_015_KM2**) |
 | `AbstractModeCover/Profiles.lean` | Structural profiles on opaque attempts (**not** datatype tags) |
 | `AbstractModeCover/Mediation.lean` | Mediation aliases + **`AbstractMediationDecompositionTarget`** (open `Prop`) |
-| `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (**proved** classically + **Decidable** route); **`abstract_opaque_mode_cover_intuitionistic_when_profilesDecidable`**; **genuine-only** boundary docstring (**SPEC_015**) |
+| `AbstractModeCover/Classification.lean` | **`AbstractOpaqueModeCoverTarget`** (classical + **`Decidable`** + **explicit LEM-on-profiles** lemmas); **SPEC_015** bare-`Genuine` **boundary** (doc + spec) |
 | `AbstractModeCover/GenuinenessCandidates.lean` | **Minimal-strengthening search:** claim / burden-faithfulness / generic soundness slot / profile determinacy (**SPEC_015_KM2**) |
 | `AbstractModeCover/WeakerBurdenSearch.lean` | **Principled weaker-burden sweep** + **`genuine_alone_does_not_imply_threeWayAnchorModes`** ( **`Genuine` alone** does not force anchored M₁–M₃) |
 | `AbstractModeCover/D002ResidualWitnessTarget.lean` | **D-002 proved (abstract):** **`U123BarrierData`**-carrying **`barrierLinkedR4ResidualWitness`**; theorem **`d002_barrier_linked_r4_witness_holds`** |
