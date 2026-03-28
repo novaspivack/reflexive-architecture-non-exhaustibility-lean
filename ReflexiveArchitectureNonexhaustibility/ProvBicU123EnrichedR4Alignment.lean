@@ -26,6 +26,19 @@ on **full** **`godelProvBicBarrierHypotheses`**, with **`Q := DiagonalRepresenta
 **Honesty:** **`barrierHypotheses_of b`** **uses** **`b.reprBarrier`** (not a discarded pattern match). The augmenting **`Prop`**
 is **fixed** for **`A`**. **`closureBarrier` / `certBarrier`** unused here. **Not** an unconditional **`U123 ⇒ …`** theorem.
 
+## **C₁** — disciplined **full `U123` pack** on **`CodeEquiv`** (**SPEC_022_RA1**)
+
+**`godelProvBicBarrierHypotheses_u123Augmented`** chains **`barrierHypotheses_augment_withGlobalConjunct`** three times
+**(repr → closure → cert)**, matching **`U123BarrierData`** (**`Interfaces.lean`**). Each conjunct is the **paper-side**
+abbreviation for the column; witnesses are **`b.reprBarrier`**, **`b.closureBarrier`**, **`b.certBarrier`** — **no** dummy
+**`b`**.
+
+**`u123SemanticBarrierLink_provBicU123TripleAugment`** packages this as **`U123SemanticBarrierLink`**; **`…Sync`** feeds enriched **R₄**
+like **T1**/**T2**.
+
+**Honesty:** this **strengthens** **`CodeEquiv`** with abstract **U₁–U₃** *interface* assumptions (not a claim that **ProvBic**
+internal lemmas now mention **`Set World`** or **`Bool`** literals). Same honesty pattern as **T2** for **`(U₁)`**.
+
 Both seams target **`enrichedR4_u123_withAugmentedNemsProgramVRepr_u123DrivenSync`**.
 -/
 
@@ -103,5 +116,53 @@ theorem enrichedR4_provBic_u123ReprAugmentSync_nonempty
       (EnrichedR4ResidualWitness (φ.toReflexive e₀)
         (augmentedReprResidualPayloadFamily (φ.toReflexive e₀))) :=
   ⟨enrichedR4_provBic_u123ReprAugmentSync φ G S e₀ b⟩
+
+/--
+**C₁ (core construction):** Gödel–**ProvBic** **`BarrierHypotheses`**, then global conjuncts for **`(U₁)∧(U₂)∧(U₃)`**
+using the **three** fields of **`b : U123BarrierData A`**.
+-/
+def godelProvBicBarrierHypotheses_u123Augmented
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (G : Godel.GodelSystem) (S : SemanticSelfDescription.ProvBicArithmeticalSemantics G)
+    (b : U123BarrierData A) :
+    SemanticSelfDescription.BarrierHypotheses (SemanticSelfDescription.godelProvBicFrame G S) :=
+  let bh0 := SemanticSelfDescription.godelProvBicBarrierHypotheses G S
+  let bh1 := SemanticSelfDescription.barrierHypotheses_augment_withGlobalConjunct
+    (bh := bh0) (P := DiagonalRepresentationalInterface A) (hP := b.reprBarrier)
+  let bh2 := SemanticSelfDescription.barrierHypotheses_augment_withGlobalConjunct
+    (bh := bh1) (P := ClosureObstructionInterface A) (hP := b.closureBarrier)
+  SemanticSelfDescription.barrierHypotheses_augment_withGlobalConjunct
+    (bh := bh2) (P := SemanticCertificationInterface A) (hP := b.certBarrier)
+
+/--
+**C₁:** **`U123SemanticBarrierLink`** with **`barrierHypotheses_of b := godelProvBicBarrierHypotheses_u123Augmented … b`**.
+-/
+def u123SemanticBarrierLink_provBicU123TripleAugment
+    (A : ReflexiveArchitecture World Obs Repr Claim)
+    (G : Godel.GodelSystem) (S : SemanticSelfDescription.ProvBicArithmeticalSemantics G) :
+    U123SemanticBarrierLink A (SemanticSelfDescription.godelProvBicFrame G S) where
+  barrierHypotheses_of b := godelProvBicBarrierHypotheses_u123Augmented A G S b
+
+/--
+**T3:** enriched **R₄** with **triple-augmented** (**full **`U123`**) dependent link.
+-/
+def enrichedR4_provBic_u123TripleAugmentSync
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (G : Godel.GodelSystem) (S : SemanticSelfDescription.ProvBicArithmeticalSemantics G)
+    (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
+    EnrichedR4ResidualWitness (φ.toReflexive e₀)
+      (augmentedReprResidualPayloadFamily (φ.toReflexive e₀)) :=
+  enrichedR4_u123_withAugmentedNemsProgramVRepr_u123DrivenSync
+    (φ := φ) (F := SemanticSelfDescription.godelProvBicFrame G S)
+    (L := fun e => u123SemanticBarrierLink_provBicU123TripleAugment (φ.toReflexive e) G S) e₀ b
+
+theorem enrichedR4_provBic_u123TripleAugmentSync_nonempty
+    (φ : EngineReflexiveMorphism E World Obs Repr Claim)
+    (G : Godel.GodelSystem) (S : SemanticSelfDescription.ProvBicArithmeticalSemantics G)
+    (e₀ : E) (b : U123BarrierData (φ.toReflexive e₀)) :
+    Nonempty
+      (EnrichedR4ResidualWitness (φ.toReflexive e₀)
+        (augmentedReprResidualPayloadFamily (φ.toReflexive e₀))) :=
+  ⟨enrichedR4_provBic_u123TripleAugmentSync φ G S e₀ b⟩
 
 end StructuredNonexhaustibility
