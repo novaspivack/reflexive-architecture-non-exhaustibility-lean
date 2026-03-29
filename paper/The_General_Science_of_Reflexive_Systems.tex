@@ -604,7 +604,7 @@ The core finding, proved in \texttt{reflective-fold-obstruction-lean/SemanticTyp
 
 This matters for the dynamical layer of this paper. The Reflexive Development Law establishes that standing residual drives response: refinement, proper regime shift (fold), or reconfiguration. The semantic type extension shows that a system's dynamical response---including any claimed fold into a new regime---is itself subject to type-gap constraints: no sequence of internal steps moves a system from semantic type $T$ to a genuinely distinct semantic type $T'$ unless a type-gap permits it. Proper regime shifts in the RDL sense are folds; by the RFO semantic type machinery, those folds are not iterates of the current type's primitive relation.
 
-Lean anchors (in \texttt{reflective-fold-obstruction-lean}, imported transitively): \texttt{semanticType\_preorder\_nontrivial}, \texttt{typeReachable\_pullback\_iff\_of\_section}, \texttt{selfModelDepth\_obstruction}, \texttt{adjudication\_semantic\_obstruction}. No new \texttt{lake require} is needed in this program; the machinery is available via the existing RFO dependency.
+Lean anchors (in \texttt{reflective-fold-obstruction-lean}, imported transitively via the barrier spine): \leanref{semanticType\_preorder\_nontrivial}, \leanref{typeReachable\_pullback\_iff\_of\_section}, \leanref{selfModelDepth\_obstruction}, \leanref{adjudication\_semantic\_obstruction}. No new \texttt{lake require} is needed in this program; the machinery is available via the existing RFO dependency.
 
 \subsection{Anti-smuggling: what the dynamical layer does not claim}
 
