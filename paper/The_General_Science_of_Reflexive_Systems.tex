@@ -596,6 +596,16 @@ Under \(U_{123}\) barrier data on an opaque totalization attempt, the forced adm
 
 \noindent The formal realizations are \leanref{d3\_adequacy\_aftermath\_standing\_burden} and its entry-point family. Weakened \(R_4\)-core variants confirm that burden persists even when only the existential ``there is an admissible \(R_4\) witness'' is retained.
 
+\subsection{Forward reference: semantic type obstruction extends the fold-obstruction layer}
+
+The fold-obstruction theorem above operates at the level of states and closure trajectories. The RFO library (which this program imports via the barrier spine) has been extended with a machine-checked result that lifts the same mechanism to a preorder on \emph{semantic types}: architectural modes of being that a system instantiates along its own primitive dynamics.
+
+The core finding, proved in \texttt{reflective-fold-obstruction-lean/SemanticType/} with zero \texttt{sorry}: \textbf{Turing-completeness does not imply semantic-type completeness}. A system may be able to compute every partial recursive function while permanently type-bounded at the level of which architectural kinds it can internally reach. The formal \textbf{simulation/realization split} is machine-checked: forward simulation (a typed primitive simulation map) always projects type reachability, but the converse requires a section with backward step-lifting (\texttt{TypedPrimitiveSimulationSection}). Without that section, a Turing-complete host can encode a richer-type system without itself realizing that type natively.
+
+This matters for the dynamical layer of this paper. The Reflexive Development Law establishes that standing residual drives response: refinement, proper regime shift (fold), or reconfiguration. The semantic type extension shows that a system's dynamical response---including any claimed fold into a new regime---is itself subject to type-gap constraints: no sequence of internal steps moves a system from semantic type $T$ to a genuinely distinct semantic type $T'$ unless a type-gap permits it. Proper regime shifts in the RDL sense are folds; by the RFO semantic type machinery, those folds are not iterates of the current type's primitive relation.
+
+Lean anchors (in \texttt{reflective-fold-obstruction-lean}, imported transitively): \texttt{semanticType\_preorder\_nontrivial}, \texttt{typeReachable\_pullback\_iff\_of\_section}, \texttt{selfModelDepth\_obstruction}, \texttt{adjudication\_semantic\_obstruction}. No new \texttt{lake require} is needed in this program; the machinery is available via the existing RFO dependency.
+
 \subsection{Anti-smuggling: what the dynamical layer does not claim}
 
 \begin{itemize}[leftmargin=1.5em]
