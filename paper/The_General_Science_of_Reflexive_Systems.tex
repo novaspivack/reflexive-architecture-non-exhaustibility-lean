@@ -9,6 +9,10 @@
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{mathtools}
 \usepackage[hidelinks]{hyperref}
+\usepackage{xurl}
+\makeatletter
+\g@addto@macro\UrlBreaks{\do\-\do\.\do\_\do\/}
+\makeatother
 \usepackage{cleveref}
 \usepackage{booktabs}
 \usepackage{enumitem}
@@ -452,7 +456,7 @@ The paper does \textbf{not} claim that no further semantic regimes will ever mat
 
 \subsection{A concrete computational frame}
 
-The first route is computational. A concrete self-semantic frame is built on a Kleene/\(\texttt{Nat.Partrec.Code}\)-style substrate. The crucial features are:
+The first route is computational. A concrete self-semantic frame is built on a Kleene/\allowbreak\path{Nat.Partrec.Code}-style substrate. The crucial features are:
 \begin{itemize}
 \item concrete code,
 \item a nontrivial extensional equivalence on code,
@@ -533,9 +537,10 @@ The current Kleene predicated summit does not, on its own API path, upgrade to f
 
 Conversely, the full proof-theoretic summit has a predicated shadow. So the relation is asymmetric in the correct direction:
 \[
-\text{full summit} \Longrightarrow \text{predicated shadow},
-\qquad
-\text{but not conversely on the current computational route}.
+\begin{aligned}
+\text{full summit} &\Longrightarrow \text{predicated shadow},\\
+\text{but not conversely on the current computational route.} &
+\end{aligned}
 \]
 This asymmetry is part of the field's architecture, not a temporary artifact gap awaiting a purely notational fix.
 
@@ -628,11 +633,12 @@ When standing residual arises from a forgetful kernel, the refinement branch car
 
 The second dynamical principle addresses what happens when residual \emph{cannot} be absorbed within the current closure regime.
 
-\begin{theorem}[Fold obstruction forces closure obstruction]\label{theorem:fold-obstruction}
+\begin{theorem}[Fold obstruction \(\Rightarrow\) closure obstruction]\label{theorem:fold-obstruction}
 If a reflexive architecture commits to iterate-backed closure adequacy---meaning every closure success is witnessed by internal iterate reachability from a seed \(S_0\) to a target \(B\)---then whenever \emph{no} closure operator can reach \(B\) from \(S_0\) by iteration, the architecture satisfies a closure obstruction interface.
 \end{theorem}
 
-\noindent The formal realization is \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry}. Iterate-backed adequacy is a genuine \emph{commitment}, not a free property: there exist architectures where every closure operator is declared successful but no iterate-backed adequacy holds for any seed/target pair (\leanref{exists\_Reflexive\-Architecture\_forall\_closureSuccess\_not\_closureIterate\-Adequacy}).
+\noindent The formal realization is \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry}.\linebreak
+Iterate-backed adequacy is a genuine \emph{commitment}, not a free property: there exist architectures where every closure operator is declared successful but no iterate-backed adequacy holds for any seed/target pair (\leanref{exists\_ReflexiveArchitecture\_forall\_closureSuccess\_not\_closureIterateAdequacy}).
 
 \subsection{Adequacy burden relocation}
 
@@ -642,18 +648,23 @@ Under the triple barriers, the aftermath theorem (\S4) forces admissible \(R_4\)
 Under \(U_{123}\) barrier data on an opaque totalization attempt, the forced admissible \(R_4\) aftermath constitutes standing residual burden. This burden transports across architecture casts and regime-snapshot alignment.
 \end{theorem}
 
-\noindent The formal realizations are \leanref{d3\_adequacy\_aftermath\_standing\_burden} and its entry-point family. Weakened \(R_4\)-core variants confirm that burden persists even when only the existential ``there is an admissible \(R_4\) witness'' is retained.
+\noindent\begingroup\sloppy
+The formal realizations are \leanref{d3\_adequacy\_aftermath\_standing\_burden} and its entry-point family.\linebreak
+Weakened \(R_4\)-core variants confirm that burden persists even when only the existential ``there is an admissible \(R_4\) witness'' is retained.
+\par\endgroup
 
-\subsection{Forward reference: semantic type obstruction extends the fold-obstruction layer}
+\subsection{Semantic-type obstruction (forward reference)}
 
+\begin{sloppypar}
 This forward reference does \textbf{not} add a new paper-level theorem requirement; it sharpens the fold branch by showing that proper regime shifts are constrained not only by closure geometry but by \textbf{semantic-type reachability}.
 The fold-obstruction theorem above operates at the level of states and closure trajectories. The RFO library (which this program imports via the barrier spine) has been extended with a machine-checked result that lifts the same mechanism to a preorder on \emph{semantic types}: architectural modes of being that a system instantiates along its own primitive dynamics.
 
-The core finding, proved in \texttt{reflective-fold-obstruction-lean/SemanticType/} with zero \texttt{sorry}: \textbf{Turing-completeness does not imply semantic-type completeness}. A system may be able to compute every partial recursive function while permanently type-bounded at the level of which architectural kinds it can internally reach. The formal \textbf{simulation/realization split} is machine-checked: forward simulation (a typed primitive simulation map) always projects type reachability, but the converse requires a section with backward step-lifting (\texttt{TypedPrimitiveSimulationSection}). Without that section, a Turing-complete host can encode a richer-type system without itself realizing that type natively.
+The core finding, proved in \path{reflective-fold-obstruction-lean/SemanticType/} with zero \texttt{sorry}: \textbf{Turing-completeness does not imply semantic-type completeness}. A system may be able to compute every partial recursive function while permanently type-bounded at the level of which architectural kinds it can internally reach. The formal \textbf{simulation/realization split} is machine-checked: forward simulation (a typed primitive simulation map) always projects type reachability, but the converse requires a section with backward step-lifting (\path{TypedPrimitiveSimulationSection}). Without that section, a Turing-complete host can encode a richer-type system without itself realizing that type natively.
 
 This matters for the dynamical layer of this paper. The Reflexive Development Law establishes that standing residual drives response: refinement, proper regime shift (fold), or reconfiguration. The semantic type extension shows that a system's dynamical response---including any claimed fold into a new regime---is itself subject to type-gap constraints: no sequence of internal steps moves a system from semantic type $T$ to a genuinely distinct semantic type $T'$ unless a type-gap permits it. Proper regime shifts in the RDL sense are folds; by the RFO semantic type machinery, those folds are not iterates of the current type's primitive relation.
 
-Lean anchors (in \texttt{reflective-fold-obstruction-lean}, imported transitively via the barrier spine): \leanref{semanticType\_preorder\_nontrivial}, \leanref{typeReachable\_pullback\_iff\_of\_section}, \leanref{selfModelDepth\_obstruction}, \leanref{adjudication\_semantic\_obstruction}. No new \texttt{lake require} is needed in this program; the machinery is available via the existing RFO dependency.
+Lean anchors (in \path{reflective-fold-obstruction-lean}, imported transitively via the barrier spine): \leanref{semanticType\_preorder\_nontrivial}, \leanref{typeReachable\_pullback\_iff\_of\_section}, \leanref{selfModelDepth\_obstruction}, \leanref{adjudication\_semantic\_obstruction}. No new \texttt{lake require} is needed in this program; the machinery is available via the existing RFO dependency.
+\end{sloppypar}
 
 \subsection{Anti-smuggling: what the dynamical layer does not claim}
 
@@ -801,21 +812,21 @@ The theorems as stated are proved in a specific formal realization, but the phil
 
 \section{Formal artifact note}
 
-The formal realization cited here is machine-checked in \Lean{} with \Mathlib{}. For the \textbf{paper's principal arc}---the \texttt{ReflexiveArchitectureNonexhaustibility} program (Paper D anchored chain, post-failure residual, D-002 witnesses, enrichment and mixed payload bridges, \texttt{ResidualDynamics}, Kleene predicated summit linkage, and O7 alignment into \texttt{nems-lean} summit modules)---the maintainers' audit materials, as currently recorded, report \textbf{0} \texttt{sorry} and \textbf{0} postulated \texttt{axiom} in those project-owned sources. That scope claim does \textbf{not} extend to every transitive dependency in the wider NEMS-adjacent ecosystem: auxiliary bridges (including some quantum- or GPT-oriented experimental modules in other trees) may still carry placeholders outside this paper's theorem map.
+The formal realization cited here is machine-checked in \Lean{} with \Mathlib{}. For the \textbf{paper's principal arc}---the \path{ReflexiveArchitectureNonexhaustibility} program (Paper D anchored chain, post-failure residual, D-002 witnesses, enrichment and mixed payload bridges, \path{ResidualDynamics}, Kleene predicated summit linkage, and O7 alignment into \path{nems-lean} summit modules)---the maintainers' audit materials, as currently recorded, report \textbf{0} \texttt{sorry} and \textbf{0} postulated \texttt{axiom} in those project-owned sources. That scope claim does \textbf{not} extend to every transitive dependency in the wider NEMS-adjacent ecosystem: auxiliary bridges (including some quantum- or GPT-oriented experimental modules in other trees) may still carry placeholders outside this paper's theorem map.
 
 \noindent\textbf{Theorem-to-artifact correspondences.} Each row names a principal Lean realization for the theorem arc stated in the body, not an exhaustive global manifest of all adjacent program dependencies:
-\begin{itemize}[leftmargin=1.5em, itemsep=2pt]
-\item \textbf{T1} (anchored impossibility): \leanref{barriered\_architecture\_admits\_no\_true\_honest\_anchored\_internal\_completion} in \texttt{PaperDAnchoredChain.lean}
-\item \textbf{T2} (structured aftermath): \leanref{positive\_residual\_profile\_of\_triple\_barriers\_at\_anchor} in \texttt{PostFailureResidual.lean}; \leanref{honest\_aftermath\_carries\_admissible\_r4} in \texttt{Adequacy.lean}
-\item \textbf{T3} (barrier-linked witnesses): \leanref{d002\_barrier\_linked\_r4\_witness\_holds} in \texttt{D002ResidualWitnessTarget.lean}
-\item \textbf{T4} (mixed enrichment): \leanref{mixedTriplePayloadPromotionBridge} in \texttt{FromMixedTriple.lean}
-\item \textbf{T5} (predicated summit): \texttt{KleenePredicatedResidualSummit.lean}
-\item \textbf{T6} (proof-theoretic summit): \texttt{GodelProvBic.lean} in \texttt{nems-lean}
-\item \textbf{T7} (summit comparison): \texttt{SummitComparison.lean} in \texttt{nems-lean}
-\item \textbf{T8} (O7 integration): \texttt{ProvBicU123EnrichedR4Alignment.lean} (T1--T3 seams)
-\item \textbf{T9} (response trilemma): \leanref{reflexive\_development\_law\_standing\_trilemma} in \texttt{ResidualDynamics.lean}
-\item \textbf{T10} (fold obstruction): \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry} in \texttt{ResidualDynamics.lean}
-\item \textbf{T11} (burden relocation): \leanref{d3\_adequacy\_aftermath\_standing\_burden} in \texttt{Adequacy.lean}
+\begin{itemize}[leftmargin=1.5em, itemsep=2pt]\raggedright
+\item \textbf{T1} (anchored impossibility): \leanref{barriered\_architecture\_admits\_no\_true\_honest\_anchored\_internal\_completion} in \path{PaperDAnchoredChain.lean}
+\item \textbf{T2} (structured aftermath): \leanref{positive\_residual\_profile\_of\_triple\_barriers\_at\_anchor} in \path{PostFailureResidual.lean};\linebreak \leanref{honest\_aftermath\_carries\_admissible\_r4} in \path{Adequacy.lean}
+\item \textbf{T3} (barrier-linked witnesses): \leanref{d002\_barrier\_linked\_r4\_witness\_holds} in \path{D002ResidualWitnessTarget.lean}
+\item \textbf{T4} (mixed enrichment): \leanref{mixedTriplePayloadPromotionBridge} in \path{FromMixedTriple.lean}
+\item \textbf{T5} (predicated summit): \path{KleenePredicatedResidualSummit.lean}
+\item \textbf{T6} (proof-theoretic summit): \path{GodelProvBic.lean} in \path{nems-lean}
+\item \textbf{T7} (summit comparison): \path{SummitComparison.lean} in \path{nems-lean}
+\item \textbf{T8} (O7 integration): \path{ProvBicU123EnrichedR4Alignment.lean} (T1--T3 seams)
+\item \textbf{T9} (response trilemma): \leanref{reflexive\_development\_law\_standing\_trilemma} in \path{ResidualDynamics.lean}
+\item \textbf{T10} (fold obstruction): \leanref{reflexive\_development\_law\_fold\_obstruction\_iterate\_geometry} in \path{ResidualDynamics.lean}
+\item \textbf{T11} (burden relocation): \leanref{d3\_adequacy\_aftermath\_standing\_burden} in \path{Adequacy.lean}
 \end{itemize}
 
 \section{Layer distinctions}
