@@ -9,3 +9,5 @@ paper/*.fls
 paper/*.fdb_latexmk
 paper/*.synctex.gz
 paper/*.pdf
+paper/*.backup*
+paper/*backup*
