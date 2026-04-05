@@ -25,3 +25,6 @@ git submodule update --init --recursive
 Lean commits: from **this directory**. Parent docs/specs: **parent repo root**.
 
 When publishing, set the submodule `url` in the parent `.gitmodules` to this library’s public remote.
+<!-- NOVA_ZPO_ZENODO_SOFTWARE_BEGIN -->
+**Archival software (Zenodo):** https://doi.org/10.5281/zenodo.19429252
+<!-- NOVA_ZPO_ZENODO_SOFTWARE_END -->
