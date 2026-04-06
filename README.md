@@ -1,5 +1,23 @@
 # reflexive-architecture-nonexhaustibility-lean
 
+
+## Research Program
+
+This repository is part of the **Reflexive Reality** research program by [Nova Spivack](https://www.novaspivack.com/).
+
+**What this formalizes:** Reflexive Architecture Nonexhaustibility (§B5g): anchored completion limits, barrier families, residual aftermath, and the Reflexive Development Law.
+
+| Link | Description |
+|------|-------------|
+| [Research page](https://www.novaspivack.com/research/) | Full index of all papers, programs, and Lean archives |
+| [Full abstracts](https://novaspivack.github.io/research/abstracts/#b5g-reflexive-architecture-nonexhaustibility) | Complete abstract for this library's papers |
+| [Zenodo program hub](https://doi.org/10.5281/zenodo.19429270) | Citable DOI hub for the NEMS program |
+
+All results are machine-checked in Lean 4 with a zero-sorry policy on proof targets.
+See [MANIFEST.md](MANIFEST.md) for the sorry audit (if present).
+
+---
+
 Lean 4 library for **Reflexive Architecture Nonexhaustibility** — the general science of reflexive systems: anchored completion limits, barrier families, typed residual aftermath, and the Reflexive Development Law.
 
 **Toolchain:** `leanprover/lean4:v4.29.0-rc6` — see `lean-toolchain`.
