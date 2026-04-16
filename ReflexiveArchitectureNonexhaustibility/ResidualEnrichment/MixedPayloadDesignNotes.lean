@@ -1,7 +1,7 @@
 import ReflexiveArchitectureNonexhaustibility.ResidualEnrichment.Payloads
 
 /-!
-# Mixed residual payload — design notes (**SPEC_017_MX1**)
+# Mixed residual payload — design notes
 
 **Implementation:** **`Bridges/FromMixedTriple.lean`** — **`MixedTripleObstructionPayload`**, **`mixedTriplePayloadPromotionBridge`**,
 **`enrichedR4_tripleBarriers_withMixedTriplePayload`**. This module remains a short **design rationale** anchor.
@@ -15,10 +15,8 @@ record** (product) of the **same** column payload types used in **`FromRI`**, **
 as a coproduct of those types. The coproduct / sigma shape is already **`SigmaResidualPayload`** for **single-column**
 selection.
 
-**Alternates (see spec):** optional-field records for **partial** barrier packs; finite-support families if the
+**Alternates:** optional-field records for **partial** barrier packs; finite-support families if the
 obstruction taxonomy grows beyond three fixed columns.
-
-**Normative design (parent repo):** `specs/INCOMPLETE/IN-PROCESS/EPIC_011_ENGINE_ENRICHED_RESIDUAL_SUMMIT/SPEC_017_MX1_MIXED_RESIDUAL_CONTENT_DESIGN.md`.
 -/
 
 namespace StructuredNonexhaustibility
