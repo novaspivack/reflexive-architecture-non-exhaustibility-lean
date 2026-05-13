@@ -20,7 +20,7 @@ See [MANIFEST.md](MANIFEST.md) for the sorry audit (if present).
 
 Lean 4 library for **Reflexive Architecture Nonexhaustibility** — the general science of reflexive systems: anchored completion limits, barrier families, typed residual aftermath, and the Reflexive Development Law.
 
-**Toolchain:** `leanprover/lean4:v4.29.0-rc6` — see `lean-toolchain`.
+**Toolchain:** `leanprover/lean4:v4.29.1` — see `lean-toolchain`.
 
 ## What it proves
 

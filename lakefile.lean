@@ -4,9 +4,6 @@ open Lake DSL
 package «reflexive-architecture-nonexhaustibility-lean» where
   version := v!"0.1.0"
 
-require mathlib from git
-  "https://github.com/leanprover-community/mathlib4.git" @ "v4.29.0-rc6"
-
 -- =============================================================================
 -- **BIG NOTE — D-001 / EPIC_012 / nems-lean (path pin; full D-001)**
 --
@@ -27,7 +24,7 @@ require mathlib from git
 -- `UnitypedNatReprObstruction.not_nonempty_sri0'_nat_equiv_eq`, …).
 -- =============================================================================
 require «nems-lean» from git
-  "https://github.com/novaspivack/nems-lean.git" @ "d1379b2d6d01b1c652ae65b65e1fab97b9b6b6b3"
+  "https://github.com/novaspivack/nems-lean.git" @ "main"
 
 -- =============================================================================
 -- **EPIC_009 / SPEC_013_IC1 — sibling infinity-compression (optional path pin)**
@@ -37,7 +34,10 @@ require «nems-lean» from git
 -- Wire: **`ICInfinityCompressionSibling.lean`** (**`ProperExtensionViaForgetful` → `KernelWitness`**).
 -- =============================================================================
 require «infinity-compression» from git
-  "https://github.com/novaspivack/infinity-compression-lean.git" @ "3623c6bff15741ef3796d3901b378dabed18194e"
+  "https://github.com/novaspivack/infinity-compression-lean.git" @ "main"
+
+require mathlib from git
+  "https://github.com/leanprover-community/mathlib4.git" @ "v4.29.1"
 
 @[default_target]
 lean_lib «ReflexiveArchitectureNonexhaustibilityLean» where
